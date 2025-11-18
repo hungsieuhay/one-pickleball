@@ -14,6 +14,7 @@ import { Ionicons, AntDesign, FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from '@/assets/styles/register.styles';
+import { ThemedText } from '@/components/themed-text';
 
 const { width } = Dimensions.get('window');
 
@@ -67,7 +68,6 @@ export default function RegisterScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <View style={styles.header}>
         <TouchableOpacity style={styles.backBtn} onPress={handleBack}>
           <Ionicons name="chevron-back" size={28} color="#000" />
@@ -83,15 +83,15 @@ export default function RegisterScreen() {
           <View style={styles.logo}>
             <AntDesign name="check" size={40} color="#fff" />
           </View>
-          <Text style={styles.title}>Tạo tài khoản</Text>
-          <Text style={styles.subtitle}>Tham gia cộng đồng Pickleball ngay hôm nay</Text>
+          <ThemedText style={styles.title}>Tạo tài khoản</ThemedText>
+          <ThemedText style={styles.subtitle}>Tham gia cộng đồng Pickleball ngay hôm nay</ThemedText>
         </View>
 
         {/* Form */}
         <View style={styles.formContainer}>
           {/* Full Name Input */}
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Họ và tên</Text>
+            <ThemedText style={styles.label}>Họ và tên</ThemedText>
             <TextInput
               style={styles.input}
               placeholder="Nhập họ và tên"
@@ -103,7 +103,7 @@ export default function RegisterScreen() {
 
           {/* Email Input */}
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Email</Text>
+            <ThemedText style={styles.label}>Email</ThemedText>
             <TextInput
               style={styles.input}
               placeholder="Nhập email"
@@ -117,7 +117,7 @@ export default function RegisterScreen() {
 
           {/* Phone Input */}
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Số điện thoại</Text>
+            <ThemedText style={styles.label}>Số điện thoại</ThemedText>
             <TextInput
               style={styles.input}
               placeholder="Nhập số điện thoại"
@@ -130,7 +130,7 @@ export default function RegisterScreen() {
 
           {/* Password Input */}
           <View style={styles.formGroup}>
-            <Text style={styles.label}>Mật khẩu</Text>
+            <ThemedText style={styles.label}>Mật khẩu</ThemedText>
             <View style={styles.passwordContainer}>
               <TextInput
                 style={styles.passwordInput}
@@ -167,13 +167,13 @@ export default function RegisterScreen() {
               )}
             </TouchableOpacity>
             <View style={styles.termsText}>
-              <Text style={styles.termsLabel}>
+              <ThemedText style={styles.termsLabel}>
                 Tôi đồng ý với{' '}
-              </Text>
+              </ThemedText>
               <TouchableOpacity>
                 <Text style={styles.linkText}>Điều khoản sử dụng</Text>
               </TouchableOpacity>
-              <Text style={styles.termsLabel}> và </Text>
+              <ThemedText style={styles.termsLabel}> và </ThemedText>
               <TouchableOpacity>
                 <Text style={styles.linkText}>Chính sách bảo mật</Text>
               </TouchableOpacity>
@@ -206,7 +206,7 @@ export default function RegisterScreen() {
             onPress={() => handleSocialRegister('facebook')}
           >
             <FontAwesome name="facebook" size={20} color="#1877F2" />
-            <Text style={styles.socialButtonText}>Facebook</Text>
+            <ThemedText style={styles.socialButtonText}>Facebook</ThemedText>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -214,13 +214,13 @@ export default function RegisterScreen() {
             onPress={() => handleSocialRegister('google')}
           >
             <AntDesign name="google" size={20} color="#EA4335" />
-            <Text style={styles.socialButtonText}>Google</Text>
+            <ThemedText style={styles.socialButtonText}>Google</ThemedText>
           </TouchableOpacity>
         </View>
 
         {/* Footer */}
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Đã có tài khoản? </Text>
+          <ThemedText style={styles.footerText}>Đã có tài khoản? </ThemedText>
           <TouchableOpacity onPress={() => router.navigate('/(auth)')}>
             <Text style={styles.linkTextBold}>Đăng nhập</Text>
           </TouchableOpacity>

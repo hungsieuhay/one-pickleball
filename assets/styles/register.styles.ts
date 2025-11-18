@@ -37,12 +37,10 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: '700',
-    color: '#000',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 14,
-    color: '#666',
     textAlign: 'center',
   },
   formContainer: {
@@ -54,7 +52,6 @@ export const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#000',
     marginBottom: 8,
   },
   input: {
@@ -112,7 +109,6 @@ export const styles = StyleSheet.create({
   },
   termsLabel: {
     fontSize: 13,
-    color: '#333',
     lineHeight: 20,
   },
   linkText: {
@@ -169,7 +165,6 @@ export const styles = StyleSheet.create({
   socialButtonText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#333',
   },
   footer: {
     flexDirection: 'row',
@@ -179,7 +174,6 @@ export const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 14,
-    color: '#666',
   },
   linkTextBold: {
     fontSize: 14,
