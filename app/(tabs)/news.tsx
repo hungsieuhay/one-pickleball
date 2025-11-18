@@ -1,7 +1,12 @@
-import React from "react";
+import { ThemedText } from "@/components/themed-text";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NewsPage = () => {
-  return <div>NewsPage</div>;
+  return (
+    <SafeAreaView>
+      <ThemedText>NewsPage</ThemedText>
+    </SafeAreaView>
+  );
 };
 
 export default NewsPage;
