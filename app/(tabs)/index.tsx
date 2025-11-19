@@ -1,98 +1,231 @@
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+  FlatList,
+} from 'react-native';
+import { Ionicons, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { styles } from '@/assets/styles/home.styles';
+import { ActionCard, EventCardComponent, NewsItemComponent, StatCard } from '@/components/home';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+
+
+export interface StatCardProps {
+  id: string;
+  icon: string;
+  number: string;
+  label: string;
+  color: string;
+}
+
+export interface EventCard {
+  id: string;
+  title: string;
+  date: string;
+  location: string;
+  image: string;
+  badge?: string;
+  meta: string;
+}
+
+export interface NewsItem {
+  id: string;
+  category: string;
+  title: string;
+  time: string;
+  readTime: string;
+  image: string;
+  categoryColor: string;
+}
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const [searchQuery, setSearchQuery] = useState('');
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const statCards: StatCardProps[] = [
+    { id: '1', icon: 'account', number: '24', label: 'Trận đấu', color: '#00D9B5' },
+    { id: '2', icon: 'star', number: '68%', label: 'Tỷ lệ thắng', color: '#FF9800' },
+    { id: '3', icon: 'trophy', number: '#42', label: 'Xếp hạng', color: '#2196F3' },
+  ];
+
+  const events: EventCard[] = [
+    {
+      id: '1',
+      title: 'HCM Open 2025',
+      date: '15-17 Dec, 2025',
+      location: 'Sân Rạch Chiếc, Q2',
+      image: 'https://deviet.vn/wp-content/uploads/2019/04/vuong-quoc-anh.jpg',
+      badge: 'Nổi bật',
+      meta: '500tr',
+    },
+    {
+      id: '2',
+      title: 'Social Play Q1',
+      date: '20 Nov, 18:00',
+      location: 'Sân Landmark 81',
+      image: 'https://deviet.vn/wp-content/uploads/2019/04/vuong-quoc-anh.jpg',
+      meta: '12/16',
+    },
+  ];
+
+  const news: NewsItem[] = [
+    {
+      id: '1',
+      category: 'Kỹ thuật',
+      title: '5 Tips nâng cao kỹ thuật serve',
+      time: '2 giờ trước',
+      readTime: '3 phút đọc',
+      image: '#E8F5E9',
+      categoryColor: '#4CAF50',
+    },
+    {
+      id: '2',
+      category: 'Cộng đồng',
+      title: 'Chuyện của các tay vợt huyền thoại',
+      time: '5 giờ trước',
+      readTime: '5 phút đọc',
+      image: '#E3F2FD',
+      categoryColor: '#2196F3',
+    },
+    {
+      id: '3',
+      category: 'Giải đấu',
+      title: 'Kết quả Vietnam Open Championship',
+      time: '1 ngày trước',
+      readTime: '4 phút đọc',
+      image: '#FFF3E0',
+      categoryColor: '#FF9800',
+    },
+  ];
+
+  const handleSearch = () => {
+    console.log('Search for:', searchQuery);
+  };
+
+  const handleActionPress = (action: string) => {
+    console.log('Action pressed:', action);
+  };
+
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.greetingText}>Xin chào,</Text>
+            <Text style={styles.userName}>Minh Tuấn</Text>
+          </View>
+          <View style={styles.headerRight}>
+            <TouchableOpacity style={styles.notificationBtn}>
+              <Ionicons name="notifications-outline" size={24} color="#000" />
+              <View style={styles.badge}>
+                <Text style={styles.badgeText}>3</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.avatarBtn}>
+              <View style={styles.avatar}>
+                <Text style={styles.avatarText}>MT</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.searchSection}>
+          <View style={styles.searchBar}>
+            <Ionicons name="search" size={20} color="#999" style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Tìm sân, giải đấu, người chơi..."
+              placeholderTextColor="#999"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+            <TouchableOpacity style={styles.filterBtn}>
+              <Ionicons name="options-outline" size={20} color="#666" />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={styles.statsContainer}>
+          {statCards.map(item => (
+            <StatCard key={item.id} item={item} />
+          ))}
+        </View>
+
+        {/* Quick Actions */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Hành động nhanh</Text>
+          <View style={styles.actionGrid}>
+            <ActionCard
+              icon="grid"
+              label="Tìm sân"
+              color="#00D9B5"
+              onPress={() => handleActionPress('find-court')}
+            />
+            <ActionCard
+              icon="star"
+              label="Giải đấu"
+              color="#FF9800"
+              onPress={() => handleActionPress('tournament')}
+            />
+            <ActionCard
+              icon="timer"
+              label="Social Play"
+              color="#2196F3"
+              onPress={() => handleActionPress('social-play')}
+            />
+            <ActionCard
+              icon="people"
+              label="Tìm đối thủ"
+              color="#E91E63"
+              onPress={() => handleActionPress('find-opponent')}
+            />
+          </View>
+        </View>
+
+        {/* Upcoming Events */}
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Sự kiện sắp tới</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAll}>Xem tất cả</Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={events}
+            renderItem={({ item }) => <EventCardComponent item={item} />}
+            keyExtractor={(item) => item.id}
+            horizontal={true}
+          />
+        </View>
+
+        {/* Recent News */}
+        <View style={[styles.section, styles.lastSection]}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Tin tức mới</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAll}>Xem tất cả</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <FlatList
+              data={news}
+              renderItem={({ item }) => <NewsItemComponent item={item} />}
+              keyExtractor={(item) => item.id}
+              scrollEnabled={false}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

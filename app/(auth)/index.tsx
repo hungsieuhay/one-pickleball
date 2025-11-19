@@ -14,8 +14,6 @@ import { router } from 'expo-router';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
-const { width } = Dimensions.get('window');
-
 interface LoginFormData {
   email: string;
   password: string;
