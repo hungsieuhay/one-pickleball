@@ -237,8 +237,6 @@ export default function EventDetailScreen() {
                                 </View>
                             </View>
                         </View>
-
-                        <View style={{ height: 100 }} />
                     </>
                 )}
 

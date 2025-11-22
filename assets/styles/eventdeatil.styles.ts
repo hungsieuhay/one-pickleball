@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
     },
     headerContainer: {
         position: 'relative',
@@ -52,7 +51,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     contentSection: {
-        paddingHorizontal: 16,
+        padding: 16,
         marginBottom: 24,
     },
     statusBadge: {
@@ -84,18 +83,17 @@ export const styles = StyleSheet.create({
     },
     infoCardsGrid: {
         paddingHorizontal: 16,
-        marginBottom: 24,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
+        gap: 12
     },
     infoCard: {
         width: '48%',
         backgroundColor: '#f8f8f8',
         borderRadius: 12,
-        padding: 14,
-        marginBottom: 12,
         alignItems: 'center',
+        padding: 12
     },
     infoLabel: {
         fontSize: 12,
@@ -152,6 +150,8 @@ export const styles = StyleSheet.create({
         width: '32%',
         alignItems: 'center',
         marginBottom: 16,
+        padding:12,
+        borderRadius: 12
     },
     categoryIcon: {
         width: 50,

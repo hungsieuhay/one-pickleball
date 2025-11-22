@@ -101,11 +101,11 @@ export default function NewsDetailScreen() {
     };
 
     const CommentItem = ({ item }: { item: Comment }) => (
-        <View style={[styles.commentItem, { backgroundColor: colors.cardSecondary, borderColor: colors.border }]}>
+        <View style={styles.commentItem}>
             <View style={[styles.commentAvatar, { backgroundColor: item.userColor }]}>
                 <Text style={styles.commentAvatarText}>{item.userInitials}</Text>
             </View>
-            <View style={styles.commentContent}>
+            <View style={[styles.commentContent, { backgroundColor: colors.cardSecondary, borderColor: colors.border }]}>
                 <View style={styles.commentHeader}>
                     <View>
                         <Text style={[styles.commentUserName, { color: colors.text }]}>{item.userName}</Text>

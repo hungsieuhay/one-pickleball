@@ -228,16 +228,17 @@ export const styles = StyleSheet.create({
         color: '#00D9B5',
     },
     relatedSection: {
-        paddingHorizontal: 16,
-        paddingVertical: 16,
+        padding: 16,
+        gap:12
     },
     relatedNewsItem: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
-        paddingVertical: 12,
+        padding: 12,
         borderBottomWidth: 1,
         borderBottomColor: '#f0f0f0',
+        borderRadius:12
     },
     relatedNewsThumbnail: {
         width: 80,
