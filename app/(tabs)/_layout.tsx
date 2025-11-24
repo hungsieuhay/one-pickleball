@@ -5,6 +5,7 @@ import { Colors } from "@/constants/theme";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { useThemedColors } from "@/hooks/use-theme";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Feather } from "@expo/vector-icons";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -45,6 +46,15 @@ export default function TabLayout() {
           title: "Sân",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={24} name="mappin.and.ellipse" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="tournament"
+        options={{
+          title: "giải đấu",
+          tabBarIcon: ({ color }) => (
+            <Feather name="star" size={24} color={color} />
           ),
         }}
       />
