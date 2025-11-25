@@ -1,6 +1,7 @@
-import { AppColors, Radius, Shadows } from '@/constants/theme';
-import { StyleSheet } from 'react-native';
+import { AppColors, Colors, Radius, Shadows } from '@/constants/theme';
+import { Dimensions, StyleSheet } from 'react-native';
 
+const { width } = Dimensions.get('window');
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -127,31 +128,38 @@ export const styles = StyleSheet.create({
         marginBottom: 16,
     },
 
-    // Date Selector
     dateSelector: {
         flexDirection: 'row',
         gap: 8,
+    },
+    dateCards: {
+        borderWidth: 1,
+        borderRadius: Radius.md,
+        borderColor: AppColors.gray300
     },
     dateCard: {
         alignItems: 'center',
         paddingVertical: 12,
         paddingHorizontal: 16,
-        borderRadius: Radius.md,
-        borderWidth: 1,
+        borderTopLeftRadius: Radius.md,
+        borderTopRightRadius: Radius.md,
         gap: 4,
         minWidth: 70,
         position: 'relative',
+        // backgroundColor: AppColors.input,
     },
+
     dateCardActive: {
         backgroundColor: AppColors.primary,
-        borderColor: AppColors.primary,
+        borderColor: AppColors.gray300,
     },
     dateCardInactive: {
-        borderColor: AppColors.gray300,
     },
     dateDay: {
         fontSize: 12,
         fontWeight: '500',
+        textAlign: 'center',
+        padding: 8
     },
     dateNumber: {
         fontSize: 20,
@@ -168,14 +176,14 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 2,
         borderRadius: Radius.full,
+        marginTop: 8,
     },
     dateBadgeText: {
         color: '#fff',
         fontSize: 10,
-        fontWeight: '600',
+        fontWeight: '500',
     },
 
-    // Time Period
     timePeriod: {
         marginBottom: 20,
     },
@@ -185,17 +193,18 @@ export const styles = StyleSheet.create({
         marginBottom: 12,
     },
     timeSlots: {
+        gap: 8,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 8,
     },
     timeSlot: {
         paddingVertical: 12,
         paddingHorizontal: 16,
         borderRadius: Radius.md,
         borderWidth: 1,
-        minWidth: 100,
+        width: (width - 16 * 2 - 8 * (3 - 1)) / 3,
         position: 'relative',
+        marginBottom: 8
     },
     timeSlotActive: {
         backgroundColor: AppColors.primary,
@@ -272,7 +281,7 @@ export const styles = StyleSheet.create({
     },
     courtOptionActive: {
         borderColor: AppColors.primary,
-        borderWidth: 2,
+        borderWidth: 1.5,
     },
     courtOptionInactive: {
         borderColor: AppColors.gray300,

@@ -1,6 +1,8 @@
-import { styles } from '@/assets/styles/booking.styles';
+﻿import { styles } from '@/assets/styles/booking.styles';
+import { AppColors } from '@/constants/theme';
 import { useThemedColors } from '@/hooks/use-theme';
 import { Ionicons } from '@expo/vector-icons';
+import { Background } from '@react-navigation/elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -38,20 +40,39 @@ interface CourtOption {
 export default function BookingCourse() {
     const colors = useThemedColors();
     const [currentStep, setCurrentStep] = useState(2);
-    const [selectedDate, setSelectedDate] = useState('2');
+    const [selectedDate, setSelectedDate] = useState('1');
     const [selectedTime, setSelectedTime] = useState('15:00');
     const [selectedDuration, setSelectedDuration] = useState('1.5');
     const [selectedCourt, setSelectedCourt] = useState('2');
     const [notes, setNotes] = useState('');
 
-    const dates: DateOption[] = [
-        { id: '1', day: 'T2', number: 18, month: 'Th11' },
-        { id: '2', day: 'T3', number: 19, month: 'Th11', isToday: true },
-        { id: '3', day: 'T4', number: 20, month: 'Th11' },
-        { id: '4', day: 'T5', number: 21, month: 'Th11' },
-        { id: '5', day: 'T6', number: 22, month: 'Th11' },
-        { id: '6', day: 'T7', number: 23, month: 'Th11' },
-    ];
+    // Hàm tạo danh sách ngày từ hôm nay đến 10 ngày tới
+    const generateDates = (): DateOption[] => {
+        const dates: DateOption[] = [];
+        const today = new Date();
+        const dayNames = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+
+        for (let i = 0; i < 11; i++) {
+            const date = new Date(today);
+            date.setDate(today.getDate() + i);
+
+            const dayOfWeek = date.getDay();
+            const dayNumber = date.getDate();
+            const month = date.getMonth() + 1;
+
+            dates.push({
+                id: String(i + 1),
+                day: dayNames[dayOfWeek],
+                number: dayNumber,
+                month: `Th${month}`,
+                isToday: i === 0
+            });
+        }
+
+        return dates;
+    };
+
+    const dates: DateOption[] = generateDates();
 
     const morningSlots: TimeSlot[] = [
         { id: '06:00', time: '06:00', price: '200k', available: false },
@@ -135,27 +156,23 @@ export default function BookingCourse() {
 
     const DateCard = ({ date }: { date: DateOption }) => (
         <TouchableOpacity
-            style={[
-                styles.dateCard,
-                selectedDate === date.id ? styles.dateCardActive : styles.dateCardInactive,
-                { borderColor: selectedDate === date.id ? undefined : colors.border }
-            ]}
             onPress={() => setSelectedDate(date.id)}
-        >
-            <Text style={[styles.dateDay, { color: selectedDate === date.id ? '#fff' : colors.textSecondary }]}>
-                {date.day}
+            style={styles.dateCards}>
+            <View
+                style={[
+                    styles.dateCard,
+                    {backgroundColor: colors.input},
+                    selectedDate === date.id ? styles.dateCardActive : styles.dateCardInactive,
+                ]}
+            >
+                <Text style={[styles.dateNumber, { color: selectedDate === date.id ? '#fff' : colors.text }]}>
+                    {date.number}
+                </Text>
+
+            </View>
+            <Text style={[styles.dateDay, { color: selectedDate === date.id ? AppColors.primary : colors.textSecondary }]}>
+                {date.isToday ? 'Hôm nay' : date.day}
             </Text>
-            <Text style={[styles.dateNumber, { color: selectedDate === date.id ? '#fff' : colors.text }]}>
-                {date.number}
-            </Text>
-            <Text style={[styles.dateMonth, { color: selectedDate === date.id ? '#fff' : colors.textSecondary }]}>
-                {date.month}
-            </Text>
-            {date.isToday && (
-                <View style={styles.dateBadge}>
-                    <Text style={styles.dateBadgeText}>Hôm nay</Text>
-                </View>
-            )}
         </TouchableOpacity>
     );
 
@@ -167,7 +184,7 @@ export default function BookingCourse() {
                 selectedTime === slot.time && slot.available && styles.timeSlotActive,
                 slot.available && selectedTime !== slot.time && styles.timeSlotInactive,
                 slot.popular && selectedTime !== slot.time && styles.timeSlotPopular,
-                { borderColor: selectedTime === slot.time ? undefined : colors.border }
+                // { borderColor: selectedTime === slot.time ? undefined : colors.border }
             ]}
             onPress={() => slot.available && setSelectedTime(slot.time)}
             disabled={!slot.available}
@@ -191,7 +208,7 @@ export default function BookingCourse() {
             style={[
                 styles.durationBtn,
                 selectedDuration === duration.id ? styles.durationBtnActive : styles.durationBtnInactive,
-                { borderColor: selectedDuration === duration.id ? undefined : colors.border }
+                // { borderColor: selectedDuration === duration.id ? undefined : colors.border }
             ]}
             onPress={() => setSelectedDuration(duration.id)}
         >
@@ -206,7 +223,6 @@ export default function BookingCourse() {
             style={[
                 styles.courtOption,
                 selectedCourt === court.id ? styles.courtOptionActive : styles.courtOptionInactive,
-                { borderColor: selectedCourt === court.id ? undefined : colors.border }
             ]}
             onPress={() => setSelectedCourt(court.id)}
         >
@@ -228,7 +244,7 @@ export default function BookingCourse() {
 
     return (
         <View style={[styles.container, { backgroundColor: colors.background }]}>
-            
+
             <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
                 <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
                     <Ionicons name="arrow-back" size={24} color={colors.icon} />
@@ -244,7 +260,7 @@ export default function BookingCourse() {
 
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
-                
+
                 <View style={[styles.courtSummary, { borderBottomColor: colors.border }]}>
                     <LinearGradient
                         colors={['#00D9B5', '#0099CC']}
@@ -307,17 +323,16 @@ export default function BookingCourse() {
                     </View>
                 </View>
 
-                {/* Duration */}
-                <View style={styles.section}>
+                {/* <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>Thời lượng</Text>
                     <View style={styles.durationSelector}>
                         {durations.map((duration) => (
                             <DurationButton key={duration.id} duration={duration} />
                         ))}
                     </View>
-                </View>
+                </View> */}
 
-                {/* Court Selection */}
+
                 <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>Chọn sân</Text>
                     <View style={styles.courtSelector}>
