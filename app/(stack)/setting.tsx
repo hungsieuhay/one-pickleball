@@ -4,15 +4,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    ScrollView,
-    Switch,
-    Text,
-    TouchableOpacity,
-    View
+  ScrollView,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
 
 export default function SettingScreen() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, themeMode, setThemeMode } = useTheme();
   const colors = useThemedColors();
 
   const [pushNotifications, setPushNotifications] = useState(true);
@@ -91,7 +91,7 @@ export default function SettingScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        
+
         <View style={styles.settingsSection}>
           <Text style={[styles.sectionTitle, { color: colors.textTertiary }]}>Tài khoản</Text>
           <View style={styles.settingsMenu}>
@@ -140,19 +140,44 @@ export default function SettingScreen() {
               ]}
             >
               <View style={styles.settingsItemLeft}>
-                <Ionicons name="moon-outline" size={22} color={colors.icon} style={styles.settingsIcon} />
+                <Ionicons name="contrast-outline" size={22} color={colors.icon} style={styles.settingsIcon} />
                 <View style={styles.toggleContent}>
-                  <Text style={[styles.toggleLabel, { color: colors.text }]}>Chế độ tối</Text>
-                  <Text style={[styles.toggleDesc, { color: colors.textSecondary }]}>Giao diện tối cho màn hình</Text>
+                  <Text style={[styles.toggleLabel, { color: colors.text }]}>Giao diện</Text>
+                  <Text style={[styles.toggleDesc, { color: colors.textSecondary }]}>Chọn chế độ hiển thị</Text>
                 </View>
               </View>
-              <Switch
-                value={theme === 'dark'}
-                onValueChange={toggleTheme}
-                trackColor={{ false: colors.border, true: '#00D9B580' }}
-                thumbColor={theme === 'dark' ? '#00D9B5' : colors.backgroundTertiary}
-                style={styles.toggleSwitch}
-              />
+
+              <View style={[styles.themeSwitcher, { backgroundColor: colors.backgroundTertiary }]}>
+                <TouchableOpacity
+                  onPress={() => setThemeMode('light')}
+                  style={[
+                    styles.themeOption,
+                    themeMode === 'light' && { backgroundColor: colors.card, shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 2, elevation: 2 }
+                  ]}
+                >
+                  <Ionicons name="sunny" size={18} color={themeMode === 'light' ? '#FDB813' : colors.textTertiary} />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => setThemeMode('auto')}
+                  style={[
+                    styles.themeOption,
+                    themeMode === 'auto' && { backgroundColor: colors.card, shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 2, elevation: 2 }
+                  ]}
+                >
+                  <Text style={[styles.themeOptionText, { color: themeMode === 'auto' ? colors.text : colors.textTertiary }]}>Auto</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => setThemeMode('dark')}
+                  style={[
+                    styles.themeOption,
+                    themeMode === 'dark' && { backgroundColor: colors.card, shadowColor: "#000", shadowOpacity: 0.1, shadowRadius: 2, elevation: 2 }
+                  ]}
+                >
+                  <Ionicons name="moon" size={16} color={themeMode === 'dark' ? '#9BA1A6' : colors.textTertiary} />
+                </TouchableOpacity>
+              </View>
             </View>
             {renderSettingsItem('language-outline', 'Ngôn ngữ', () => console.log('Language'), 'Tiếng Việt', true)}
           </View>

@@ -28,6 +28,7 @@ export const Colors = {
     inputBorder: "#e0e0e0",
     shadow: "#000",
     overlay: "rgba(0, 0, 0, 0.5)",
+    error: "#EF4444",
   },
   dark: {
     text: "#ECEDEE",
@@ -48,6 +49,7 @@ export const Colors = {
     inputBorder: "#334155",
     shadow: "#000",
     overlay: "rgba(0, 0, 0, 0.7)",
+    error: "#EF4444",
   },
 };
 

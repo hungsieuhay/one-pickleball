@@ -2,6 +2,7 @@ import { AchievementCard, SettingItemComponent, StatCard } from "@/components/us
 import { styles } from "@/constants/styles/user.styles";
 import { useTheme, useThemedColors } from "@/hooks/use-theme";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { router } from "expo-router";
 import React, { useState } from 'react';
 import {
   Alert,
@@ -56,6 +57,18 @@ const UserPage = () => {
     toggleTheme();
   };
 
+  const handleMyTournament = () => {
+    router.navigate('/mytournament');
+  }
+
+  const handleMyHistory = () => {
+    console.log('My History pressed');
+  }
+
+  const handleMyFavorite = () => {
+    console.log('My Favorite pressed');
+  }
+
   const settingsItems: SettingsItem[] = [
     {
       id: '1',
@@ -67,16 +80,19 @@ const UserPage = () => {
       id: '3',
       icon: 'lock',
       label: 'Bảo mật & quyền riêng tư',
+      route: '/securityandprivacy',
     },
     {
       id: '4',
       icon: 'bell',
       label: 'Thông báo',
+      route: '/notification',
     },
     {
       id: '5',
       icon: 'help-circle',
       label: 'Trợ giúp & hỗ trợ',
+      route: '/helpandsupport',
     },
     {
       id: '6',
@@ -104,21 +120,21 @@ const UserPage = () => {
   };
 
   const handleEditProfile = () => {
-    console.log('Edit profile pressed');
+    router.navigate('/editprofile');
   };
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-    
+
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        
+
         <View style={styles.coverSection}>
           <View style={styles.cover} />
         </View>
-        
+
         <View style={[styles.profileInfoSection, { backgroundColor: colors.card }]}>
           <View style={styles.avatarWrapper}>
             <View style={styles.avatar}>
@@ -150,19 +166,20 @@ const UserPage = () => {
         </View>
 
         <View style={styles.quickActionsSection}>
-          <TouchableOpacity style={[styles.quickActionItem, { backgroundColor: colors.cardSecondary }]}>
+          <TouchableOpacity onPress={handleMyTournament} style={[styles.quickActionItem, { backgroundColor: colors.cardSecondary }]}>
             <MaterialCommunityIcons name="star" size={20} color="#00D9B5" />
             <Text style={[styles.quickActionLabel, { color: colors.text }]}>Giải đấu của tôi</Text>
             <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.quickActionItem, { backgroundColor: colors.cardSecondary }]}>
+          <TouchableOpacity onPress={() => router.navigate('/historybooking')} style={[styles.quickActionItem, { backgroundColor: colors.cardSecondary }]}>
             <Ionicons name="calendar" size={20} color="#FF9800" />
             <Text style={[styles.quickActionLabel, { color: colors.text }]}>Lịch sử đặt sân</Text>
             <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={[styles.quickActionItem, { backgroundColor: colors.cardSecondary }]}>
+
+          <TouchableOpacity onPress={() => router.navigate('/favoritefield')} style={[styles.quickActionItem, { backgroundColor: colors.cardSecondary }]}>
             <Ionicons name="heart" size={20} color="#E91E63" />
             <Text style={[styles.quickActionLabel, { color: colors.text }]}>Sân yêu thích</Text>
             <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />

@@ -259,21 +259,7 @@ const NewsPage = () => {
         </View>
       </View>
 
-      <View style={styles.featuredSection}>
-        <Text style={[styles.sectionTitle, { color: colors.text }]}>Tin nổi bật</Text>
-        <TouchableOpacity style={[styles.featuredCard, { backgroundColor: colors.cardSecondary }]}>
-          <ImageBackground style={styles.featuredImage} source={{ uri: 'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482752AXp/anh-mo-ta.png' }}>
-            <View style={styles.featuredOverlay}>
-              <View style={[styles.featuredBadge, { backgroundColor: '#FF4444' }]}>
-                <Text style={styles.featuredBadgeText}>HOT</Text>
-              </View>
-              <Text style={styles.featuredTitle}>
-                HCM Open 2025: Những tiêu điểm không thể bỏ lỡ
-              </Text>
-            </View>
-          </ImageBackground>
-        </TouchableOpacity>
-      </View>
+   
 
       <View style={styles.categoriesWrapper}>
         <ScrollView
@@ -289,6 +275,21 @@ const NewsPage = () => {
       <FlatList
         data={filteredNews}
         renderItem={({ item }) => <NewsCard item={item} />}
+        ListHeaderComponent={   <View style={styles.featuredSection}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>Tin nổi bật</Text>
+        <TouchableOpacity style={[styles.featuredCard, { backgroundColor: colors.cardSecondary }]}>
+          <ImageBackground style={styles.featuredImage} source={{ uri: 'https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/482752AXp/anh-mo-ta.png' }}>
+            <View style={styles.featuredOverlay}>
+              <View style={[styles.featuredBadge, { backgroundColor: '#FF4444' }]}>
+                <Text style={styles.featuredBadgeText}>HOT</Text>
+              </View>
+              <Text style={styles.featuredTitle}>
+                HCM Open 2025: Những tiêu điểm không thể bỏ lỡ
+              </Text>
+            </View>
+          </ImageBackground>
+        </TouchableOpacity>
+      </View>}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.flatListContent}
         scrollEnabled={true}

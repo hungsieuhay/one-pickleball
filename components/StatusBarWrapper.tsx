@@ -5,7 +5,8 @@ import { useEffect } from "react";
 export const StatusBarWrapper = () => {
     const { theme } = useTheme();
     const colors = useThemedColors();
-    useEffect(()=>{},[colors.background ])
+    useEffect(() => {
+    }, [theme, colors.background])
 
     return (
         <StatusBar

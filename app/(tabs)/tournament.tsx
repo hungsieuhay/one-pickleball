@@ -331,11 +331,10 @@ export default function TournamentScreen() {
         <View style={[styles.container, { backgroundColor: colors.background }]}>
             <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
                 <Text style={[styles.headerTitle, { color: colors.text }]}>Giải đấu</Text>
-                <TouchableOpacity style={styles.searchBtn}>
+                <TouchableOpacity onPress={() => router.push('/search')} style={styles.searchBtn}>
                     <Ionicons name="search" size={24} color={colors.icon} />
                 </TouchableOpacity>
             </View>
-
 
             <View style={[styles.filterBar, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
                 <ScrollView
@@ -354,14 +353,12 @@ export default function TournamentScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.scrollContent}
             >
-
                 <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>
                         Giải đấu nổi bật
                     </Text>
                     <FeaturedTournamentCard tournament={featuredTournament} />
                 </View>
-
 
                 <View style={styles.section}>
                     <View style={styles.sectionHeader}>
@@ -370,7 +367,7 @@ export default function TournamentScreen() {
                         </Text>
                         <Text style={styles.resultsBadgeText}>{filteredTournaments.length} giải đấu</Text>
                     </View>
-                
+
                     <FlatList
                         data={filteredTournaments}
                         renderItem={({ item }) => <TournamentCompactCard tournament={item} />}
@@ -381,13 +378,12 @@ export default function TournamentScreen() {
                     />
                 </View>
 
-
                 <View style={[styles.section, styles.lastSection]}>
                     <View style={styles.sectionHeader}>
                         <Text style={[styles.sectionTitle, { color: colors.text }]}>
                             Giải đấu của tôi
                         </Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => router.push('/mytournament')}>
                             <Text style={styles.seeAll}>Xem tất cả</Text>
                         </TouchableOpacity>
                     </View>

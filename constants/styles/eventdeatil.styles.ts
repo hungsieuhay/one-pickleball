@@ -82,11 +82,10 @@ export const styles = StyleSheet.create({
         color: '#999',
     },
     infoCardsGrid: {
-        paddingHorizontal: 16,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        gap: 12
+        rowGap: 12
     },
     infoCard: {
         width: '48%',
@@ -150,7 +149,7 @@ export const styles = StyleSheet.create({
         width: '32%',
         alignItems: 'center',
         marginBottom: 16,
-        padding:12,
+        padding: 12,
         borderRadius: 12
     },
     categoryIcon: {

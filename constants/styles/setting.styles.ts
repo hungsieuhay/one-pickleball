@@ -92,4 +92,25 @@ export const styles = StyleSheet.create({
     toggleSwitch: {
         marginLeft: 12,
     },
+    themeSwitcher: {
+        flexDirection: 'row',
+        borderRadius: 20,
+        padding: 4,
+        height: 40,
+        alignItems: 'center',
+        minWidth: 140,
+    },
+    themeOption: {
+        flex: 1,
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 16,
+        flexDirection: 'row',
+        gap: 6,
+    },
+    themeOptionText: {
+        fontSize: 12,
+        fontWeight: '600',
+    },
 });

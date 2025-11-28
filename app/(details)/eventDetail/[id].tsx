@@ -104,7 +104,7 @@ export default function EventDetailScreen() {
                 <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
                     <View style={styles.infoCardsGrid}>
                         {infoCards.map((card, index) => (
-                            <View key={index} style={[styles.infoCard, { backgroundColor: colors.cardSecondary, borderColor: colors.border }]}>
+                            <View key={index} style={[styles.infoCard, { backgroundColor: colors.backgroundTertiary, borderColor: colors.border }]}>
                                 <MaterialCommunityIcons
                                     name={card.icon as any}
                                     size={24}

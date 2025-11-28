@@ -138,12 +138,12 @@ export default function SearchScreen() {
     const filteredResults = useMemo(() => {
         let results = allResults;
 
-        
+
         if (activeFilter !== 'all') {
             results = results.filter(item => item.type === activeFilter);
         }
 
-        
+
         if (searchQuery.trim()) {
             const normalizedQuery = removeDiacritics(searchQuery.trim());
             results = results.filter(item => {
