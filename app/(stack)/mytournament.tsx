@@ -3,6 +3,8 @@ import { useThemedColors } from '@/hooks/use-theme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { MyTournamentItem, MyTournamentFilterType } from '@/types';
+
 import {
   FlatList,
   ScrollView,
@@ -11,22 +13,11 @@ import {
   View
 } from 'react-native';
 
-interface MyTournament {
-  id: string;
-  title: string;
-  status: string; // Display status e.g., "Đã đăng ký • Nam Đơn"
-  date: string;
-  type: 'registered' | 'completed' | 'cancelled';
-  result?: string; // e.g., "Hạng 3", "Vô địch"
-}
-
-type FilterType = 'all' | 'registered' | 'completed' | 'cancelled';
-
 export default function MyTournamentScreen() {
   const colors = useThemedColors();
-  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+  const [activeFilter, setActiveFilter] = useState<MyTournamentFilterType>('all');
 
-  const myTournaments: MyTournament[] = [
+  const myTournaments: MyTournamentItem[] = [
     {
       id: '1',
       title: 'HCM Open 2025',
@@ -63,7 +54,7 @@ export default function MyTournamentScreen() {
     ? myTournaments
     : myTournaments.filter(t => t.type === activeFilter);
 
-  const getFilterLabel = (filter: FilterType) => {
+  const getFilterLabel = (filter: MyTournamentFilterType) => {
     switch (filter) {
       case 'all': return 'Tất cả';
       case 'registered': return 'Đã đăng ký';
@@ -73,7 +64,7 @@ export default function MyTournamentScreen() {
     }
   };
 
-  const MyTournamentCard = ({ tournament }: { tournament: MyTournament }) => {
+  const MyTournamentCard = ({ tournament }: { tournament: MyTournamentItem }) => {
     let iconName: any = 'star';
     let iconColor = '#FFD700';
     let bgColor = '#FFD70020';
@@ -146,7 +137,7 @@ export default function MyTournamentScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.filterContent}
         >
-          {(['all', 'registered', 'completed', 'cancelled'] as FilterType[]).map((filter) => (
+          {(['all', 'registered', 'completed', 'cancelled'] as MyTournamentFilterType[]).map((filter) => (
             <TouchableOpacity
               key={filter}
               style={[

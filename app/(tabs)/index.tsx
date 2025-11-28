@@ -1,6 +1,7 @@
 import { ActionCard, EventCardComponent, NewsItemComponent, StatCard } from '@/components/home';
 import { styles } from '@/constants/styles/home.styles';
 import { useTheme, useThemedColors } from '@/hooks/use-theme';
+import { HomeEventCard, HomeNewsItem, HomeStatCardProps } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
@@ -13,46 +14,18 @@ import {
   View,
 } from 'react-native';
 
-export interface StatCardProps {
-  id: string;
-  icon: string;
-  number: string;
-  label: string;
-  color: string;
-}
-
-export interface EventCard {
-  id: string;
-  title: string;
-  date: string;
-  location: string;
-  image: string;
-  badge?: string;
-  meta: string;
-}
-
-export interface NewsItem {
-  id: string;
-  category: string;
-  title: string;
-  time: string;
-  readTime: string;
-  image: string;
-  categoryColor: string;
-}
-
 export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const { theme } = useTheme();
   const colors = useThemedColors();
-  
-  const statCards: StatCardProps[] = [
+
+  const statCards: HomeStatCardProps[] = [
     { id: '1', icon: 'account', number: '24', label: 'Trận đấu', color: '#00D9B5' },
     { id: '2', icon: 'star', number: '68%', label: 'Tỷ lệ thắng', color: '#FF9800' },
     { id: '3', icon: 'trophy', number: '#42', label: 'Xếp hạng', color: '#2196F3' },
   ];
 
-  const events: EventCard[] = [
+  const events: HomeEventCard[] = [
     {
       id: '1',
       title: 'HCM Open 2025',
@@ -72,7 +45,7 @@ export default function HomeScreen() {
     },
   ];
 
-  const news: NewsItem[] = [
+  const news: HomeNewsItem[] = [
     {
       id: '1',
       category: 'Kỹ thuật',
@@ -118,14 +91,14 @@ export default function HomeScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        
+
         <View style={styles.header}>
           <View>
             <Text style={[styles.greetingText, { color: colors.textTertiary }]}>Xin chào,</Text>
             <Text style={[styles.userName, { color: colors.text }]}>Minh Tuấn</Text>
           </View>
           <View style={styles.headerRight}>
-            <TouchableOpacity onPress={()=> router.navigate('/notification')} style={[styles.notificationBtn, { backgroundColor: colors.backgroundTertiary }]}>
+            <TouchableOpacity onPress={() => router.navigate('/notification')} style={[styles.notificationBtn, { backgroundColor: colors.backgroundTertiary }]}>
               <Ionicons name="notifications-outline" size={24} color={colors.icon} />
               <View style={styles.badge}>
                 <Text style={styles.badgeText}>3</Text>

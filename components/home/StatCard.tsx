@@ -1,10 +1,10 @@
-import { StatCardProps } from "@/app/(tabs)";
 import { styles } from "@/constants/styles/home.styles";
 import { useThemedColors } from "@/hooks/use-theme";
+import { HomeStatCardProps } from "@/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 
-export const StatCard = ({ item }: { item: StatCardProps }) => {
+export const StatCard = ({ item }: { item: HomeStatCardProps }) => {
     const colors = useThemedColors();
 
     return (

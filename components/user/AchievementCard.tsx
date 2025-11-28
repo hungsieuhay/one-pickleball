@@ -1,9 +1,9 @@
-import { Achievement } from "@/app/(tabs)/user";
 import { styles } from "@/constants/styles/user.styles";
 import { useThemedColors } from "@/hooks/use-theme";
+import { UserAchievement } from "@/types";
 import { Text, View } from "react-native";
 
-export const AchievementCard = ({ item }: { item: Achievement }) => {
+export const AchievementCard = ({ item }: { item: UserAchievement }) => {
     const colors = useThemedColors();
 
     return (

@@ -6,6 +6,8 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
+import { Facility, Review, RatingBar } from '@/types';
+
 import {
     FlatList,
     Text,
@@ -13,36 +15,11 @@ import {
     View,
 } from 'react-native';
 
-
-
-interface Facility {
-    id: string;
-    icon: string;
-    name: string;
-}
-
-interface Review {
-    id: string;
-    userName: string;
-    userInitials: string;
-    rating: number;
-    date: string;
-    text: string;
-    color: string;
-}
-
-interface RatingBar {
-    stars: number;
-    count: number;
-    percentage: number;
-}
-
 export default function CourtDetailScreen() {
     const [isFavorite, setIsFavorite] = useState(true);
     const { id } = useLocalSearchParams();
     const data: any = courts.find(court => court.id === id)
     const colors = useThemedColors();
-
 
     const facilities: Facility[] = [
         { id: '1', icon: 'home', name: '6 sân indoor' },
@@ -209,7 +186,6 @@ export default function CourtDetailScreen() {
                             </View>
                         </View>
 
-
                         <View style={styles.contentSection}>
                             <View style={[styles.priceBookingCard, { backgroundColor: colors.cardSecondary, borderColor: colors.border }]}>
                                 <View style={styles.priceSection}>
@@ -238,7 +214,6 @@ export default function CourtDetailScreen() {
                             </Text>
                         </View>
 
-
                         <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
                             <Text style={[styles.sectionHeading, { color: colors.text }]}>Tiện ích</Text>
                             <View style={styles.facilitiesGrid}>
@@ -247,7 +222,6 @@ export default function CourtDetailScreen() {
                                 ))}
                             </View>
                         </View>
-
 
                         <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
                             <Text style={[styles.sectionHeading, { color: colors.text }]}>Vị trí</Text>

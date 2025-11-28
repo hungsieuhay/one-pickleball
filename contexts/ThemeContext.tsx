@@ -1,15 +1,8 @@
+import { ThemeContextType, ThemeMode } from '@/types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { createContext, ReactNode, useEffect, useState } from 'react';
 import { useColorScheme as useDeviceColorScheme } from 'react-native';
 
-type ThemeMode = 'light' | 'dark' | 'auto';
-
-interface ThemeContextType {
-    theme: 'light' | 'dark';
-    themeMode: ThemeMode;
-    setThemeMode: (mode: ThemeMode) => void;
-    toggleTheme: () => void;
-}
 
 export const ThemeContext = createContext<ThemeContextType>({
     theme: 'light',

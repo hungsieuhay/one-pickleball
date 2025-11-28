@@ -4,6 +4,8 @@ import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { LoginFormData } from '@/types';
+
 import {
   KeyboardAvoidingView,
   Platform,
@@ -14,12 +16,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
-interface LoginFormData {
-  email: string;
-  password: string;
-  rememberMe: boolean;
-}
 
 export default function LoginScreen() {
   const { theme } = useTheme();
@@ -74,7 +70,6 @@ export default function LoginScreen() {
             <Text style={[styles.subtitle, { color: colors.textSecondary }]}>Đăng nhập để tiếp tục</Text>
           </View>
 
-
           <View style={styles.formContainer}>
 
             <View style={styles.formGroup}>
@@ -89,7 +84,6 @@ export default function LoginScreen() {
                 autoCapitalize="none"
               />
             </View>
-
 
             <View style={styles.formGroup}>
               <Text style={[styles.label, { color: colors.text }]}>Mật khẩu</Text>
@@ -136,7 +130,6 @@ export default function LoginScreen() {
               </TouchableOpacity>
             </View>
 
-
             <TouchableOpacity
               style={[styles.buttonPrimary, loading && styles.buttonDisabled]}
               onPress={handleLogin}
@@ -147,7 +140,6 @@ export default function LoginScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-
 
           <View style={styles.divider}>
             <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
@@ -172,7 +164,6 @@ export default function LoginScreen() {
               <Text style={[styles.socialButtonText, { color: colors.text }]}>Google</Text>
             </TouchableOpacity>
           </View>
-
 
           <View style={styles.footer}>
             <Text style={[styles.footerText, { color: colors.textSecondary }]}>Chưa có tài khoản? </Text>

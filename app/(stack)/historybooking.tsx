@@ -3,6 +3,8 @@ import { useThemedColors } from '@/hooks/use-theme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { BookingHistory, BookingFilterType } from '@/types';
+
 import {
     Alert,
     FlatList,
@@ -12,24 +14,9 @@ import {
     View
 } from 'react-native';
 
-interface BookingHistory {
-    id: string;
-    courtName: string;
-    courtAddress: string;
-    date: string;
-    time: string;
-    duration: string;
-    status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
-    totalPrice: number;
-    paymentMethod?: string;
-    courtType: 'indoor' | 'outdoor';
-}
-
-type FilterType = 'all' | 'pending' | 'confirmed' | 'completed' | 'cancelled';
-
 export default function HistoryBookingScreen() {
     const colors = useThemedColors();
-    const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+    const [activeFilter, setActiveFilter] = useState<BookingFilterType>('all');
 
     const bookingHistory: BookingHistory[] = [
         {
@@ -97,7 +84,7 @@ export default function HistoryBookingScreen() {
         ? bookingHistory
         : bookingHistory.filter(b => b.status === activeFilter);
 
-    const getFilterLabel = (filter: FilterType) => {
+    const getFilterLabel = (filter: BookingFilterType) => {
         switch (filter) {
             case 'all': return 'Tất cả';
             case 'pending': return 'Chờ xác nhận';
@@ -314,7 +301,7 @@ export default function HistoryBookingScreen() {
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={styles.filterContent}
                 >
-                    {(['all', 'pending', 'confirmed', 'completed', 'cancelled'] as FilterType[]).map((filter) => (
+                    {(['all', 'pending', 'confirmed', 'completed', 'cancelled'] as BookingFilterType[]).map((filter) => (
                         <TouchableOpacity
                             key={filter}
                             style={[

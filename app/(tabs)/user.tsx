@@ -1,6 +1,7 @@
 import { AchievementCard, SettingItemComponent, StatCard } from "@/components/user";
 import { styles } from "@/constants/styles/user.styles";
 import { useTheme, useThemedColors } from "@/hooks/use-theme";
+import { UserAchievement, UserSettingsItem, UserStatCardProps } from "@/types";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from "expo-router";
 import React, { useState } from 'react';
@@ -13,40 +14,19 @@ import {
 } from 'react-native';
 
 
-export interface StatCardProps {
-  number: string;
-  label: string;
-}
-
-export interface Achievement {
-  id: string;
-  name: string;
-  emoji: string;
-  locked: boolean;
-}
-
-export interface SettingsItem {
-  id: string;
-  icon: string;
-  label: string;
-  route?: string;
-  onPress?: () => void;
-  isLogout?: boolean;
-}
-
 const UserPage = () => {
   const [isFollowing, setIsFollowing] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const colors = useThemedColors();
 
-  const stats: StatCardProps[] = [
+  const stats: UserStatCardProps[] = [
     { number: '24', label: 'Trận đấu' },
     { number: '68%', label: 'Tỷ lệ thắng' },
     { number: '#42', label: 'Xếp hạng' },
     { number: '3', label: 'Huy chương' },
   ];
 
-  const achievements: Achievement[] = [
+  const achievements: UserAchievement[] = [
     { id: '1', name: 'Vô địch HCM 2024', emoji: '🏆', locked: false },
     { id: '2', name: 'Á quân VN Cup', emoji: '🥈', locked: false },
     { id: '3', name: 'Hạng 3 Open', emoji: '🥉', locked: false },
@@ -69,7 +49,7 @@ const UserPage = () => {
     console.log('My Favorite pressed');
   }
 
-  const settingsItems: SettingsItem[] = [
+  const settingsItems: UserSettingsItem[] = [
     {
       id: '1',
       icon: 'cog',

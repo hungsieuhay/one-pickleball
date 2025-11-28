@@ -1,11 +1,11 @@
-import { SettingsItem } from "@/app/(tabs)/user";
 import { styles } from "@/constants/styles/user.styles";
 import { useThemedColors } from "@/hooks/use-theme";
+import { UserSettingsItem } from "@/types";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 
-const handleSettingPress = (item: SettingsItem) => {
+const handleSettingPress = (item: UserSettingsItem) => {
     if (item.onPress) {
         item.onPress();
     } else if (item.route) {
@@ -16,7 +16,7 @@ const handleSettingPress = (item: SettingsItem) => {
 // Icons that use Ionicons instead of MaterialCommunityIcons
 const ioniconsSet = ['moon', 'sunny', 'moon-outline', 'sunny-outline'];
 
-export const SettingItemComponent = ({ item }: { item: SettingsItem }) => {
+export const SettingItemComponent = ({ item }: { item: UserSettingsItem }) => {
     const colors = useThemedColors();
     const useIonicons = ioniconsSet.includes(item.icon);
 

@@ -4,6 +4,8 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { ImageBackground } from "expo-image";
 import { router } from "expo-router";
 import React, { useState } from 'react';
+import { NewsCategory, NewsItemDetailed } from '@/types';
+
 import {
   FlatList,
   ScrollView,
@@ -12,29 +14,6 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-
-
-interface NewsItem {
-  id: string;
-  category: string;
-  categoryColor: string;
-  title: string;
-  description: string;
-  author: string;
-  time: string;
-  readTime: string;
-  image: string;
-  views: number;
-  likes: number;
-  isLiked: boolean;
-}
-
-interface NewsCategory {
-  id: string;
-  name: string;
-  icon: string;
-  color: string;
-}
 
 const NewsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -51,7 +30,7 @@ const NewsPage = () => {
     { id: 'lifestyle', name: 'Lối sống', icon: 'heart', color: '#9C27B0' },
   ];
 
-  const newsItems: NewsItem[] = [
+  const newsItems: NewsItemDetailed[] = [
     {
       id: '1',
       category: 'Kỹ thuật',
@@ -138,7 +117,7 @@ const NewsPage = () => {
       categories.find(c => c.id === activeCategory)?.name.toLowerCase() || ''
     ));
 
-  const NewsCard = ({ item }: { item: NewsItem }) => (
+  const NewsCard = ({ item }: { item: NewsItemDetailed }) => (
     <TouchableOpacity
       style={styles.newsCard}
       onPress={() => router.push({
@@ -233,7 +212,6 @@ const NewsPage = () => {
     </TouchableOpacity>
   );
 
-
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
@@ -258,8 +236,6 @@ const NewsPage = () => {
           />
         </View>
       </View>
-
-   
 
       <View style={styles.categoriesWrapper}>
         <ScrollView

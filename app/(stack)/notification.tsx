@@ -3,6 +3,8 @@ import { useThemedColors } from '@/hooks/use-theme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { NotificationItem } from '@/types';
+
 import {
   FlatList,
   Text,
@@ -10,27 +12,12 @@ import {
   View
 } from 'react-native';
 
-interface Notification {
-  id: string;
-  type: 'booking' | 'event' | 'social' | 'system';
-  title: string;
-  message: string;
-  time: string;
-  isRead: boolean;
-  icon: string;
-  iconColor: string;
-  actions?: {
-    label: string;
-    primary?: boolean;
-    onPress: () => void;
-  }[];
-}
 
 export default function NotificationScreen() {
   const colors = useThemedColors();
   const [activeTab, setActiveTab] = useState<'all' | 'unread'>('all');
 
-  const notifications: Notification[] = [
+  const notifications: NotificationItem[] = [
     {
       id: '1',
       type: 'booking',
@@ -114,7 +101,7 @@ export default function NotificationScreen() {
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
-  const renderNotificationItem = ({ item }: { item: Notification }) => (
+  const renderNotificationItem = ({ item }: { item: NotificationItem }) => (
     <TouchableOpacity
       style={[
         styles.notificationItem,
@@ -207,7 +194,6 @@ export default function NotificationScreen() {
         </View>
       </View>
 
-
       <View style={styles.tabsContainer}>
         <TouchableOpacity
           style={[
@@ -247,7 +233,6 @@ export default function NotificationScreen() {
           </Text>
         </TouchableOpacity>
       </View>
-
 
       <FlatList
         data={filteredNotifications}

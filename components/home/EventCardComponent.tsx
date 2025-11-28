@@ -1,12 +1,12 @@
-import { EventCard } from "@/app/(tabs)";
 import { styles } from "@/constants/styles/home.styles";
 import { useThemedColors } from "@/hooks/use-theme";
+import { HomeEventCard } from "@/types";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Text, TouchableOpacity, View } from "react-native";
 
-export const EventCardComponent = ({ item }: { item: EventCard }) => {
+export const EventCardComponent = ({ item }: { item: HomeEventCard }) => {
     const colors = useThemedColors();
 
     return (

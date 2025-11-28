@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useMemo, useState } from 'react';
+import { SearchResult } from '@/types';
+
 import {
     FlatList,
     KeyboardAvoidingView,
@@ -25,20 +27,6 @@ const removeDiacritics = (str: string): string => {
         .toLowerCase();
 };
 
-interface SearchResult {
-    id: string;
-    type: 'court' | 'event' | 'news' | 'player';
-    title: string;
-    description: string;
-    image: string;
-    meta?: {
-        location?: string;
-        rating?: number;
-        price?: string;
-        date?: string;
-        views?: number;
-    };
-}
 
 export default function SearchScreen() {
     const colors = useThemedColors();
@@ -138,11 +126,9 @@ export default function SearchScreen() {
     const filteredResults = useMemo(() => {
         let results = allResults;
 
-
         if (activeFilter !== 'all') {
             results = results.filter(item => item.type === activeFilter);
         }
-
 
         if (searchQuery.trim()) {
             const normalizedQuery = removeDiacritics(searchQuery.trim());

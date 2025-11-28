@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { DateOption, TimeSlot, CourtOption } from '@/types';
+
 import {
     ScrollView,
     Text,
@@ -13,29 +15,6 @@ import {
     View
 } from 'react-native';
 
-interface DateOption {
-    id: string;
-    day: string;
-    number: number;
-    month: string;
-    isToday?: boolean;
-}
-
-interface TimeSlot {
-    id: string;
-    time: string;
-    price: string;
-    available: boolean;
-    popular?: boolean;
-}
-
-interface CourtOption {
-    id: string;
-    name: string;
-    description: string;
-    available: boolean;
-}
-
 export default function BookingCourse() {
     const colors = useThemedColors();
     const [currentStep, setCurrentStep] = useState(1);
@@ -43,7 +22,6 @@ export default function BookingCourse() {
     const [selectedTimes, setSelectedTimes] = useState<string[]>([]);
     const [selectedCourt, setSelectedCourt] = useState('1');
     const [notes, setNotes] = useState('');
-
 
     const generateDates = (): DateOption[] => {
         const dates: DateOption[] = [];
@@ -109,7 +87,6 @@ export default function BookingCourse() {
         const selectedDateObj = dates.find(d => d.id === selectedDate);
         if (!selectedDateObj) return;
 
-        
         const allSlots = [...morningSlots, ...afternoonSlots, ...eveningSlots];
         let totalPrice = 0;
         selectedTimes.forEach(time => {
@@ -121,7 +98,6 @@ export default function BookingCourse() {
             }
         });
 
-        
         const dateStr = `${selectedDateObj.number}/${selectedDateObj.month.replace('Th', '')}`;
         const sortedTimes = [...selectedTimes].sort();
         const startTime = sortedTimes[0];
@@ -131,7 +107,6 @@ export default function BookingCourse() {
         const endTimeStr = `${String(endHour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
         const timeRange = `${startTime} - ${endTimeStr}`;
 
-        
         const selectedCourtObj = courts.find(c => c.id === selectedCourt);
 
         router.push({
@@ -305,9 +280,7 @@ export default function BookingCourse() {
                 </TouchableOpacity>
             </View>
 
-
             <ProgressSteps />
-
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
 
@@ -329,7 +302,6 @@ export default function BookingCourse() {
                     </View>
                 </View>
 
-
                 <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>Chọn ngày</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -340,7 +312,6 @@ export default function BookingCourse() {
                         </View>
                     </ScrollView>
                 </View>
-
 
                 <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>Chọn giờ</Text>
@@ -373,7 +344,6 @@ export default function BookingCourse() {
                     </View>
                 </View>
 
-
                 <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>Chọn sân</Text>
                     <View style={styles.courtSelector}>
@@ -382,7 +352,6 @@ export default function BookingCourse() {
                         ))}
                     </View>
                 </View>
-
 
                 <View style={styles.section}>
                     <Text style={[styles.sectionTitle, { color: colors.text }]}>Ghi chú</Text>
@@ -404,7 +373,6 @@ export default function BookingCourse() {
                     />
                 </View>
             </ScrollView>
-
 
             <View style={[styles.footer, { backgroundColor: colors.background, borderTopColor: colors.border }]}>
                 <View style={styles.bookingSummary}>

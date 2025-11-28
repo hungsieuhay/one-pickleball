@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
+import { PaymentMethod } from '@/types';
+
 import {
   Alert,
   ScrollView,
@@ -12,13 +14,6 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-
-interface PaymentMethod {
-  id: string;
-  name: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  description: string;
-}
 
 export default function CheckoutScreen() {
   const colors = useThemedColors();

@@ -4,6 +4,8 @@ import { useTheme, useThemedColors } from '@/hooks/use-theme';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { CourtDetailed, AreaFilterType } from '@/types';
+
 import {
   FlatList,
   Image,
@@ -13,28 +15,7 @@ import {
   View
 } from 'react-native';
 
-
-export interface Court {
-  id: string;
-  name: string;
-  rating: number;
-  reviews: number;
-  price: number;
-  location: string;
-  distance: number;
-  courts: number;
-  features: string[];
-  status: 'open' | 'busy' | 'closed';
-  statusText: string;
-  isFavorite: boolean;
-  isPremium?: boolean;
-  image: string;
-  badgeColor?: string;
-}
-
-type FilterType = 'nearby' | 'open' | 'rated' | 'filter';
-
-export const courts: Court[] = [
+export const courts: CourtDetailed[] = [
   {
     id: '1',
     name: 'Sân Pickleball Rạch Chiếc',
@@ -102,15 +83,13 @@ export const courts: Court[] = [
 ];
 
 const AreaPage = () => {
-  const [activeFilter, setActiveFilter] = useState<FilterType>('nearby');
+  const [activeFilter, setActiveFilter] = useState<AreaFilterType>('nearby');
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
   const [favorites, setFavorites] = useState<string[]>(['2']);
   const { theme } = useTheme();
   const colors = useThemedColors();
 
-
-
-  const filters: { id: FilterType; label: string; icon: string }[] = [
+  const filters: { id: AreaFilterType; label: string; icon: string }[] = [
     { id: 'nearby', label: 'Gần tôi', icon: 'location' },
     { id: 'open', label: 'Đang mở', icon: 'timer' },
     { id: 'rated', label: 'Đánh giá cao', icon: 'star' },
@@ -145,7 +124,7 @@ const AreaPage = () => {
     }
   };
 
-  const CourtCard = ({ item }: { item: Court }) => (
+  const CourtCard = ({ item }: { item: CourtDetailed }) => (
     <View
       style={[styles.courtCard, { backgroundColor: colors.card }]}
     >
@@ -193,7 +172,6 @@ const AreaPage = () => {
           <Text style={[styles.distance, { color: colors.textTertiary }]}>• {item.distance} km</Text>
         </View>
 
-
         <View style={styles.features}>
           {item.features.map((feature, idx) => (
             <View key={idx} style={[styles.featureTag, { backgroundColor: colors.backgroundTertiary }]}>
@@ -207,7 +185,6 @@ const AreaPage = () => {
           )}
         </View>
 
-
         <View style={styles.status}>
           <View
             style={[
@@ -217,7 +194,6 @@ const AreaPage = () => {
           />
           <Text style={[styles.statusText, { color: colors.textSecondary }]}>{item.statusText}</Text>
         </View>
-
 
         <TouchableOpacity
           style={[

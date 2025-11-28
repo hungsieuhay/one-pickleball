@@ -1,9 +1,9 @@
-import { StatCardProps } from "@/app/(tabs)/user";
 import { styles } from "@/constants/styles/user.styles";
 import { useThemedColors } from "@/hooks/use-theme";
+import { UserStatCardProps } from "@/types";
 import { Text, View } from "react-native";
 
-export const StatCard = ({ item }: { item: StatCardProps }) => {
+export const StatCard = ({ item }: { item: UserStatCardProps }) => {
     const colors = useThemedColors();
 
     return (

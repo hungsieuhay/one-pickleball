@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { TournamentDetailed, MyTournamentItem, TournamentFilterType } from '@/types';
+
 import {
     FlatList,
     Image,
@@ -13,34 +15,11 @@ import {
     View
 } from 'react-native';
 
-interface Tournament {
-    id: string;
-    title: string;
-    date: string;
-    location: string;
-    prize: string;
-    registered: number;
-    maxParticipants: number;
-    status: 'open' | 'upcoming' | 'closed';
-    image: string;
-    gradient: string[];
-}
-
-interface MyTournament {
-    id: string;
-    title: string;
-    status: string;
-    date: string;
-    type: 'registered' | 'completed';
-}
-
-type FilterType = 'open' | 'upcoming' | 'closed' | 'all';
-
 export default function TournamentScreen() {
     const colors = useThemedColors();
-    const [activeFilter, setActiveFilter] = useState<FilterType>('open');
+    const [activeFilter, setActiveFilter] = useState<TournamentFilterType>('open');
 
-    const featuredTournament: Tournament = {
+    const featuredTournament: TournamentDetailed = {
         id: 'featured-1',
         title: 'HCM Pickleball Open 2025',
         date: '15-17 Tháng 12, 2025',
@@ -53,7 +32,7 @@ export default function TournamentScreen() {
         gradient: ['#00D9B5', '#0099CC'],
     };
 
-    const tournaments: Tournament[] = [
+    const tournaments: TournamentDetailed[] = [
         {
             id: '1',
             title: 'Vietnam Open Championship',
@@ -104,7 +83,7 @@ export default function TournamentScreen() {
         },
     ];
 
-    const myTournaments: MyTournament[] = [
+    const myTournaments: MyTournamentItem[] = [
         {
             id: '1',
             title: 'HCM Open 2025',
@@ -158,7 +137,7 @@ export default function TournamentScreen() {
         ? tournaments
         : tournaments.filter(t => t.status === activeFilter);
 
-    const FilterChip = ({ label, value, icon }: { label: string; value: FilterType; icon: string }) => (
+    const FilterChip = ({ label, value, icon }: { label: string; value: TournamentFilterType; icon: string }) => (
         <TouchableOpacity
             style={[
                 styles.filterChip,
@@ -185,7 +164,7 @@ export default function TournamentScreen() {
         </TouchableOpacity>
     );
 
-    const FeaturedTournamentCard = ({ tournament }: { tournament: Tournament }) => (
+    const FeaturedTournamentCard = ({ tournament }: { tournament: TournamentDetailed }) => (
         <View style={styles.featuredCard}>
             <View style={[styles.featuredCardInner, { backgroundColor: colors.card }]}>
                 <View style={styles.featuredImageContainer}>
@@ -256,7 +235,7 @@ export default function TournamentScreen() {
         </View>
     );
 
-    const TournamentCompactCard = ({ tournament }: { tournament: Tournament }) => (
+    const TournamentCompactCard = ({ tournament }: { tournament: TournamentDetailed }) => (
         <TouchableOpacity onPress={() => handle(tournament.id)} style={[styles.compactCardInner, { backgroundColor: colors.card }]}>
             <View style={styles.compactImageContainer}>
                 <Image
@@ -294,7 +273,7 @@ export default function TournamentScreen() {
         </TouchableOpacity>
     );
 
-    const MyTournamentCard = ({ tournament }: { tournament: MyTournament }) => (
+    const MyTournamentCard = ({ tournament }: { tournament: MyTournamentItem }) => (
         <TouchableOpacity style={[styles.myTournamentCard, { backgroundColor: colors.card }]}>
             <View
                 style={[

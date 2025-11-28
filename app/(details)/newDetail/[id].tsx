@@ -4,6 +4,8 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { NewsComment, RelatedNewsItem } from '@/types';
+
 import {
     Dimensions,
     FlatList,
@@ -17,32 +19,12 @@ import {
 
 const { width } = Dimensions.get('window');
 
-interface Comment {
-    id: string;
-    userName: string;
-    userInitials: string;
-    userColor: string;
-    time: string;
-    text: string;
-    likes: number;
-    isLiked: boolean;
-}
-
-interface RelatedNews {
-    id: string;
-    category: string;
-    categoryColor: string;
-    title: string;
-    image: string;
-    time: string;
-}
-
 export default function NewsDetailScreen() {
     const [isLiked, setIsLiked] = useState(false);
     const [likes, setLikes] = useState(342);
     const { theme } = useTheme();
     const colors = useThemedColors();
-    const [comments, setComments] = useState<Comment[]>([
+    const [comments, setComments] = useState<NewsComment[]>([
         {
             id: '1',
             userName: 'Trần Minh Tuấn',
@@ -65,7 +47,7 @@ export default function NewsDetailScreen() {
         },
     ]);
 
-    const relatedNews: RelatedNews[] = [
+    const relatedNews: RelatedNewsItem[] = [
         {
             id: '1',
             category: 'Kỹ thuật',
@@ -101,7 +83,7 @@ export default function NewsDetailScreen() {
         setIsLiked(!isLiked);
     };
 
-    const CommentItem = ({ item }: { item: Comment }) => (
+    const CommentItem = ({ item }: { item: NewsComment }) => (
         <View style={styles.commentItem}>
             <View style={[styles.commentAvatar, { backgroundColor: item.userColor }]}>
                 <Text style={styles.commentAvatarText}>{item.userInitials}</Text>
@@ -130,7 +112,7 @@ export default function NewsDetailScreen() {
         </View>
     );
 
-    const RelatedNewsItem = ({ item }: { item: RelatedNews }) => (
+    const RelatedNewsItem = ({ item }: { item: RelatedNewsItem }) => (
         <TouchableOpacity style={[styles.relatedNewsItem, { backgroundColor: colors.cardSecondary, borderColor: colors.border }]}>
             <View style={[styles.relatedNewsThumbnail, { backgroundColor: item.image as any }]} />
             <View style={styles.relatedNewsContent}>
@@ -211,7 +193,6 @@ export default function NewsDetailScreen() {
                                     </TouchableOpacity>
                                 </View>
 
-
                                 <View style={styles.stats}>
                                     <View style={styles.statItem}>
                                         <Ionicons name="eye" size={16} color={colors.textTertiary} />
@@ -260,7 +241,6 @@ export default function NewsDetailScreen() {
                                 </Text>
                             </View>
 
-
                             <View style={[styles.engagementSection, { backgroundColor: colors.card }]}>
                                 <View style={[styles.divider, { backgroundColor: colors.border }]} />
                                 <View style={styles.engagementStats}>
@@ -293,7 +273,6 @@ export default function NewsDetailScreen() {
                                 <View style={[styles.divider, { backgroundColor: colors.border }]} />
                             </View>
 
-
                             <View style={[styles.commentsSection, { backgroundColor: colors.card }]}>
                                 <View style={styles.sectionHeader}>
                                     <Text style={[styles.sectionTitle, { color: colors.text, backgroundColor: colors.card }]}>Bình luận (24)</Text>
@@ -311,7 +290,6 @@ export default function NewsDetailScreen() {
                                 </TouchableOpacity>
                             </View>
 
-
                             <View style={[styles.relatedSection, { backgroundColor: colors.card }]}>
                                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Tin tức liên quan</Text>
                                 {relatedNews.map((news) => (
@@ -324,7 +302,6 @@ export default function NewsDetailScreen() {
                     renderItem={() => null}
                     contentContainerStyle={styles.flatListContent}
                 />
-
 
                 <View style={[styles.commentInputFooter, { backgroundColor: colors.card, borderTopColor: colors.border }]}>
                     <View style={[styles.commentInputAvatar, { backgroundColor: '#667eea' }]}>

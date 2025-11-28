@@ -3,6 +3,8 @@ import { useThemedColors } from '@/hooks/use-theme';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { FavoriteCourt, FavoriteCourtSortType } from '@/types';
+
 import {
     Alert,
     FlatList,
@@ -13,29 +15,9 @@ import {
     View
 } from 'react-native';
 
-interface FavoriteCourt {
-    id: string;
-    name: string;
-    rating: number;
-    reviews: number;
-    price: number;
-    location: string;
-    distance: number;
-    courts: number;
-    features: string[];
-    status: 'open' | 'busy' | 'closed';
-    statusText: string;
-    image: string;
-    isPremium?: boolean;
-    lastVisited?: string;
-    totalBookings?: number;
-}
-
-type SortType = 'recent' | 'rating' | 'distance' | 'price';
-
 export default function FavoriteFieldScreen() {
     const colors = useThemedColors();
-    const [sortBy, setSortBy] = useState<SortType>('recent');
+    const [sortBy, setSortBy] = useState<FavoriteCourtSortType>('recent');
     const [favorites, setFavorites] = useState<FavoriteCourt[]>([
         {
             id: '1',
@@ -88,7 +70,7 @@ export default function FavoriteFieldScreen() {
         },
     ]);
 
-    const sortOptions: { id: SortType; label: string; icon: string }[] = [
+    const sortOptions: { id: FavoriteCourtSortType; label: string; icon: string }[] = [
         { id: 'recent', label: 'Gần đây', icon: 'time' },
         { id: 'rating', label: 'Đánh giá', icon: 'star' },
         { id: 'distance', label: 'Khoảng cách', icon: 'location' },

@@ -3,6 +3,8 @@ import { useThemedColors } from '@/hooks/use-theme';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
+import { EventInfoCard, EventCategory, EventFeeItem } from '@/types';
+
 import {
     ScrollView,
     Text,
@@ -10,40 +12,20 @@ import {
     View
 } from 'react-native';
 
-interface InfoCard {
-    icon: string;
-    label: string;
-    value: string;
-}
-
-interface Category {
-    name: string;
-    count: string;
-    icon: string;
-}
-
-interface FeeItem {
-    name: string;
-    amount: string;
-    discount?: string;
-}
-
 export default function EventDetailScreen() {
     const [activeTab, setActiveTab] = useState<string>('overview');
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
     const { id } = useLocalSearchParams();
     const colors = useThemedColors();
 
-
-
-    const infoCards: InfoCard[] = [
+    const infoCards: EventInfoCard[] = [
         { icon: 'calendar', label: 'Thời gian', value: '15-17/12/2025' },
         { icon: 'map-marker', label: 'Địa điểm', value: 'Sân Rạch Chiếc' },
         { icon: 'human-male-female', label: 'Đã đăng ký', value: '128/256' },
         { icon: 'star', label: 'Giải thưởng', value: '500 triệu' },
     ];
 
-    const categories: Category[] = [
+    const categories: EventCategory[] = [
         { name: 'Nam Đơn', count: '64 VĐV', icon: 'human-male' },
         { name: 'Nữ Đơn', count: '48 VĐV', icon: 'human-female' },
         { name: 'Đôi Nam', count: '32 cặp', icon: 'human-male-female' },
@@ -51,7 +33,7 @@ export default function EventDetailScreen() {
         { name: 'Đôi Hỗn hợp', count: '28 cặp', icon: 'human-male-female' },
     ];
 
-    const fees: FeeItem[] = [
+    const fees: EventFeeItem[] = [
         { name: 'Đơn Nam/Nữ', amount: '500.000đ' },
         { name: 'Đôi Nam/Nữ', amount: '800.000đ/cặp' },
         { name: 'Đôi Hỗn hợp', amount: '800.000đ/cặp' },
@@ -88,7 +70,6 @@ export default function EventDetailScreen() {
                     </View>
                 </View>
 
-
                 <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
                     <View style={styles.statusBadge}>
                         <View style={styles.statusDot} />
@@ -99,7 +80,6 @@ export default function EventDetailScreen() {
                         Giải đấu mở rộng quy mô lớn nhất năm
                     </Text>
                 </View>
-
 
                 <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
                     <View style={styles.infoCardsGrid}>
@@ -116,7 +96,6 @@ export default function EventDetailScreen() {
                         ))}
                     </View>
                 </View>
-
 
                 <View style={[styles.tabsContainer, { backgroundColor: colors.card, borderBottomColor: colors.border }]}>
                     {['overview', 'schedule', 'rules', 'prizes'].map((tab) => (
@@ -144,7 +123,6 @@ export default function EventDetailScreen() {
                     ))}
                 </View>
 
-
                 {activeTab === 'overview' && (
                     <>
 
@@ -162,7 +140,6 @@ export default function EventDetailScreen() {
                                 nghiệp.
                             </Text>
                         </View>
-
 
                         <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
                             <Text style={[styles.sectionHeading, { color: colors.text }]}>Hạng đấu</Text>
@@ -182,7 +159,6 @@ export default function EventDetailScreen() {
                                 ))}
                             </View>
                         </View>
-
 
                         <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
                             <Text style={[styles.sectionHeading, { color: colors.text }]}>Lệ phí tham gia</Text>
@@ -209,7 +185,6 @@ export default function EventDetailScreen() {
                                 </View>
                             ))}
                         </View>
-
 
                         <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
                             <Text style={[styles.sectionHeading, { color: colors.text }]}>Ban tổ chức</Text>
@@ -249,7 +224,6 @@ export default function EventDetailScreen() {
                     </View>
                 )}
             </ScrollView>
-
 
             <View style={[styles.footer, { backgroundColor: colors.card, borderTopColor: colors.border }]}>
                 <View style={styles.footerInfo}>

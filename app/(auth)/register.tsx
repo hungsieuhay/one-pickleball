@@ -4,6 +4,8 @@ import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
+import { RegisterFormData } from '@/types';
+
 import {
     KeyboardAvoidingView,
     Platform,
@@ -14,13 +16,6 @@ import {
     TouchableOpacity,
     View
 } from 'react-native';
-interface RegisterFormData {
-  fullName: string;
-  email: string;
-  phone: string;
-  password: string;
-  agreeTerms: boolean;
-}
 
 export default function RegisterScreen() {
   const { theme } = useTheme();
@@ -105,7 +100,6 @@ export default function RegisterScreen() {
               />
             </View>
 
-
             <View style={styles.formGroup}>
               <Text style={[styles.label, { color: colors.text }]}>Email</Text>
               <TextInput
@@ -118,7 +112,6 @@ export default function RegisterScreen() {
                 autoCapitalize="none"
               />
             </View>
-
 
             <View style={styles.formGroup}>
               <Text style={[styles.label, { color: colors.text }]}>Số điện thoại</Text>
@@ -156,7 +149,6 @@ export default function RegisterScreen() {
               </View>
             </View>
 
-
             <View style={styles.termsContainer}>
               <TouchableOpacity
                 style={[
@@ -184,7 +176,6 @@ export default function RegisterScreen() {
               </View>
             </View>
 
-
             <TouchableOpacity
               style={[styles.buttonPrimary, loading && styles.buttonDisabled]}
               onPress={handleRegister}
@@ -195,7 +186,6 @@ export default function RegisterScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-
 
           <View style={styles.divider}>
             <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />
@@ -221,7 +211,6 @@ export default function RegisterScreen() {
               <Text style={[styles.socialButtonText, { color: colors.text }]}>Google</Text>
             </TouchableOpacity>
           </View>
-
 
           <View style={styles.footer}>
             <Text style={[styles.footerText, { color: colors.textSecondary }]}>Đã có tài khoản? </Text>
