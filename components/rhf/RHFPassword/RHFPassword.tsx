@@ -1,4 +1,4 @@
-import { Input } from '@/components/ui/Input';
+import { PasswordInput } from '@/components/common/PasswordInput';
 import React from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { TextInputProps, View, ViewProps } from 'react-native';
@@ -6,7 +6,7 @@ import { FormDescription } from '../FormDescription';
 import { FormLabel } from '../FormLabel';
 import { FormMessage } from '../FormMessage';
 
-type RHFTextInputProps<T extends FieldValues> = {
+type RHFPasswordProps<T extends FieldValues> = {
   controller: {
     control: Control<T>;
     name: Path<T>;
@@ -21,20 +21,20 @@ type RHFTextInputProps<T extends FieldValues> = {
   description?: string;
 };
 
-const RHFTextInput = <T extends FieldValues>({
+const RHFPassword = <T extends FieldValues>({
   controller: { control, name, message },
   input,
   label,
   description,
   container,
-}: RHFTextInputProps<T>) => {
+}: RHFPasswordProps<T>) => {
   return (
     <View {...container}>
       <FormLabel>{label}</FormLabel>
       <Controller
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
-          <Input
+          <PasswordInput
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
@@ -49,4 +49,4 @@ const RHFTextInput = <T extends FieldValues>({
   );
 };
 
-export default RHFTextInput;
+export default RHFPassword;
