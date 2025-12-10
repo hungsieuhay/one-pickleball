@@ -1,20 +1,20 @@
+import { RHFPassword } from '@/components/rhf/RHFPassword';
 import { RHFTextInput } from '@/components/rhf/RHFTextInput';
 import { styles } from '@/constants/styles/login.styles';
 import { useSession } from '@/contexts/AuthProvider';
 import { useTheme, useThemedColors } from '@/hooks/use-theme';
-import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
   StatusBar,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -115,63 +115,21 @@ export default function LoginScreen() {
               }}
               label='Email hoặc số điện thoại'
               input={{
-                style: [
-                  styles.input,
-                  {
-                    backgroundColor: colors.input,
-                    color: colors.text,
-                    borderColor: colors.border,
-                  },
-                ],
-                placeholder: 'op@gmail.com',
+                placeholder: 'onepickleball@gmail.com',
               }}
             />
 
-            <View style={styles.formGroup}>
-              <Text style={[styles.label, { color: colors.text }]}>
-                Mật khẩu
-              </Text>
-              <View
-                style={[
-                  styles.passwordContainer,
-                  { backgroundColor: colors.input, borderColor: colors.border },
-                ]}
-              >
-                <Controller
-                  control={control}
-                  rules={{
-                    required: true,
-                  }}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <TextInput
-                      onBlur={onBlur}
-                      onChangeText={onChange}
-                      value={value}
-                      style={[styles.passwordInput, { color: colors.text }]}
-                      placeholder='Nhập mật khẩu'
-                      placeholderTextColor={colors.textTertiary}
-                      secureTextEntry={!showPassword}
-                    />
-                  )}
-                  name='password'
-                />
-                <TouchableOpacity
-                  style={styles.eyeButton}
-                  onPress={() => setShowPassword(!showPassword)}
-                >
-                  <Ionicons
-                    name={showPassword ? 'eye' : 'eye-off'}
-                    size={20}
-                    color={colors.icon}
-                  />
-                </TouchableOpacity>
-              </View>
-              {errors.password && (
-                <Text style={{ color: colors.error, marginTop: 8 }}>
-                  {errors.password.message}
-                </Text>
-              )}
-            </View>
+            <RHFPassword
+              controller={{
+                control: control,
+                name: 'password',
+                message: errors.password?.message,
+              }}
+              label='Mật khẩu'
+              input={{
+                placeholder: '********',
+              }}
+            />
 
             <View style={styles.rowBetween}>
               <TouchableOpacity>
@@ -181,7 +139,6 @@ export default function LoginScreen() {
 
             <TouchableOpacity
               style={[styles.buttonPrimary, loading && styles.buttonDisabled]}
-              // onPress={handleLogin}
               onPress={onSubmit}
               disabled={loading}
             >

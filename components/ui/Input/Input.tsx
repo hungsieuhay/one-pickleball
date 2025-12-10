@@ -1,34 +1,93 @@
-import React from 'react';
+import { ThemeColor } from '@/constants/theme';
+import { useThemedColors } from '@/hooks/use-theme';
+import React, { useState } from 'react';
 import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
 
-type InputProps = {
+type InputVariant = 'default' | 'filled' | 'unstyled';
+
+export type InputProps = TextInputProps & {
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
-} & TextInputProps;
+  variant?: InputVariant;
+  value?: string;
+  onChangeText?: (text: string) => void;
+};
 
-const Input = ({ startIcon, endIcon, ...props }: InputProps) => {
+type StyleProps = {
+  variant: InputVariant;
+  color: ThemeColor;
+};
+
+const Input = ({
+  variant = 'filled',
+  startIcon,
+  endIcon,
+  value,
+  onChangeText,
+  ...props
+}: InputProps) => {
+  const [internalValue, setInternalValue] = useState<string>('');
+  const colors = useThemedColors();
+
+  const styles = getStyles({ variant, color: colors });
+  const isControlled = value !== undefined;
+  const finalValue = isControlled ? value : internalValue;
+
+  const handleChange = (text: string) => {
+    if (!isControlled) {
+      setInternalValue(text);
+    }
+    onChangeText?.(text);
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.startIcon}>{startIcon}</View>
-      <TextInput {...props} />
-      <View style={styles.endIcon}>{endIcon}</View>
+      {startIcon && <View style={styles.startIcon}>{startIcon}</View>}
+      <TextInput
+        value={finalValue}
+        onChangeText={handleChange}
+        {...props}
+        style={styles.input}
+      />
+      {endIcon && <View style={styles.endIcon}>{endIcon}</View>}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'red',
-  },
-  startIcon: {
-    marginHorizontal: 8,
-  },
-  endIcon: {
-    marginHorizontal: 8,
-  },
-});
+const getStyles = ({ variant, color }: StyleProps) =>
+  StyleSheet.create({
+    container: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      ...(variant === 'default' && {
+        borderWidth: 1,
+        borderColor: color.inputBorder,
+      }),
+      ...(variant === 'filled' && {
+        backgroundColor: color.input,
+        borderColor: color.inputBorder,
+      }),
+    },
+    input: {
+      flex: 1,
+      paddingHorizontal: 16,
+      ...(variant === 'unstyled' && {
+        paddingHorizontal: 0,
+      }),
+    },
+    startIcon: {
+      paddingLeft: 16,
+      ...(variant === 'unstyled' && {
+        paddingRight: 4,
+      }),
+    },
+    endIcon: {
+      paddingRight: 16,
+      ...(variant === 'unstyled' && {
+        paddingLeft: 4,
+      }),
+    },
+  });
 
 export default Input;
