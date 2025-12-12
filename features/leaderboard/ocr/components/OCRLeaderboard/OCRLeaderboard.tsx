@@ -2,10 +2,10 @@ import React from 'react';
 
 import { ScrollView, StyleSheet, View } from 'react-native';
 
-import { MyRanking } from '@/features/leaderboard/shared/components/MyRanking';
 import { RankingHeader } from '@/features/leaderboard/shared/components/RankingHeader';
 
 import { OCRTable } from '../OCRTable';
+import { OCRUserElo } from '../OCRUserElo';
 
 const OCRLeaderboard = () => {
   return (
@@ -14,7 +14,7 @@ const OCRLeaderboard = () => {
       <ScrollView>
         <OCRTable />
       </ScrollView>
-      <MyRanking />
+      <OCRUserElo />
     </View>
   );
 };

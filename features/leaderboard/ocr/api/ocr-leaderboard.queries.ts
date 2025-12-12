@@ -10,6 +10,13 @@ const OCRLeaderboardQueries = {
       queryKey: [...OCRLeaderboardQueries.lists(), filters],
       queryFn: () => OCRLeaderboardAPI.getAll(filters),
     }),
+  user: () => ['ocr-user'],
+  userElo: (id?: number) =>
+    queryOptions({
+      queryKey: [...OCRLeaderboardQueries.all(), 'elo', id],
+      queryFn: () => OCRLeaderboardAPI.getUserElo(id!),
+      enabled: !!id,
+    }),
 };
 
 export default OCRLeaderboardQueries;

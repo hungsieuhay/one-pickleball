@@ -1,8 +1,9 @@
 /* eslint-disable react-native/no-unused-styles */
 import React from 'react';
 
-import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
+
+import { Avatar } from '@/components/ui/Avatar';
 
 import { AppColors, Radius, Shadows, ThemeColor } from '@/constants/theme';
 
@@ -10,16 +11,7 @@ import { useThemedColors } from '@/hooks/use-theme';
 
 import { Ranking } from '../../types';
 
-const myRanking: Ranking = {
-  avatar: 'http://api.dicebear.com/9.x/lorelei/svg?seed=Alpha',
-  elo: 2450,
-  name: 'Alpha',
-  rank: 1,
-  tier: 'Legend',
-  winRate: 72.4,
-};
-
-const MyRanking = () => {
+const MyRanking = ({ avatar, elo, name, rank, tier }: Ranking) => {
   const styles = getStyles({ colors: useThemedColors() });
 
   return (
@@ -27,19 +19,19 @@ const MyRanking = () => {
       <View style={styles.item}>
         {/* Left */}
         <View style={styles.left}>
-          <Text style={styles.rank}>{myRanking.rank}</Text>
+          <Text style={styles.rank}>{rank}</Text>
           <View style={styles.avatar}>
-            <Image source={myRanking.avatar} style={styles.image} />
+            <Avatar src={avatar} style={styles.image} />
             <View>
-              <Text style={styles.name}>{myRanking.name}</Text>
-              <Text style={styles.tier}>{myRanking.tier}</Text>
+              <Text style={styles.name}>{name}</Text>
+              <Text style={styles.tier}>{tier}</Text>
             </View>
           </View>
         </View>
 
         {/* Right */}
         <View style={styles.right}>
-          <Text style={styles.elo}>⭐ {myRanking.elo}</Text>
+          <Text style={styles.elo}>⭐ {elo}</Text>
         </View>
       </View>
     </View>

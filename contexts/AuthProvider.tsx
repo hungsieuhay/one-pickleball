@@ -134,7 +134,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         },
         session: session || null,
         isLoading,
-        user: user || null,
+        user: user,
       }}
     >
       {children}

@@ -7,19 +7,37 @@ export type Ranking = {
   name: string;
 };
 
-export type OCRLeaderboardUser = {
-  rank: number;
-  user_id: number;
-  name: string;
-  elo_rating: number;
-  elo_rank: string;
-  total_matches: number;
-  wins: number;
-  losses: number;
-  win_rate: number;
+export type OCRLeaderboardResponse = {
+  data: {
+    rank: number;
+    user_id: number;
+    name: string;
+    elo_rating: number;
+    elo_rank: string;
+    total_matches: number;
+    wins: number;
+    losses: number;
+    win_rate: number;
+  }[];
+  success: boolean;
 };
 
-export type OCRLeaderboardResponse = {
-  data: OCRLeaderboardUser[];
+export type OCRUserEloResponse = {
+  data: {
+    user_id: number;
+    name: string;
+    elo_rating: number;
+    elo_rank: string;
+    total_matches: number;
+    wins: number;
+    losses: number;
+    win_rate: number;
+    oprs: {
+      total: string;
+      level: string;
+      challenge_score: string;
+      community_score: string;
+    };
+  };
   success: boolean;
 };
