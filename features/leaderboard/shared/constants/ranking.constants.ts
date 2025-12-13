@@ -1,10 +1,10 @@
-import { Ranking } from '../types';
+import { FilterTier, Ranking } from '../types';
 
 export const rankings: Ranking[] = [
   {
     rank: 1,
-    name: 'Alpha',
-    avatar: 'http://api.dicebear.com/9.x/lorelei/svg?seed=Alpha',
+    name: '',
+    avatar: 'xxx',
     elo: 2450,
     tier: 'Legend',
     winRate: 72.4,
@@ -161,4 +161,15 @@ export const rankings: Ranking[] = [
     tier: 'Iron',
     winRate: 45.6,
   },
+];
+
+export const OCRTiers: FilterTier[] = [
+  { label: 'Tất cả', value: '' },
+  { label: 'Bronze', value: 'Bronze' },
+  { label: 'Silver', value: 'Silver' },
+  { label: 'Gold', value: 'Gold' },
+  { label: 'Platinum', value: 'Platinum' },
+  { label: 'Diamond', value: 'Diamond' },
+  { label: 'Master', value: 'Master' },
+  { label: 'Grandmaster', value: 'Grandmaster' },
 ];

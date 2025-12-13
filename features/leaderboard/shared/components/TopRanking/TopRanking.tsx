@@ -14,7 +14,7 @@ type TopRankingProps = {
   data: Ranking[];
 };
 
-const TopRankingItem = ({ avatar, rank, name, elo }: Ranking) => {
+const TopRankingItem = ({ avatar, rank, name, elo, tier }: Ranking) => {
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>
@@ -24,12 +24,13 @@ const TopRankingItem = ({ avatar, rank, name, elo }: Ranking) => {
         </View>
       </View>
       <Text style={styles.name}>{name}</Text>
+      <Text>{tier}</Text>
       <Text>⭐ {elo}</Text>
     </View>
   );
 };
 
-const TopRankingItemCenter = ({ avatar, rank, name, elo }: Ranking) => {
+const TopRankingItemCenter = ({ avatar, rank, name, elo, tier }: Ranking) => {
   return (
     <View style={centerStyles.container}>
       <MaterialCommunityIcons name="crown-outline" style={centerStyles.crown} />
@@ -40,6 +41,7 @@ const TopRankingItemCenter = ({ avatar, rank, name, elo }: Ranking) => {
         </View>
       </View>
       <Text style={centerStyles.name}>{name}</Text>
+      <Text>{tier}</Text>
       <Text>⭐ {elo}</Text>
     </View>
   );

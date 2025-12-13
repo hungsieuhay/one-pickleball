@@ -5,11 +5,18 @@ import OCRLeaderboardAPI from './ocr-leaderboard.api';
 const OCRLeaderboardQueries = {
   all: () => ['ocr-leaderboard'],
   lists: () => [...OCRLeaderboardQueries.all(), 'list'],
-  list: (filters: string) =>
+  list: (rank: string, filters: string) =>
     queryOptions({
-      queryKey: [...OCRLeaderboardQueries.lists(), filters],
-      queryFn: () => OCRLeaderboardAPI.getAll(filters),
+      queryKey: [...OCRLeaderboardQueries.lists(), rank, filters],
+      queryFn: async () => {
+        if (rank) {
+          return await OCRLeaderboardAPI.getByRank(rank, filters);
+        } else {
+          return await OCRLeaderboardAPI.getAll(filters);
+        }
+      },
     }),
+
   user: () => ['ocr-user'],
   userElo: (id?: number) =>
     queryOptions({

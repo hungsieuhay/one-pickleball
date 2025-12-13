@@ -1,9 +1,15 @@
 import { fetchWrapper } from '@/utils/fetch.utils';
 
-import { OCRLeaderboardResponse, OCRUserEloResponse } from '../../shared/types';
+import { OCRLeaderboardByRankResponse, OCRLeaderboardResponse, OCRUserEloResponse } from '../../shared/types';
 
 const OCRLeaderboardAPI = {
   getAll: (filter: string) => {
+    return fetchWrapper<OCRLeaderboardResponse>(`/ocr/leaderboard?${filter}`);
+  },
+  getByRank: (rank: string, filter: string) => {
+    return fetchWrapper<OCRLeaderboardByRankResponse>(`/ocr/leaderboard/${rank}?${filter}`);
+  },
+  getDistribution: (filter: string) => {
     return fetchWrapper<OCRLeaderboardResponse>(`/ocr/leaderboard?${filter}`);
   },
   getUserElo: (id: number) => {
