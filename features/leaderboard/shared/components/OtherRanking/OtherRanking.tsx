@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-unused-styles */
 import React from 'react';
 
-import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { Avatar } from '@/components/ui/Avatar';
 import { Grid, GridItem } from '@/components/ui/Grid';
 
 import { AppColors, Radius, Shadows, ThemeColor } from '@/constants/theme';
@@ -25,7 +25,7 @@ const OtherRankingItem = ({ avatar, rank, name, tier, elo }: Ranking) => {
       <View style={styles.left}>
         <Text style={styles.rank}>{rank}</Text>
         <View style={styles.avatar}>
-          <Image source={avatar} style={styles.image} />
+          <Avatar src={avatar} style={styles.image} />
           <View>
             <Text style={styles.name}>{name}</Text>
             <Text style={styles.tier}>{tier}</Text>

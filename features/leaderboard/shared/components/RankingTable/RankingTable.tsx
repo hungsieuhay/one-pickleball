@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { Ranking } from '../../types';
 import { OtherRanking } from '../OtherRanking';
@@ -15,7 +15,7 @@ const RankingTable = ({ data }: RankingTableProps) => {
   const otherRankings = data.slice(3);
 
   if (!data.length) {
-    return;
+    return <Text>Không có dữ liệu</Text>;
   }
 
   return (

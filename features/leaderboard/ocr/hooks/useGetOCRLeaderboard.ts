@@ -3,9 +3,14 @@ import qs from 'qs';
 
 import OCRLeaderboardQueries from '../api/ocr-leaderboard.queries';
 
-const useGetOCRLeaderboard = (limit: number = 50) => {
+type Params = {
+  rank?: string;
+  limit?: number;
+};
+
+const useGetOCRLeaderboard = ({ rank = '', limit = 50 }: Params = {}) => {
   const queryString = qs.stringify({ limit });
-  return useQuery(OCRLeaderboardQueries.list(queryString));
+  return useQuery(OCRLeaderboardQueries.list(rank, queryString));
 };
 
 export default useGetOCRLeaderboard;
