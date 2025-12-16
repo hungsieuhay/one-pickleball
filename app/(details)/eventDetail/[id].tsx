@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import { EventCategory, EventInfoCard } from '@/types';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { Grid, GridItem } from '@/components/ui/Grid';
 
@@ -15,14 +15,28 @@ import { useThemedColors } from '@/hooks/use-theme';
 import tournamentService from '@/services/api/tournament.service';
 import { Image } from 'expo-image';
 import ImageView from 'react-native-image-viewing';
+import { formatCurrency } from '@/utils/format.utils';
+import { formatDate } from '@/utils/date.utils';
+import { useSession } from '@/contexts/AuthProvider';
+import { fetchWrapper } from '@/utils/fetch.utils';
+
+type JoinTournamentBody = {
+  athlete_name: string;
+  email: string;
+  phone: string;
+  category_id: number;
+}
 
 export default function EventDetailScreen() {
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isImageViewVisible, setIsImageViewVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(0);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const { id } = useLocalSearchParams<{ id: string }>();
   const colors = useThemedColors();
+  const { user } = useSession()
+
+
   const { status, data, isPending } = useQuery({
     queryKey: ['getTournamentById', id],
     queryFn: () => tournamentService.getTournamentById(id),
@@ -32,38 +46,50 @@ export default function EventDetailScreen() {
     queryKey: ['getCategories'],
     queryFn: () => tournamentService.getTournamentCategories(id),
   });
-
-  console.log(id);
-
-
+ const { mutate: joinTournament } = useMutation({
+    mutationFn: (data: JoinTournamentBody) => fetchWrapper(`/tournaments/${id}/register`, {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+  })
   if (status === 'pending') return <Text>Loading...</Text>;
 
   if (status === 'error') return;
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit' });
-  };
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
-  };
 
   const infoCards: EventInfoCard[] = [
     { icon: 'calendar', label: 'Thời gian', value: formatDate(data?.start_date) },
     { icon: 'map-marker', label: 'Địa điểm', value: data?.location || 'N/A' },
     { icon: 'human-male-female', label: 'Đã đăng ký', value: `${data?.participants_count}/${data?.max_participants}` },
-    { icon: 'star', label: 'Giải thưởng', value: formatPrice(data?.prizes || 0) },
+    { icon: 'star', label: 'Giải thưởng', value: formatCurrency(data?.prizes || 0) },
   ];
 
-  const categories: EventCategory[] = [
-    { name: 'Nam Đơn', count: '64 VĐV', icon: 'human-male' },
-    { name: 'Nữ Đơn', count: '48 VĐV', icon: 'human-female' },
-    { name: 'Đôi Nam', count: '32 cặp', icon: 'human-male-female' },
-    { name: 'Đôi Nữ', count: '24 cặp', icon: 'human-male-female' },
-    { name: 'Đôi Hỗn hợp', count: '28 cặp', icon: 'human-male-female' },
-  ];
+ 
 
+  const handleSumbit = () => {
+    if (!selectedCategory) return Alert.alert("Vui long chon hang dau")
+
+    if (user) {
+
+      const body = {
+        athlete_name: user.name,
+        email: user.email,
+        phone: user.phone,
+        category_id: selectedCategory
+      }
+
+      joinTournament(body, {
+        onSuccess: () => {
+          Alert.alert("dang ky thanh cong")
+        },
+        onError: (error) => {
+          console.log(error);
+          
+          Alert.alert("dang ky that bai")
+        }
+      })
+    }
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -167,16 +193,16 @@ export default function EventDetailScreen() {
 
             <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
               <Text style={[styles.sectionHeading, { color: colors.text }]}>Nội dung thi đấu</Text>
-              {Categories?.categories.map((fee, index) => {
-                const isSelected = selectedCategory === index;
+              {Categories?.categories.map((fee) => {
+                const isSelected = selectedCategory === fee.id;
                 return (
                   <Pressable
-                    key={index}
-                    onPress={() => setSelectedCategory(index)}
+                    key={fee.id}
+                    onPress={() => setSelectedCategory(fee.id)}
                     style={[
                       styles.feeItem,
                       { backgroundColor: colors.backgroundTertiary, borderColor: colors.border },
-                        isSelected && styles.feeItemFeatured,
+                      isSelected && styles.feeItemFeatured,
                     ]}
                   >
                     <View>
@@ -237,7 +263,7 @@ export default function EventDetailScreen() {
         <View style={styles.footerInfo}>
           <View>
             <Text style={[styles.priceLabel, { color: colors.textSecondary }]}>Từ</Text>
-            <Text style={styles.priceValue}>{formatPrice(data?.price || 0)}</Text>
+            <Text style={styles.priceValue}>{formatCurrency(data?.price || 0)}</Text>
           </View>
           <View style={styles.deadlineInfo}>
             <Ionicons name="time" size={18} color={colors.icon} />
@@ -246,7 +272,7 @@ export default function EventDetailScreen() {
             </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.registerBtn}>
+        <TouchableOpacity onPress={handleSumbit} style={styles.registerBtn}>
           <Text style={styles.registerBtnText}>Đăng ký ngay</Text>
         </TouchableOpacity>
       </View>

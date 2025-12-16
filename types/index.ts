@@ -8,7 +8,7 @@ export interface User {
   id: number; // id might be missing in the provided example, keeping optional or assuming it might come
   name: string;
   email: string;
-  phone?: string;
+  phone: string;
   role_type: string;
   status: string;
   elo_rating: number;

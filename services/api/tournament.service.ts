@@ -51,11 +51,23 @@ class TournamentService {
     }
 
     /**
-     * Update tournament
+     * post tournament
      */
-    async updateTournament(id: string, data: Partial<Tournament>): Promise<ApiResponse<Tournament>> {
-        return apiClient.put<Tournament>(`/tournaments/${id}`, data);
-    }
+    // async postTournament(data: CreateCategoryData): Promise<TournamentCategory> {
+    //     const response = await fetch('https://your-api.com/api/categories', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(data),
+    //     });
+
+    //     if (!response.ok) {
+    //         throw new Error('Failed to create category');
+    //     }
+
+    //     return response.json();
+    // }
 
     /**
      * Delete tournament
