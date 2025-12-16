@@ -8,7 +8,7 @@ export interface User {
   id: number; // id might be missing in the provided example, keeping optional or assuming it might come
   name: string;
   email: string;
-  phone?: string;
+  phone: string;
   role_type: string;
   status: string;
   elo_rating: number;
@@ -119,6 +119,11 @@ export interface PaginatedResponse<T> {
   page: number;
   pageSize: number;
   totalPages: number;
+}
+
+export interface CategoriesResponse<T> {
+  categories: T[];
+  success: string
 }
 
 // Form Types
@@ -457,9 +462,13 @@ export interface EventCategory {
 }
 
 export interface EventFeeItem {
-  name: string;
-  amount: string;
-  discount?: string;
+  id: number;
+  category_name: string;
+  category_type: string;
+  age_group: string;
+  max_participants: number;
+  status: string;
+  current_participants: number;
 }
 
 // ============================================

@@ -2,7 +2,7 @@
  * Tournament Service
  * API service for tournament-related operations
  */
-import { ApiResponse, PaginatedResponse, Tournament } from '@/types';
+import { ApiResponse, CategoriesResponse, EventFeeItem, PaginatedResponse, Tournament } from '@/types';
 
 import apiClient from './client';
 import qs from 'qs'
@@ -40,18 +40,34 @@ class TournamentService {
     }
 
     /**
-     * Create a new tournament
+     * Get categories
      */
-    async createTournament(data: Partial<Tournament>): Promise<ApiResponse<Tournament>> {
-        return apiClient.post<Tournament>('/tournaments', data);
+    async getTournamentCategories(id: string): Promise<CategoriesResponse<EventFeeItem>> {
+        const url = `${BASE_API_URL}/tournament/${id}/categories`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Failed to fetch: ${response.status}`);
+
+        return response.json();
     }
 
     /**
-     * Update tournament
+     * post tournament
      */
-    async updateTournament(id: string, data: Partial<Tournament>): Promise<ApiResponse<Tournament>> {
-        return apiClient.put<Tournament>(`/tournaments/${id}`, data);
-    }
+    // async postTournament(data: CreateCategoryData): Promise<TournamentCategory> {
+    //     const response = await fetch('https://your-api.com/api/categories', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify(data),
+    //     });
+
+    //     if (!response.ok) {
+    //         throw new Error('Failed to create category');
+    //     }
+
+    //     return response.json();
+    // }
 
     /**
      * Delete tournament

@@ -33,7 +33,7 @@ export const buildUrl = (url: string) => {
     return url;
   }
 
-  const base = AppConfig.api.standardBaseUrl.replace(/\/+$/, '');
+  const base = AppConfig.api.baseUrl.replace(/\/+$/, '');
   const path = url.replace(/^\/+/, '');
 
   return `${base}/${path}`;
