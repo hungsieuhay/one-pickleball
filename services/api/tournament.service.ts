@@ -2,11 +2,12 @@
  * Tournament Service
  * API service for tournament-related operations
  */
-import { ApiResponse, CategoriesResponse, EventFeeItem, PaginatedResponse, Tournament } from '@/types';
+import { ApiResponse, CategoriesResponse, EventFeeItem, GetUserTournamentResponse, PaginatedResponse, Tournament } from '@/types';
 
 import apiClient from './client';
 import qs from 'qs'
 import AppConfig from '@/config/app.config';
+import { fetchWrapper } from '@/utils/fetch.utils';
 
 const BASE_API_URL = AppConfig.api.baseUrl
 class TournamentService {
@@ -72,8 +73,8 @@ class TournamentService {
     /**
      * Delete tournament
      */
-    async deleteTournament(id: string): Promise<ApiResponse<void>> {
-        return apiClient.delete<void>(`/tournaments/${id}`);
+    async getUserTournament() {
+        return await fetchWrapper<GetUserTournamentResponse>("/user/tournaments");;
     }
 
     /**

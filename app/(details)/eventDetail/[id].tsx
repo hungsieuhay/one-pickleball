@@ -4,7 +4,7 @@ import { EventCategory, EventInfoCard } from '@/types';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Alert, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { Grid, GridItem } from '@/components/ui/Grid';
 
@@ -36,21 +36,29 @@ export default function EventDetailScreen() {
   const colors = useThemedColors();
   const { user } = useSession()
 
-
+  const queryClient = useQueryClient()
   const { status, data, isPending } = useQuery({
     queryKey: ['getTournamentById', id],
     queryFn: () => tournamentService.getTournamentById(id),
+  });
+
+  const { data: userTournament } = useQuery({
+    queryKey: ['getUserTournament'],
+    queryFn: () => tournamentService.getUserTournament(),
   });
 
   const { data: Categories } = useQuery({
     queryKey: ['getCategories'],
     queryFn: () => tournamentService.getTournamentCategories(id),
   });
- const { mutate: joinTournament } = useMutation({
+  const { mutate: joinTournament } = useMutation({
     mutationFn: (data: JoinTournamentBody) => fetchWrapper(`/tournaments/${id}/register`, {
       method: "POST",
       body: JSON.stringify(data),
     }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["getUserTournament"] })
+    }
   })
   if (status === 'pending') return <Text>Loading...</Text>;
 
@@ -64,7 +72,10 @@ export default function EventDetailScreen() {
     { icon: 'star', label: 'Giải thưởng', value: formatCurrency(data?.prizes || 0) },
   ];
 
- 
+  console.log(userTournament?.data);
+  const joined = userTournament?.data.some(item => String(item.tournament.id) === id)
+
+  console.log(joined);
 
   const handleSumbit = () => {
     if (!selectedCategory) return Alert.alert("Vui long chon hang dau")
@@ -84,7 +95,7 @@ export default function EventDetailScreen() {
         },
         onError: (error) => {
           console.log(error);
-          
+
           Alert.alert("dang ky that bai")
         }
       })
@@ -272,8 +283,12 @@ export default function EventDetailScreen() {
             </Text>
           </View>
         </View>
-        <TouchableOpacity onPress={handleSumbit} style={styles.registerBtn}>
-          <Text style={styles.registerBtnText}>Đăng ký ngay</Text>
+        <TouchableOpacity disabled={joined} onPress={handleSumbit} style={[styles.registerBtn, { opacity: joined ? 0.5 : 1 }]}>
+          {joined ? (
+            <Text style={styles.registerBtnText}>Đã Đăng ký ngay</Text>
+          ) : (
+            <Text style={styles.registerBtnText}>Đăng ký ngay</Text>
+          )}
         </TouchableOpacity>
       </View>
 

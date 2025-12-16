@@ -522,3 +522,26 @@ export type StandardAPIResponse<T> = {
   success: boolean;
   data: T;
 };
+
+
+export interface GetUserTournamentResponse {
+  success: boolean;
+  data: Array<{
+    registration_id: number;
+    status: string;
+    payment_status: string;
+    registered_at: string | null;
+    category: {
+      id: number;
+      name: string | null;
+    };
+    tournament: {
+      id: number;
+      name: string;
+      start_date: string;
+      end_date: string;
+      location: string;
+      status: boolean;
+    };
+  }>;
+}
