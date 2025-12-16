@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { EventCategory, EventFeeItem, EventInfoCard } from '@/types';
+import { EventCategory, EventInfoCard } from '@/types';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -20,12 +20,20 @@ export default function EventDetailScreen() {
   const [activeTab, setActiveTab] = useState<string>('overview');
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [isImageViewVisible, setIsImageViewVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(0);
   const { id } = useLocalSearchParams<{ id: string }>();
   const colors = useThemedColors();
   const { status, data, isPending } = useQuery({
     queryKey: ['getTournamentById', id],
     queryFn: () => tournamentService.getTournamentById(id),
   });
+
+  const { data: Categories } = useQuery({
+    queryKey: ['getCategories'],
+    queryFn: () => tournamentService.getTournamentCategories(id),
+  });
+
+  console.log(id);
 
 
   if (status === 'pending') return <Text>Loading...</Text>;
@@ -36,7 +44,6 @@ export default function EventDetailScreen() {
     const date = new Date(dateString);
     return date.toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit' });
   };
-  console.log(data?.image_url);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
@@ -57,12 +64,6 @@ export default function EventDetailScreen() {
     { name: 'Đôi Hỗn hợp', count: '28 cặp', icon: 'human-male-female' },
   ];
 
-  const fees: EventFeeItem[] = [
-    { name: 'Đơn Nam/Nữ', amount: '500.000đ' },
-    { name: 'Đôi Nam/Nữ', amount: '800.000đ/cặp' },
-    { name: 'Đôi Hỗn hợp', amount: '800.000đ/cặp' },
-    { name: 'Combo 2 hạng đấu', amount: '1.200.000đ', discount: '-20%' },
-  ];
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -143,7 +144,7 @@ export default function EventDetailScreen() {
               <Text style={[styles.descriptionText, { color: colors.textSecondary }]}>{data.description}</Text>
             </View>
 
-            <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
+            {/* <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
               <Text style={[styles.sectionHeading, { color: colors.text }]}>Hạng đấu</Text>
               <View style={styles.categoriesGrid}>
                 {categories.map((cat, index) => (
@@ -162,32 +163,32 @@ export default function EventDetailScreen() {
                   </View>
                 ))}
               </View>
-            </View>
+            </View> */}
 
             <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
-              <Text style={[styles.sectionHeading, { color: colors.text }]}>Lệ phí tham gia</Text>
-              {fees.map((fee, index) => (
-                <View
-                  key={index}
-                  style={[
-                    styles.feeItem,
-                    fee.discount && styles.feeItemFeatured,
-                    { backgroundColor: colors.backgroundTertiary, borderColor: colors.border },
-                  ]}
-                >
-                  <View>
-                    <Text style={[styles.feeName, { color: colors.text }]}>{fee.name}</Text>
-                  </View>
-                  <View style={styles.feeRight}>
-                    {fee.discount && (
-                      <View style={styles.feeBadge}>
-                        <Text style={styles.feeBadgeText}>{fee.discount}</Text>
-                      </View>
-                    )}
-                    <Text style={[styles.feeAmount, { color: colors.text }]}>{fee.amount}</Text>
-                  </View>
-                </View>
-              ))}
+              <Text style={[styles.sectionHeading, { color: colors.text }]}>Nội dung thi đấu</Text>
+              {Categories?.categories.map((fee, index) => {
+                const isSelected = selectedCategory === index;
+                return (
+                  <Pressable
+                    key={index}
+                    onPress={() => setSelectedCategory(index)}
+                    style={[
+                      styles.feeItem,
+                      { backgroundColor: colors.backgroundTertiary, borderColor: colors.border },
+                        isSelected && styles.feeItemFeatured,
+                    ]}
+                  >
+                    <View>
+                      <Text style={[styles.feeName, { color: colors.text }]}>{fee.category_name} ({fee.age_group})</Text>
+                    </View>
+                    <View style={styles.feeRight}>
+                      <Text style={[styles.feeAmount, { color: colors.text }]}>{fee.current_participants}/{fee.max_participants}</Text>
+                    </View>
+                  </Pressable>
+                )
+              })}
+
             </View>
 
             <View style={[styles.contentSection, { backgroundColor: colors.card }]}>
@@ -255,6 +256,8 @@ export default function EventDetailScreen() {
         imageIndex={0}
         visible={isImageViewVisible}
         onRequestClose={() => setIsImageViewVisible(false)}
+        doubleTapToZoomEnabled
+        animationType='slide'
       />
     </View>
   );

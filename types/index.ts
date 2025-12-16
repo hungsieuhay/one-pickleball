@@ -121,6 +121,11 @@ export interface PaginatedResponse<T> {
   totalPages: number;
 }
 
+export interface CategoriesResponse<T> {
+  categories: T[];
+  success: string
+}
+
 // Form Types
 export interface LoginForm {
   email: string;
@@ -457,9 +462,13 @@ export interface EventCategory {
 }
 
 export interface EventFeeItem {
-  name: string;
-  amount: string;
-  discount?: string;
+  id: number;
+  category_name: string;
+  category_type: string;
+  age_group: string;
+  max_participants: number;
+  status: string;
+  current_participants: number;
 }
 
 // ============================================

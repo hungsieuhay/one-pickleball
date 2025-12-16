@@ -186,9 +186,8 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
   },
   feeItemFeatured: {
-    backgroundColor: '#f0f9f8',
-    borderLeftWidth: 3,
-    borderLeftColor: '#00D9B5',
+    borderWidth: 2,
+    borderColor: '#00D9B5',
   },
   feeName: {
     fontSize: 14,
