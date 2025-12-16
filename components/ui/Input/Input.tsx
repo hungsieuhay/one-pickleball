@@ -80,8 +80,7 @@ const getStyles = ({ variant, color, radius }: StyleProps) =>
     },
     input: {
       flex: 1,
-      paddingVertical: Platform.OS === 'ios' ? 16 : 0,
-      paddingHorizontal: 16,
+      padding: 16,
       ...(variant === 'unstyled' && {
         paddingHorizontal: 0,
       }),
