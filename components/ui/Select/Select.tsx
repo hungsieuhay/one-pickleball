@@ -8,22 +8,30 @@ import { AppColors, Radius } from '@/constants/theme';
 
 import { useThemedColors } from '@/hooks/use-theme';
 
-import { BottomSheet } from '../BottomSheet';
+import { BottomSheet, BottomSheetProps } from '../BottomSheet';
 
 export type SelectOptions = {
   label: string;
   value: string;
 };
 
-type SelectProps = {
+export type SelectProps = {
   options: SelectOptions[];
   placeholder?: string;
   value?: string | null;
   onChangeValue?: (value: string | null) => void;
   renderLabel?: (label: string) => React.ReactNode;
-};
+} & Pick<BottomSheetProps, 'stylesFor' | 'fullSize'>;
 
-const Select = ({ value, options, placeholder = 'Chọn', onChangeValue, renderLabel }: SelectProps) => {
+const Select = ({
+  value,
+  options,
+  placeholder = 'Chọn',
+  fullSize = false,
+  onChangeValue,
+  renderLabel,
+  ...props
+}: SelectProps) => {
   const [visible, setVisible] = useState<boolean>(false);
   const [uncontrolledValue, setUncontrolledValue] = useState<string | null>(null);
 
@@ -46,20 +54,20 @@ const Select = ({ value, options, placeholder = 'Chọn', onChangeValue, renderL
     <>
       {/* Trigger */}
       <Pressable onPress={() => setVisible(true)} style={styles.trigger}>
-        <Text numberOfLines={1} ellipsizeMode="tail">
+        <Text numberOfLines={1} ellipsizeMode="tail" style={finalValue === null && styles.triggerText}>
           {finalValue === null ? placeholder : label}
         </Text>
       </Pressable>
 
       {/* Sheet */}
-      <BottomSheet visible={visible} onVisibleChange={setVisible}>
+      <BottomSheet visible={visible} onVisibleChange={setVisible} fullSize={fullSize} {...props}>
         {options.map((item) => {
           const isSelected = item.value === finalValue;
 
           return (
             <Pressable key={item.value} onPress={() => handleSelect(item.value)} style={styles.item}>
               <Text style={styles.label}>{renderLabel ? renderLabel(item.label) : item.label}</Text>
-              {isSelected && <MaterialIcons name="check-circle" style={styles.icon} />}
+              <MaterialIcons name="check-circle" style={[styles.icon, isSelected && styles.iconSelected]} />
             </Pressable>
           );
         })}
@@ -82,11 +90,15 @@ const getStyles = ({ colors }: StyleColorsProps) =>
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
+      paddingVertical: 8,
       paddingHorizontal: 16,
-      height: 56,
+      minHeight: 56,
       borderBottomWidth: 1,
       borderColor: colors.border,
       gap: 16,
+    },
+    triggerText: {
+      color: colors.textSecondary,
     },
     label: {
       flex: 1,
@@ -95,6 +107,10 @@ const getStyles = ({ colors }: StyleColorsProps) =>
       color: AppColors.primary,
       fontSize: 24,
       flexShrink: 0,
+      opacity: 0,
+    },
+    iconSelected: {
+      opacity: 1,
     },
   });
 
