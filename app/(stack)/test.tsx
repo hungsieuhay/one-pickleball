@@ -25,7 +25,7 @@ const TestScreen = () => {
 
   return (
     <View>
-      <Select options={options} value={value} onChangeValue={setValue} />
+      <Select options={options} value={value} onChangeValue={setValue} placeholder="123" />
     </View>
   );
 };

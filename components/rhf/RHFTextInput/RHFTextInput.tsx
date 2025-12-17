@@ -1,18 +1,14 @@
 import React from 'react';
 
 import { FieldValues } from 'react-hook-form';
-import { TextInputProps } from 'react-native';
 
-import { Input } from '@/components/ui/Input';
+import { Input, InputProps } from '@/components/ui/Input';
 
 import { FormWrapper } from '../FormWrapper';
 import { FormWrapperProps } from '../FormWrapper/FormWrapper';
 
 type RHFTextInputProps<T extends FieldValues> = FormWrapperProps<T> & {
-  input?: TextInputProps & {
-    startIcon?: React.ReactNode;
-    endIcon?: React.ReactNode;
-  };
+  input?: Omit<InputProps, 'onBlur' | 'onChangeText' | 'value'>;
 };
 
 const RHFTextInput = <T extends FieldValues>({ input, ...props }: RHFTextInputProps<T>) => {

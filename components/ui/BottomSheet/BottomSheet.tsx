@@ -15,7 +15,9 @@ import { AppColors, Radius, ThemeColor } from '@/constants/theme';
 
 import { useThemedColors } from '@/hooks/use-theme';
 
-type BottomSheetProps = {
+import { Portal } from '../Portal';
+
+export type BottomSheetProps = {
   visible: boolean;
   onVisibleChange: (visible: boolean) => void;
   children: React.ReactNode;
@@ -74,6 +76,8 @@ const BottomSheet = ({ visible, fullSize = false, stylesFor = {}, children, onVi
     if (visible) {
       scheduleOnRN(onVisibleChange, true);
       translateY.value = withTiming(0, timingConfig);
+    } else {
+      handleEnd();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
@@ -83,22 +87,24 @@ const BottomSheet = ({ visible, fullSize = false, stylesFor = {}, children, onVi
   }
 
   return (
-    <Animated.View exiting={SlideOutDown} style={styles.container}>
-      {/* Backdrop */}
-      <Pressable onPress={handleEnd} style={styles.backdrop} />
+    <Portal>
+      <View style={styles.container}>
+        {/* Backdrop */}
+        <Pressable onPress={handleEnd} style={styles.backdrop} />
 
-      {/* Modal */}
-      <Animated.View style={[styles.modal, animatedStyle]}>
-        <GestureDetector gesture={panGesture}>
-          <View style={styles.pull}>
-            <View style={[styles.pullIcon, stylesFor.pullIcon]}></View>
+        {/* Modal */}
+        <Animated.View exiting={SlideOutDown} style={[styles.modal, animatedStyle]}>
+          <GestureDetector gesture={panGesture}>
+            <View style={styles.pull}>
+              <View style={[styles.pullIcon, stylesFor.pullIcon]}></View>
+            </View>
+          </GestureDetector>
+          <View style={[styles.content, stylesFor.content]}>
+            <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
           </View>
-        </GestureDetector>
-        <View style={[styles.content, stylesFor.content]}>
-          <ScrollView showsVerticalScrollIndicator={false}>{children}</ScrollView>
-        </View>
-      </Animated.View>
-    </Animated.View>
+        </Animated.View>
+      </View>
+    </Portal>
   );
 };
 
@@ -114,7 +120,7 @@ const getStyles = ({ colors, fullSize }: StyleProps) =>
     backdrop: {
       position: 'absolute',
       inset: 0,
-      backgroundColor: 'transparent',
+      backgroundColor: 'rgba(0,0,0,0.5)',
     },
     modal: {
       position: 'absolute',
@@ -124,19 +130,20 @@ const getStyles = ({ colors, fullSize }: StyleProps) =>
       ...(fullSize && { top: 0 }),
     },
     pull: {
-      flexDirection: 'row',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      paddingVertical: 16,
+      paddingTop: 16,
+      paddingBottom: 24,
       borderTopLeftRadius: Radius.full,
       borderTopRightRadius: Radius.full,
       backgroundColor: colors.card,
       borderWidth: 1,
       borderColor: colors.border,
-      borderBottomWidth: 0,
+      borderBottomColor: colors.card,
     },
     pullIcon: {
-      width: '25%',
+      width: 64,
       height: 4,
       backgroundColor: AppColors.primary,
       borderRadius: Radius.full,
@@ -144,8 +151,8 @@ const getStyles = ({ colors, fullSize }: StyleProps) =>
     content: {
       flex: 1,
       backgroundColor: colors.card,
-      maxHeight: 512,
-      minHeight: 256,
+      ...(!fullSize && { maxHeight: 512 }),
+      minHeight: 384,
       paddingBottom: 16,
     },
   });

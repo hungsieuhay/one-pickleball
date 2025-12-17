@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { StatusBarWrapper } from '@/components/StatusBarWrapper';
 import { SplashScreenController } from '@/components/splash';
+import { PortalProvider } from '@/components/ui/Portal';
 
 import { ThemeProvider as CustomThemeProvider } from '@/contexts/ThemeContext';
 
@@ -19,15 +20,17 @@ const queryClient = new QueryClient();
 const RootProvider = ({ children }: RootProviderProps) => {
   return (
     <GestureHandlerRootView>
-      <SessionProvider>
-        <QueryClientProvider client={queryClient}>
-          <CustomThemeProvider>{children}</CustomThemeProvider>
-        </QueryClientProvider>
+      <PortalProvider>
+        <SessionProvider>
+          <QueryClientProvider client={queryClient}>
+            <CustomThemeProvider>{children}</CustomThemeProvider>
+          </QueryClientProvider>
 
-        {/* Global */}
-        <SplashScreenController />
-        <StatusBarWrapper />
-      </SessionProvider>
+          {/* Global */}
+          <SplashScreenController />
+          <StatusBarWrapper />
+        </SessionProvider>
+      </PortalProvider>
     </GestureHandlerRootView>
   );
 };
