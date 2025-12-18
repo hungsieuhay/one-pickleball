@@ -6,14 +6,15 @@ import { AppColors, Radius } from '@/constants/theme';
 
 import { useThemedColors } from '@/hooks/use-theme';
 
+type PaginationAlign = 'center' | 'left' | 'right';
+
 type PaginationProps = {
   currentPage: number;
   totalPages: number;
   siblingCount?: number;
   showControls?: boolean;
-  onPrevious?: (page: number) => void;
-  onNext?: (page: number) => void;
-  onClick?: (page: number) => void;
+  align?: PaginationAlign;
+  onPageChange?: (page: number) => void;
 };
 
 const DOT_VALUE = '...';
@@ -57,22 +58,23 @@ const Pagination = ({
   totalPages,
   siblingCount = 1,
   showControls = true,
-  onNext,
-  onPrevious,
-  onClick,
+  align = 'center',
+  onPageChange,
 }: PaginationProps) => {
   const paginationWithSiblings = getPaginationRange(currentPage, totalPages, siblingCount);
-  const styles = getStyles({ colors: useThemedColors() });
+  const styles = getStyles({ colors: useThemedColors(), align });
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         {showControls && (
-          <View style={[styles.item, currentPage === 1 && styles.disabled]}>
-            <Pressable onPress={() => onPrevious?.(currentPage - 1)} disabled={currentPage === 1}>
-              <MaterialIcons name="chevron-left" />
-            </Pressable>
-          </View>
+          <Pressable
+            disabled={currentPage === 1}
+            onPress={() => onPageChange?.(currentPage - 1)}
+            style={[styles.item, currentPage === 1 && styles.disabled]}
+          >
+            <MaterialIcons name="chevron-left" />
+          </Pressable>
         )}
 
         {paginationWithSiblings.map((page, index) => {
@@ -90,7 +92,7 @@ const Pagination = ({
           return (
             <Pressable
               key={index}
-              onPress={() => onClick?.(Number(page))}
+              onPress={() => onPageChange?.(Number(page))}
               style={[styles.item, isActive && styles.active]}
             >
               <Text style={isActive && styles.textActive}>{page}</Text>
@@ -99,21 +101,25 @@ const Pagination = ({
         })}
 
         {showControls && (
-          <View style={[styles.item, currentPage === totalPages && styles.disabled]}>
-            <Pressable onPress={() => onNext?.(currentPage + 1)} disabled={currentPage === totalPages}>
-              <MaterialIcons name="chevron-right" />
-            </Pressable>
-          </View>
+          <Pressable
+            disabled={currentPage === totalPages}
+            onPress={() => onPageChange?.(currentPage + 1)}
+            style={[styles.item, currentPage === totalPages && styles.disabled]}
+          >
+            <MaterialIcons name="chevron-right" />
+          </Pressable>
         )}
       </View>
     </View>
   );
 };
 
-const getStyles = ({ colors }: StyleColorsProps) =>
+const getStyles = ({ colors, align }: StyleColorsProps & { align: PaginationAlign }) =>
   StyleSheet.create({
     container: {
       flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: align === 'center' ? 'center' : align === 'left' ? 'flex-start' : 'flex-end',
     },
     content: {
       flexDirection: 'row',

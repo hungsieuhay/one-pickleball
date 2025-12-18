@@ -9,7 +9,7 @@ const TestScreen = () => {
 
   return (
     <View>
-      <Pagination currentPage={page} totalPages={10} onClick={setPage} onNext={setPage} onPrevious={setPage} />
+      <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
     </View>
   );
 };
