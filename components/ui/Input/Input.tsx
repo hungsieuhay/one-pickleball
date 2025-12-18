@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, TextInput, TextInputProps, View } from 'react-native';
+import { StyleSheet, TextInput, TextInputProps, TextStyle, View, ViewStyle } from 'react-native';
 
 import { ThemeColor } from '@/constants/theme';
 
@@ -15,6 +15,10 @@ export type InputProps = TextInputProps & {
   variant?: InputVariant;
   radius?: InputRadius;
   value?: string;
+  styleFor?: {
+    container?: ViewStyle;
+    input?: TextStyle;
+  };
   onChangeText?: (text: string) => void;
 };
 
@@ -30,6 +34,7 @@ const Input = ({
   startIcon,
   endIcon,
   value,
+  styleFor = {},
   onChangeText,
   ...props
 }: InputProps) => {
@@ -48,9 +53,9 @@ const Input = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styleFor.container]}>
       {startIcon && <View style={styles.startIcon}>{startIcon}</View>}
-      <TextInput value={finalValue} onChangeText={handleChange} {...props} style={styles.input} />
+      <TextInput value={finalValue} onChangeText={handleChange} {...props} style={[styles.input, styleFor.input]} />
       {endIcon && <View style={styles.endIcon}>{endIcon}</View>}
     </View>
   );
