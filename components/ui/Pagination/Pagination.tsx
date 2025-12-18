@@ -15,7 +15,7 @@ type PaginationProps = {
   showControls?: boolean;
   align?: PaginationAlign;
   onPageChange?: (page: number) => void;
-  style: ViewStyle;
+  style?: ViewStyle;
 };
 
 const DOT_VALUE = '...';
