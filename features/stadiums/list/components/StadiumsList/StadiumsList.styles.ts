@@ -1,7 +1,7 @@
 import { StyleColorsProps } from '@/types';
 import { StyleSheet } from 'react-native';
 
-import { AppColors, Radius, Shadows } from '@/constants/theme';
+import { AppColors, Radius } from '@/constants/theme';
 
 export const getStadiumListStyles = ({ colors }: StyleColorsProps) =>
   StyleSheet.create({
@@ -32,35 +32,22 @@ export const getStadiumListStyles = ({ colors }: StyleColorsProps) =>
       marginHorizontal: -4,
     },
     card: {
-      borderRadius: Radius.md,
+      borderRadius: 24,
       overflow: 'hidden',
       backgroundColor: colors.card,
-      ...Shadows.sm,
+      borderWidth: 1,
+      borderColor: colors.border,
     },
     image: {
-      aspectRatio: 16 / 9,
-      maxHeight: 256,
+      aspectRatio: 1 / 1,
+      maxHeight: 512,
     },
     body: {
       padding: 16,
-      gap: 4,
+      gap: 8,
     },
     separator: {
       height: 16,
-    },
-    name: {
-      fontSize: 18,
-      fontWeight: 500,
-      marginBottom: 4,
-    },
-    rating: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 8,
-    },
-    address: {
-      flexDirection: 'row',
-      gap: 8,
     },
     textItem: {
       flex: 1,
@@ -70,11 +57,6 @@ export const getStadiumListStyles = ({ colors }: StyleColorsProps) =>
     },
     iconTranslate: {
       transform: [{ translateY: 2 }],
-    },
-    time: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      gap: 8,
     },
     textSecondary: {
       color: colors.textSecondary,
@@ -87,17 +69,14 @@ export const getStadiumListStyles = ({ colors }: StyleColorsProps) =>
       marginTop: 4,
     },
     amenityItem: {
-      padding: 4,
-      paddingHorizontal: 8,
-      borderRadius: Radius.full,
-      backgroundColor: colors.input,
-      borderWidth: 1,
-      borderColor: colors.inputBorder,
+      padding: 6,
+      paddingHorizontal: 12,
+      borderRadius: 8,
+      backgroundColor: `${AppColors.primary}20`,
     },
     btn: {
-      marginTop: 16,
       padding: 16,
-      borderRadius: Radius.md,
+      borderRadius: Radius.full,
       backgroundColor: AppColors.primary,
       alignItems: 'center',
     },
@@ -109,5 +88,27 @@ export const getStadiumListStyles = ({ colors }: StyleColorsProps) =>
     // Pagination
     pagination: {
       paddingVertical: 16,
+    },
+    cardSeparator: {
+      height: 1,
+      marginVertical: 8,
+      backgroundColor: colors.border,
+      opacity: 0.5,
+    },
+    rating: {
+      position: 'absolute',
+      right: 16,
+      top: 16,
+      backgroundColor: AppColors.black,
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      borderRadius: Radius.full,
+    },
+    ratingIcon: {
+      color: AppColors.primary,
+      fontSize: 18,
+    },
+    ratingText: {
+      color: AppColors.white,
     },
   });
