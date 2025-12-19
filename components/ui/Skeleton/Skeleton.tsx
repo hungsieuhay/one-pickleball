@@ -17,7 +17,7 @@ interface SkeletonProps {
     style?: ViewStyle;
 }
 
-export function Skeleton({ width, height, borderRadius = 4, style }: SkeletonProps) {
+export default function Skeleton({ width, height, borderRadius = 4, style }: SkeletonProps) {
     const colors = useThemedColors();
     const opacity = useSharedValue(0.3);
 

@@ -2,7 +2,7 @@ import { styles as newsStyles } from '@/constants/styles/news.styles';
 import { useThemedColors } from '@/hooks/use-theme';
 import React from 'react';
 import { View } from 'react-native';
-import { Skeleton } from './Skeleton';
+import Skeleton from './Skeleton';
 
 export default function CardSkeleton() {
     const colors = useThemedColors();

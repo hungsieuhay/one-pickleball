@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 
-import { NewsComment, RelatedNewsItem } from '@/types';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import {
@@ -17,7 +16,6 @@ import { styles } from '@/constants/styles/newdetail.styles';
 
 import { createHtmlContent } from '@/components/createHtmlContent';
 import NewsCard from '@/components/NewsCard';
-import { Skeleton } from '@/components/ui/Skeleton/Skeleton';
 import { useThemedColors } from '@/hooks/use-theme';
 import newService from '@/services/api/new.service';
 import { formatDate } from '@/utils/date.utils';
@@ -70,53 +68,6 @@ export default function NewsDetailScreen() {
       console.error('Error parsing WebView message:', error);
     }
   };
-
-  const CommentItem = ({ item }: { item: NewsComment }) => (
-    <View style={styles.commentItem}>
-      <View style={[styles.commentAvatar, { backgroundColor: item.userColor }]}>
-        <Text style={styles.commentAvatarText}>{item.userInitials}</Text>
-      </View>
-      <View style={[styles.commentContent, { backgroundColor: colors.cardSecondary, borderColor: colors.border }]}>
-        <View style={styles.commentHeader}>
-          <View>
-            <Text style={[styles.commentUserName, { color: colors.text }]}>{item.userName}</Text>
-            <Text style={[styles.commentTime, { color: colors.textTertiary }]}>{item.time}</Text>
-          </View>
-          <TouchableOpacity style={styles.moreBtn}>
-            <Ionicons name="ellipsis-horizontal" size={16} color={colors.textTertiary} />
-          </TouchableOpacity>
-        </View>
-        <Text style={[styles.commentText, { color: colors.textSecondary }]}>{item.text}</Text>
-        <View style={styles.commentActions}>
-          <TouchableOpacity style={styles.commentAction}>
-            <Ionicons name="thumbs-up-outline" size={14} color={colors.textTertiary} />
-            <Text style={[styles.commentActionText, { color: colors.textTertiary }]}>{item.likes}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.commentAction}>
-            <Text style={[styles.commentActionText, { color: colors.textTertiary }]}>Trả lời</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
-
-  const RelatedNewsItem = ({ item }: { item: RelatedNewsItem }) => (
-    <TouchableOpacity
-      style={[styles.relatedNewsItem, { backgroundColor: colors.cardSecondary, borderColor: colors.border }]}
-    >
-      <View style={[styles.relatedNewsThumbnail, { backgroundColor: item.image as any }]} />
-      <View style={styles.relatedNewsContent}>
-        <View style={[styles.relatedNewsCategory, { backgroundColor: `${item.categoryColor}20` }]}>
-          <Text style={[styles.relatedNewsCategoryText, { color: item.categoryColor }]}>{item.category}</Text>
-        </View>
-        <Text style={[styles.relatedNewsTitle, { color: colors.text }]} numberOfLines={2}>
-          {item.title}
-        </Text>
-        <Text style={[styles.relatedNewsTime, { color: colors.textTertiary }]}>{item.time}</Text>
-      </View>
-      <Ionicons name="chevron-forward" size={20} color={colors.textTertiary} />
-    </TouchableOpacity>
-  );
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -235,25 +186,6 @@ export default function NewsDetailScreen() {
                 </View>
                 <View style={[styles.divider, { backgroundColor: colors.border }]} />
               </View>
-
-              {/* <View style={[styles.commentsSection, { backgroundColor: colors.card }]}>
-                <View style={styles.sectionHeader}>
-                  <Text style={[styles.sectionTitle, { color: colors.text, backgroundColor: colors.card }]}>
-                    Bình luận (24)
-                  </Text>
-                  <TouchableOpacity>
-                    <Ionicons name="filter" size={20} color="#00D9B5" />
-                  </TouchableOpacity>
-                </View>
-
-                {comments.map((comment) => (
-                  <CommentItem key={comment.id} item={comment} />
-                ))}
-
-                <TouchableOpacity style={styles.viewAllComments}>
-                  <Text style={styles.viewAllCommentsText}>Xem tất cả bình luận</Text>
-                </TouchableOpacity>
-              </View> */}
 
               <View style={[styles.relatedSection, { backgroundColor: colors.card }]}>
                 <Text style={[styles.sectionTitle, { color: colors.text }]}>Tin tức liên quan</Text>
