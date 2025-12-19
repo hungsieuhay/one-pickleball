@@ -46,7 +46,7 @@ export const Colors: ColorsType = {
     backgroundTertiary: '#f5f5f5',
     card: '#fff',
     cardSecondary: '#f9f9f9',
-    border: '#f0f0f0',
+    border: '#e0e0e0',
     borderSecondary: '#e0e0e0',
     tint: tintColorLight,
     icon: '#687076',

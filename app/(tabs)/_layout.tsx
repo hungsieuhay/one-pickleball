@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { Feather } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-import { IconSymbol } from '@/components/icon-symbol';
 
 import { Colors } from '@/constants/theme';
 
@@ -28,6 +26,10 @@ export default function TabLayout() {
           paddingBottom: insets.bottom,
           height: 60 + insets.bottom,
         },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          marginTop: 2,
+        },
         headerShown: false,
       }}
     >
@@ -35,35 +37,35 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Trang chủ',
-          tabBarIcon: ({ color }) => <IconSymbol size={24} name="house.fill" color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons size={24} name="home" color={color} />,
         }}
       />
       <Tabs.Screen
         name="stadiums"
         options={{
           title: 'Sân',
-          tabBarIcon: ({ color }) => <IconSymbol size={24} name="mappin.and.ellipse" color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons size={24} name="map" color={color} />,
         }}
       />
       <Tabs.Screen
         name="tournament"
         options={{
           title: 'Giải đấu',
-          tabBarIcon: ({ color }) => <Feather name="star" size={24} color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="tennis" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="news"
         options={{
           title: 'Tin tức',
-          tabBarIcon: ({ color }) => <IconSymbol size={24} name="bookmark.fill" color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons size={24} name="newspaper-variant" color={color} />,
         }}
       />
       <Tabs.Screen
         name="user"
         options={{
           title: 'Tôi',
-          tabBarIcon: ({ color }) => <IconSymbol size={24} name="person.fill" color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons size={24} name="account" color={color} />,
         }}
       />
     </Tabs>

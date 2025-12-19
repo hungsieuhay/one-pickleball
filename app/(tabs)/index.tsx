@@ -172,15 +172,9 @@ export default function HomeScreen() {
               <ActionCard
                 icon="grid"
                 label="Bảng xếp hạng OPRS"
-                color="#00D9B5"
+                color="#2196F3"
                 onPress={() => router.push('/leaderboard/oprs')}
               />
-            </GridItem>
-            <GridItem>
-              <ActionCard icon="grid" label="Test page" color="#00D9B5" onPress={() => router.push('/test')} />
-            </GridItem>
-            <GridItem>
-              <ActionCard icon="grid" label="Tìm sân" color="#00D9B5" onPress={() => handleActionPress('find-court')} />
             </GridItem>
             <GridItem>
               <ActionCard
@@ -188,14 +182,6 @@ export default function HomeScreen() {
                 label="Giải đấu"
                 color="#FF9800"
                 onPress={() => handleActionPress('tournament')}
-              />
-            </GridItem>
-            <GridItem>
-              <ActionCard
-                icon="timer"
-                label="Social Play"
-                color="#2196F3"
-                onPress={() => handleActionPress('social-play')}
               />
             </GridItem>
             <GridItem>

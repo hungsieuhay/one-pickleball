@@ -130,6 +130,7 @@ export const styles = StyleSheet.create({
   section: {
     paddingHorizontal: 16,
     marginBottom: 24,
+    gap: 16,
   },
   lastSection: {},
   sectionTitle: {

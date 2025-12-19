@@ -2,7 +2,9 @@ import React from 'react';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+
+import { Text } from '@/components/ui/Text';
 
 type ScreenHeaderProps = {
   title?: string;
@@ -23,7 +25,7 @@ const ScreenHeader = ({ title = '', showBack = true }: ScreenHeaderProps) => {
             <MaterialCommunityIcons name="arrow-left" style={styles.back} />
           </Pressable>
         )}
-        <Text style={styles.name}>{title}</Text>
+        <Text size="title">{title}</Text>
       </View>
       {/* <FontAwesome6 name="ranking-star" size={24} /> */}
     </View>
@@ -40,10 +42,6 @@ const styles = StyleSheet.create({
   left: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  name: {
-    fontWeight: 500,
-    fontSize: 18,
   },
   back: {
     transform: [{ translateY: 1 }],

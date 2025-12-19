@@ -3,14 +3,17 @@ import React, { useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { FlatList, Keyboard, Pressable, Text, View } from 'react-native';
+import { FlatList, Keyboard, Pressable, View } from 'react-native';
 
+import { Flex } from '@/components/ui/Flex';
 import { Input } from '@/components/ui/Input';
 import { Pagination } from '@/components/ui/Pagination';
+import { Text } from '@/components/ui/Text';
 
 import { useStadiums } from '@/features/stadiums/shared/hooks/useStadiums';
 
 import { useThemedColors } from '@/hooks/use-theme';
+import { useGetStyles } from '@/hooks/useGetStyles';
 
 import { getStadiumListStyles } from './StadiumsList.styles';
 
@@ -25,7 +28,7 @@ const StadiumsList = () => {
     search: searchSubmit,
   });
 
-  const styles = getStadiumListStyles({ colors });
+  const styles = useGetStyles(getStadiumListStyles);
 
   const handleSearch = () => {
     Keyboard.dismiss();
@@ -40,13 +43,15 @@ const StadiumsList = () => {
             value={search}
             onChangeText={setSearch}
             placeholder="Tìm theo tên ..."
-            startIcon={<MaterialCommunityIcons name="magnify" size={20} color={colors.icon} />}
+            startIcon={<MaterialCommunityIcons name="magnify" size={24} color={colors.icon} />}
             maxLength={50}
             size="sm"
           />
         </View>
-        <Pressable style={styles.searchButton} onPress={handleSearch}>
-          <Text>Tìm kiếm</Text>
+        <Pressable onPress={handleSearch} style={styles.searchButton}>
+          <Text color="primary" fontWeight={500}>
+            Tìm kiếm
+          </Text>
         </Pressable>
       </View>
 
@@ -60,46 +65,55 @@ const StadiumsList = () => {
           renderItem={({ item }) => (
             <View style={styles.card}>
               <Image source={item.image} contentFit="cover" style={styles.image} />
+
+              <Flex gap={4} style={styles.rating}>
+                <MaterialCommunityIcons name="star" style={styles.ratingIcon} />
+                <Text style={styles.ratingText} fontWeight={600}>
+                  {item.rating} ({item.rating_count})
+                </Text>
+              </Flex>
+
               <View style={styles.body}>
                 {/* Name */}
-                <Text style={styles.name}>{item.name}</Text>
-
-                {/* Rating */}
-                <View style={styles.rating}>
-                  <MaterialCommunityIcons name="star" size={16} color="#fbbc04" />
-                  <Text>{item.rating}/5</Text>
-                  <Text style={[styles.textSecondary, styles.textItem]}>({item.rating_count} đánh giá)</Text>
-                </View>
+                <Text size="subtitle">{item.name}</Text>
 
                 {/* Address */}
-                <View style={styles.address}>
+                <Flex gap={8} alignItems="flex-start">
                   <MaterialCommunityIcons
-                    name="map-marker-radius-outline"
+                    name="map-marker"
                     size={16}
                     style={[styles.iconSecondary, styles.iconTranslate]}
                   />
-                  <Text style={[styles.textSecondary, styles.textItem]}>{item.address}</Text>
-                </View>
+                  <Text color="secondary" style={styles.textItem}>
+                    {item.address}
+                  </Text>
+                </Flex>
 
                 {/* Time */}
-                <View style={styles.time}>
+                <Flex gap={8} alignItems="flex-start">
                   <MaterialCommunityIcons
-                    name="clock-time-four-outline"
+                    name="clock"
                     size={16}
                     color="black"
-                    style={styles.iconSecondary}
+                    style={[styles.iconSecondary, styles.iconTranslate]}
                   />
-                  <Text style={[styles.textSecondary, styles.textItem]}>{item.opening_hours}</Text>
-                </View>
+                  <Text color="secondary" style={styles.textItem}>
+                    {item.opening_hours}
+                  </Text>
+                </Flex>
 
                 {/* Amenities */}
                 <View style={styles.amenity}>
                   {item.amenities.map((amenity, index) => (
                     <View key={index} style={styles.amenityItem}>
-                      <Text style={styles.textSecondary}>{amenity}</Text>
+                      <Text color="primary" size="sm">
+                        {amenity}
+                      </Text>
                     </View>
                   ))}
                 </View>
+
+                <View style={styles.cardSeparator}></View>
 
                 {/* CTA */}
                 <Pressable
@@ -113,7 +127,7 @@ const StadiumsList = () => {
                     })
                   }
                 >
-                  <Text style={styles.btnText}>Chi tiết</Text>
+                  <Text style={styles.btnText}>Đặt sân</Text>
                 </Pressable>
               </View>
             </View>
