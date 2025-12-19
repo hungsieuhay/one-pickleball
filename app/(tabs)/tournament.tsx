@@ -17,6 +17,7 @@ import { formatCurrency } from '@/utils/format.utils';
 import { Image } from 'expo-image';
 import MyTournamentCard from '@/components/MyTournamentCard';
 import { Pagination } from '@/components/ui/Pagination';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 type TournamentStatus = 'ongoing' | 'upcoming' | 'completed';
 
@@ -104,7 +105,7 @@ const TournamentList = ({ status }: { status: TournamentStatus }) => {
       }),
   });
 
-  if (queryStatus === 'pending') return <Text>Loading...</Text>;
+  if (queryStatus === 'pending') return <CardSkeleton />;
 
   if (queryStatus === 'error') return null;
 
@@ -130,7 +131,7 @@ const MyTournamentList = () => {
     queryFn: () => tournamentService.getUserTournament(),
   });
 
-  if (queryStatus === 'pending') return <Text>Loading...</Text>;
+  if (queryStatus === 'pending') return  <CardSkeleton />;
 
   if (queryStatus === 'error') return null;
 

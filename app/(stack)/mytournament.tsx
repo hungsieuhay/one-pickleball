@@ -9,6 +9,7 @@ import { styles } from '@/constants/styles/tournament.styles';
 import { useThemedColors } from '@/hooks/use-theme';
 import tournamentService from '@/services/api/tournament.service';
 import { registration } from '@/types';
+import { CardSkeleton } from '@/components/ui/Skeleton';
 
 type FilterType = 'all' | 'pending' | 'approved' | 'completed' | 'cancelled';
 
@@ -87,9 +88,7 @@ export default function MyTournamentScreen() {
 
       {/* List */}
       {isLoading ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color={colors.tint} />
-        </View>
+        <CardSkeleton />
       ) : (
         <FlatList
           data={filteredTournaments}

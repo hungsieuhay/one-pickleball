@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { useThemedColors } from '@/hooks/use-theme';
-import { Skeleton } from '@/components/ui/Skeleton';
 import { styles } from '@/constants/styles/newdetail.styles';
+import { useThemedColors } from '@/hooks/use-theme';
+import React from 'react';
+import { View } from 'react-native';
+import Skeleton from './Skeleton';
 
 export default function DetailSkeleton() {
     const colors = useThemedColors();
