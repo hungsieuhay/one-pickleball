@@ -24,7 +24,7 @@ const TopRankingItem = ({ avatar, rank, name, point, tier }: LeaderboardItem) =>
           <Text style={styles.rankText}>{rank}</Text>
         </View>
       </View>
-      <Text ellipsizeMode="tail" numberOfLines={1} size="lg" fontWeight={500}>
+      <Text ellipsizeMode="tail" numberOfLines={2} size="lg" fontWeight={500} style={styles.name}>
         {name}
       </Text>
       <Text size="sm" color="secondary">
@@ -45,7 +45,7 @@ const TopRankingItemCenter = ({ avatar, rank, name, point, tier }: LeaderboardIt
           <Text style={centerStyles.rankText}>{rank}</Text>
         </View>
       </View>
-      <Text ellipsizeMode="tail" numberOfLines={1} size="lg" fontWeight={500}>
+      <Text ellipsizeMode="tail" numberOfLines={2} size="lg" fontWeight={500} style={styles.name}>
         {name}
       </Text>
       <Text size="sm" color="secondary">
@@ -58,7 +58,7 @@ const TopRankingItemCenter = ({ avatar, rank, name, point, tier }: LeaderboardIt
 
 const TopRanking = ({ data }: TopRankingProps) => {
   return (
-    <Grid columns={3}>
+    <Grid columns={3} gap={8}>
       {data.map((ranking) => (
         <GridItem key={ranking.rank}>
           {ranking.rank === 1 ? <TopRankingItemCenter {...ranking} /> : <TopRankingItem {...ranking} />}
@@ -104,6 +104,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 10,
     fontWeight: '600',
+  },
+  name: {
+    textAlign: 'center',
   },
 });
 
