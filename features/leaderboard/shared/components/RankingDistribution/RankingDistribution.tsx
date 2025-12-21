@@ -5,7 +5,7 @@ import { StyleSheet, View } from 'react-native';
 import { Grid, GridItem } from '@/components/ui/Grid';
 import { Text } from '@/components/ui/Text';
 
-import { Shadows, ThemeColors } from '@/constants/theme';
+import { ThemeColors } from '@/constants/theme';
 
 import { useThemedColors } from '@/hooks/use-theme';
 
@@ -29,19 +29,27 @@ const RankingDistribution = ({ data }: RankingDistributionProps) => {
           <GridItem key={item.rank}>
             <View style={styles.item}>
               <View style={styles.text}>
-                <Text style={styles.muted}>{leaderboardDistributionStatLabels.rank}</Text>
+                <Text color="secondary" size="sm">
+                  {leaderboardDistributionStatLabels.rank}
+                </Text>
                 <Text>{item.rank}</Text>
               </View>
               <View style={styles.text}>
-                <Text style={styles.muted}>{leaderboardDistributionStatLabels.playerCount}</Text>
+                <Text color="secondary" size="sm">
+                  {leaderboardDistributionStatLabels.playerCount}
+                </Text>
                 <Text>{item.playerCount}</Text>
               </View>
               <View style={styles.text}>
-                <Text style={styles.muted}>{leaderboardDistributionStatLabels.maxPoint}</Text>
+                <Text color="secondary" size="sm">
+                  {leaderboardDistributionStatLabels.maxPoint}
+                </Text>
                 <Text>{item.maxPoint}</Text>
               </View>
               <View style={styles.text}>
-                <Text style={styles.muted}>{leaderboardDistributionStatLabels.minPoint}</Text>
+                <Text color="secondary" size="sm">
+                  {leaderboardDistributionStatLabels.minPoint}
+                </Text>
                 <Text>{item.minPoint}</Text>
               </View>
             </View>
@@ -67,11 +75,7 @@ const getStyles = ({ colors }: { colors: ThemeColors }) =>
       borderColor: colors.border,
       borderRadius: 24,
       padding: 16,
-      ...Shadows['2xs'],
       backgroundColor: colors.card,
-    },
-    muted: {
-      color: colors.textSecondary,
     },
     text: {
       flexDirection: 'row',

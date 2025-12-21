@@ -1,11 +1,11 @@
-/* eslint-disable react-native/no-unused-styles */
 import React from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { Avatar } from '@/components/ui/Avatar';
+import { Text } from '@/components/ui/Text';
 
-import { AppColors, Radius, Shadows, ThemeColors } from '@/constants/theme';
+import { AppColors, Radius, ThemeColors } from '@/constants/theme';
 
 import { useThemedColors } from '@/hooks/use-theme';
 
@@ -23,15 +23,19 @@ const MyRanking = ({ avatar, point, name, tier }: LeaderboardItem) => {
           <View style={styles.avatar}>
             <Avatar src={avatar} size={48} />
             <View>
-              <Text style={styles.name}>{name}</Text>
-              <Text style={styles.tier}>{tier}</Text>
+              <Text size="h4">{name}</Text>
+              <Text size="sm" color="secondary">
+                {tier}
+              </Text>
             </View>
           </View>
         </View>
 
         {/* Right */}
         <View style={styles.right}>
-          <Text style={styles.point}>⭐ {point}</Text>
+          <Text size="sm" color="primary" style={styles.point}>
+            ⭐ {point}
+          </Text>
         </View>
       </View>
     </View>
@@ -47,7 +51,6 @@ const getStyles = ({ colors }: { colors: ThemeColors }) =>
       right: 20,
       borderRadius: 24,
       overflow: 'hidden',
-      ...Shadows['xs'],
     },
     item: {
       flexDirection: 'row',
@@ -69,22 +72,16 @@ const getStyles = ({ colors }: { colors: ThemeColors }) =>
       alignItems: 'center',
       gap: 8,
     },
-    name: {
-      fontSize: 16,
-      fontWeight: 500,
-    },
-    tier: {
-      color: colors.textSecondary,
-    },
     right: {
       borderRadius: Radius.full,
       overflow: 'hidden',
-      backgroundColor: colors.card,
-      ...Shadows['xs'],
     },
     point: {
       paddingHorizontal: 8,
       paddingVertical: 4,
+      backgroundColor: colors.card,
+      borderWidth: 1,
+      borderColor: colors.card,
     },
   });
 

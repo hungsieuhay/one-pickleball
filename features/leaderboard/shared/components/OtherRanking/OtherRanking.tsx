@@ -1,12 +1,12 @@
-/* eslint-disable react-native/no-unused-styles */
 import React from 'react';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { Avatar } from '@/components/ui/Avatar';
 import { Grid, GridItem } from '@/components/ui/Grid';
+import { Text } from '@/components/ui/Text';
 
-import { AppColors, Radius, Shadows, ThemeColors } from '@/constants/theme';
+import { AppColors, Radius, Rounded, ThemeColors } from '@/constants/theme';
 
 import { useThemedColors } from '@/hooks/use-theme';
 
@@ -27,27 +27,29 @@ const OtherRankingItem = ({ avatar, rank, name, tier, point }: LeaderboardItem) 
         <View style={styles.avatar}>
           <Avatar src={avatar} size={48} />
           <View style={styles.info}>
-            <Text ellipsizeMode="tail" numberOfLines={1} style={styles.name}>
+            <Text ellipsizeMode="tail" numberOfLines={2} size="h4">
               {name}
             </Text>
-            <Text style={styles.tier}>{tier}</Text>
+            <Text size="sm" color="secondary">
+              {tier}
+            </Text>
           </View>
         </View>
       </View>
 
       {/* Right */}
       <View style={styles.right}>
-        <Text style={styles.elo}>⭐ {point}</Text>
+        <Text style={styles.elo} color="primary" size="sm">
+          ⭐ {point}
+        </Text>
       </View>
     </View>
   );
 };
 
 const OtherRanking = ({ data }: OtherRankingProps) => {
-  const styles = getStyles({ colors: useThemedColors() });
-
   return (
-    <Grid columns={1} gap={8} style={styles.container}>
+    <Grid columns={1} gap={8}>
       {data.map((ranking) => (
         <GridItem key={ranking.rank}>
           <OtherRankingItem {...ranking} />
@@ -59,18 +61,14 @@ const OtherRanking = ({ data }: OtherRankingProps) => {
 
 const getStyles = ({ colors }: { colors: ThemeColors }) =>
   StyleSheet.create({
-    container: {
-      backgroundColor: colors.card,
-    },
     item: {
       flex: 1,
       flexDirection: 'row',
       alignItems: 'center',
       borderWidth: 1,
       borderColor: colors.border,
-      borderRadius: 24,
+      borderRadius: Rounded.lg,
       padding: 16,
-      ...Shadows['2xs'],
       backgroundColor: colors.card,
       gap: 16,
     },
@@ -92,20 +90,11 @@ const getStyles = ({ colors }: { colors: ThemeColors }) =>
       gap: 8,
       flex: 1,
     },
-    name: {
-      fontSize: 16,
-      fontWeight: 500,
-    },
-    tier: {
-      color: colors.textSecondary,
-    },
     right: {
       borderWidth: 1,
       borderColor: AppColors.primary,
       borderRadius: Radius.full,
       overflow: 'hidden',
-      ...Shadows['2xs'],
-      backgroundColor: colors.card,
     },
     elo: {
       paddingHorizontal: 8,

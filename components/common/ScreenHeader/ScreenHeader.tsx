@@ -18,7 +18,6 @@ const ScreenHeader = ({ title = '', showBack = true }: ScreenHeaderProps) => {
         {showBack && (
           <Pressable
             onPress={() => {
-              console.log('Back');
               router.back();
             }}
           >

@@ -33,7 +33,7 @@ const getStyles = ({ colors }: { colors: ThemeColors }) =>
       flex: 1,
       paddingBottom: 96,
       paddingHorizontal: 16,
-      backgroundColor: colors.background,
+      backgroundColor: colors.backgroundSecondary,
     },
   });
 
