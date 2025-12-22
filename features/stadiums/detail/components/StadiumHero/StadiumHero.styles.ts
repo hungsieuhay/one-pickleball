@@ -5,4 +5,11 @@ export const stadiumHeroStyles = StyleSheet.create({
     aspectRatio: 4 / 3,
     maxHeight: 384,
   },
+  action: {
+    padding: 16,
+  },
+  iconContainer: {
+    backgroundColor: 'rgb(255 255 255 / 0.1)',
+    borderColor: 'rgb(255 255 255 / 0.1)',
+  },
 });
