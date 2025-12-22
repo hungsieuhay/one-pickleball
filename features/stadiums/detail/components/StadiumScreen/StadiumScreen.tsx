@@ -3,6 +3,8 @@ import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { ScrollView, View } from 'react-native';
 
+import { StadiumSkeleton } from '@/components/ui/Skeleton';
+
 import { useStadium } from '@/features/stadiums/shared/hooks/useStadium';
 
 import { useThemedColors } from '@/hooks/use-theme';
@@ -15,7 +17,6 @@ import { StadiumHero } from '../StadiumHero';
 import { StadiumMap } from '../StadiumMap';
 import { StadiumRibbon } from '../StadiumRibbon';
 import { getStadiumScreenStyles } from './StadiumScreen.styles';
-import { StadiumSkeleton } from '@/components/ui/Skeleton';
 
 const StadiumScreen = () => {
   const { stadiumId } = useLocalSearchParams<{ stadiumId: string }>();
@@ -29,7 +30,7 @@ const StadiumScreen = () => {
   }
 
   if (status === 'error') {
-    return;
+    return null;
   }
 
   return (
@@ -41,7 +42,7 @@ const StadiumScreen = () => {
           <StadiumHeader {...data.data} />
           <StadiumAmenities items={data.data.amenities} />
           <StadiumCourts items={data.data.courts} />
-          <StadiumMap {...data.data} />
+          <StadiumMap link={data.data.maps_link} />
         </View>
       </ScrollView>
       <StadiumFooter courts={data.data.courts} />
