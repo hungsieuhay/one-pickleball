@@ -1,21 +1,16 @@
 import React from 'react';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { View } from 'react-native';
-import z from 'zod';
 
-import { RHFProvider } from '@/components/rhf/RHFProvider';
+import { RHFLayout } from '@/components/rhf/RHFLayout';
 import { RHFSelect } from '@/components/rhf/RHFSelect';
 import { SelectOption } from '@/components/ui/Select';
 
 import { useGetStyles } from '@/hooks/useGetStyles';
 
+import { BookingFormType } from '../../types';
 import { getBookingFormStyles } from './BookingForm.styles';
-
-const bookingSchema = z.object({
-  court_id: z.string().nullable(),
-});
 
 type BookingFormProps = {
   courts: SelectOption[];
@@ -26,29 +21,19 @@ const BookingForm = ({ courts }: BookingFormProps) => {
 
   const {
     control,
-    handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(bookingSchema),
-    defaultValues: {
-      court_id: null,
-    },
-  });
-
-  const onSubmit = handleSubmit((data) => {
-    console.log('🚀 ~ data: ', data);
-  });
+  } = useFormContext<BookingFormType>();
 
   return (
     <View style={styles.container}>
-      <RHFProvider>
+      <RHFLayout>
         <RHFSelect
           controller={{ control: control, name: 'court_id', message: errors.court_id?.message }}
           select={{ options: courts }}
           label="Chọn sân"
           withAsterisk
         />
-      </RHFProvider>
+      </RHFLayout>
     </View>
   );
 };

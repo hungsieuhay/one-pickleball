@@ -2,11 +2,11 @@ import React from 'react';
 
 import { StyleSheet, View } from 'react-native';
 
-type RHFProviderProps = {
+type RHFLayoutProps = {
   children: React.ReactNode;
 };
 
-const RHFProvider = ({ children }: RHFProviderProps) => {
+const RHFLayout = ({ children }: RHFLayoutProps) => {
   return <View style={styles.container}>{children}</View>;
 };
 
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RHFProvider;
+export default RHFLayout;

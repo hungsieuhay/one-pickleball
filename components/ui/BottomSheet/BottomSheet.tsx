@@ -11,7 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
-import { AppColors, Radius, ThemeColors } from '@/constants/theme';
+import { Radius, ThemeColors } from '@/constants/theme';
 
 import { useThemedColors } from '@/hooks/use-theme';
 
@@ -143,13 +143,12 @@ const getStyles = ({ colors, fullSize }: StyleProps) =>
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      paddingTop: 16,
-      paddingBottom: 24,
+      paddingVertical: 16,
     },
     pullIcon: {
       width: 64,
-      height: 4,
-      backgroundColor: AppColors.primary,
+      height: 6,
+      backgroundColor: colors.muted,
       borderRadius: Radius.full,
     },
     content: {

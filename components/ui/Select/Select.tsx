@@ -82,9 +82,9 @@ const getStyles = ({ colors }: StyleColorsProps) =>
       paddingVertical: 12,
       paddingHorizontal: 16,
       borderWidth: 1,
-      borderColor: colors.inputBorder,
+      borderColor: colors.border,
       borderRadius: Radius.md,
-      backgroundColor: colors.input,
+      backgroundColor: colors.card,
     },
     item: {
       flexDirection: 'row',
@@ -94,7 +94,7 @@ const getStyles = ({ colors }: StyleColorsProps) =>
       paddingHorizontal: 16,
       minHeight: 56,
       borderBottomWidth: 1,
-      borderColor: colors.border,
+      borderBottomColor: colors.border,
       gap: 16,
     },
     triggerText: {
