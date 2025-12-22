@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useLocalSearchParams } from 'expo-router';
+import { FormProvider } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 
 import { SelectOption } from '@/components/ui/Select';
@@ -9,6 +10,7 @@ import { useStadium } from '@/features/stadiums/shared/hooks/useStadium';
 
 import { useGetStyles } from '@/hooks/useGetStyles';
 
+import { useBookingForm } from '../../hooks/useBookingForm';
 import { BookingFooter } from '../BookingFooter';
 import { BookingForm } from '../BookingForm';
 import { BookingHeader } from '../BookingHeader';
@@ -18,6 +20,8 @@ const BookingScreen = () => {
   const { stadiumId } = useLocalSearchParams<{ stadiumId: string }>();
 
   const { data, status } = useStadium(stadiumId);
+
+  const form = useBookingForm();
 
   const styles = useGetStyles(getBookingScreenStyles);
 
@@ -36,11 +40,13 @@ const BookingScreen = () => {
 
   return (
     <View style={styles.container}>
-      <BookingHeader />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <BookingForm courts={courts} />
-      </ScrollView>
-      <BookingFooter />
+      <FormProvider {...form}>
+        <BookingHeader />
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <BookingForm courts={courts} />
+        </ScrollView>
+        <BookingFooter />
+      </FormProvider>
     </View>
   );
 };

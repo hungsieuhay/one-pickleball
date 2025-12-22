@@ -17,8 +17,8 @@ import {
 } from 'react-native';
 import { z } from 'zod';
 
+import { RHFLayout } from '@/components/rhf/RHFLayout';
 import { RHFPassword } from '@/components/rhf/RHFPassword';
-import { RHFProvider } from '@/components/rhf/RHFProvider';
 import { RHFTextInput } from '@/components/rhf/RHFTextInput';
 
 import { styles } from '@/constants/styles/login.styles';
@@ -93,7 +93,7 @@ export default function LoginScreen() {
             <Text style={[styles.subtitle, { color: colors.textSecondary }]}>Đăng nhập để tiếp tục</Text>
           </View>
 
-          <RHFProvider>
+          <RHFLayout>
             <RHFTextInput
               controller={{
                 control: control,
@@ -129,7 +129,7 @@ export default function LoginScreen() {
             >
               <Text style={styles.buttonText}>{loading ? 'Đang đăng nhập...' : 'Đăng nhập'}</Text>
             </Pressable>
-          </RHFProvider>
+          </RHFLayout>
 
           <View style={styles.divider}>
             <View style={[styles.dividerLine, { backgroundColor: colors.border }]} />

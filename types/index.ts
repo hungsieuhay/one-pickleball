@@ -143,14 +143,6 @@ export interface RegisterForm {
   phone?: string;
 }
 
-export interface BookingForm {
-  courtId: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  notes?: string;
-}
-
 // ============================================
 // Theme & Context Types
 // ============================================
@@ -275,11 +267,11 @@ export interface NewsApiResponse {
     current_page: number;
     from: number;
     last_page: number;
-    links: Array<{
+    links: {
       url: string | null;
       label: string;
       active: boolean;
-    }>;
+    }[];
     path: string;
     per_page: number;
     to: number;
@@ -606,7 +598,7 @@ export type registration = {
 };
 
 export interface TournamentApiResponse {
-  data: Array<{
+  data: {
     id: number;
     name: string;
     description: string | null;
@@ -626,7 +618,7 @@ export interface TournamentApiResponse {
     user_id: number;
     created_at: string;
     updated_at: string;
-  }>;
+  }[];
   links: {
     first: string;
     last: string;
@@ -637,11 +629,11 @@ export interface TournamentApiResponse {
     current_page: number;
     from: number;
     last_page: number;
-    links: Array<{
+    links: {
       url: string | null;
       label: string;
       active: boolean;
-    }>;
+    }[];
     path: string;
     per_page: number;
     to: number;
