@@ -10,36 +10,24 @@ import { StadiumDetailResponse } from '@/features/stadiums/shared/types';
 
 import { useGetStyles } from '@/hooks/useGetStyles';
 
-import { buildStadiumMapUrl } from '../../utils/buildStadiumMapUrl';
-import { extractLatLngStringFromGoogleMapEmbed } from '../../utils/extractLatLngStringFromGoogleMapEmbed';
 import { getStadiumMapStyles } from './StadiumMap.styles';
 
-type StadiumMapProps = StadiumDetailResponse['data'];
+type StadiumMapProps = {
+  link: StadiumDetailResponse['data']['maps_link'];
+};
 
-const StadiumMap = ({ latitude, longitude, maps_address }: StadiumMapProps) => {
+const StadiumMap = ({ link }: StadiumMapProps) => {
   const styles = useGetStyles(getStadiumMapStyles);
 
-  const extractedAddress = extractLatLngStringFromGoogleMapEmbed(maps_address);
-
-  const handleOpenMap = () => {
-    const finalLat = latitude ?? extractedAddress?.lat;
-    const finalLng = longitude ?? extractedAddress?.lng;
-
-    if (!finalLat || !finalLng) return;
-
-    const url = buildStadiumMapUrl(finalLat, finalLng);
-    Linking.openURL(url);
-  };
-
-  if (!extractedAddress && (!latitude || !longitude)) {
-    return;
+  if (!link) {
+    return null;
   }
 
   return (
     <View style={styles.container}>
       <Image source={require('@/assets/images/map.png')} style={styles.map} />
 
-      <Pressable onPress={handleOpenMap} style={styles.button}>
+      <Pressable onPress={() => Linking.openURL(link)} style={styles.button}>
         <MaterialCommunityIcons name="map" style={styles.buttonIcon} />
         <Text fontWeight={500}>Xem bản đồ</Text>
       </Pressable>

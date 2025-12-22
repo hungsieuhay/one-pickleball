@@ -5,6 +5,7 @@ export type StadiumListResponse = {
     description: string | null;
     address: string;
     maps_address: string | null;
+    maps_link: string | null;
     phone: string;
     email: string;
     website: string | null;
@@ -65,7 +66,8 @@ export type StadiumDetailResponse = {
     name: string;
     description: string | null;
     address: string;
-    maps_address: string;
+    maps_address: string | null;
+    maps_link: string | null;
     phone: string;
     email: string;
     website: string | null;

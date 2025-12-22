@@ -128,7 +128,7 @@ const StadiumsList = () => {
 
                 {/* CTA */}
                 <Button
-                  variant="light"
+                  variant="filled"
                   onPress={() =>
                     router.navigate({
                       pathname: '/(details)/stadiums/[stadiumId]',
