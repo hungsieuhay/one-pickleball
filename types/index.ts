@@ -279,13 +279,6 @@ export interface NewsApiResponse {
   };
 }
 
-export interface NewsCategory {
-  id: string;
-  name: string;
-  icon: string;
-  color: string;
-}
-
 export interface NewsComment {
   id: string;
   userName: string;
@@ -640,3 +633,20 @@ export interface TournamentApiResponse {
     total: number;
   };
 }
+export interface NewsCategory {
+  id: number;
+  name: string;
+  slug: string;
+  description: string | null;
+  icon: string | null;
+  status: boolean;
+  order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CategoryResponse {
+  success: boolean;
+  data: NewsCategory[];
+}
+
