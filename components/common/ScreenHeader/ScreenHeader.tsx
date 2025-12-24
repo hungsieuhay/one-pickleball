@@ -4,6 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { Pressable, View, ViewStyle } from 'react-native';
 
+import { Flex } from '@/components/ui/Flex';
 import { Text } from '@/components/ui/Text';
 
 import { useGetStyles } from '@/hooks/useGetStyles';
@@ -15,6 +16,7 @@ type ScreenHeaderProps = {
   showBack?: boolean;
   withBorder?: boolean;
   paddingHorizontal?: number;
+  rightSection?: React.ReactNode;
   styleOverrides?: {
     container?: ViewStyle;
   };
@@ -25,22 +27,26 @@ const ScreenHeader = ({
   styleOverrides = {},
   withBorder = true,
   showBack = true,
+  rightSection,
   title = '',
 }: ScreenHeaderProps) => {
   const styles = useGetStyles(getScreenHeaderStyles, { withBorder, paddingHorizontal });
 
   return (
     <View style={[styles.container, styleOverrides.container]}>
-      {showBack && (
-        <Pressable
-          onPress={() => {
-            router.back();
-          }}
-        >
-          <MaterialCommunityIcons name="arrow-left" style={styles.back} />
-        </Pressable>
-      )}
-      <Text size="h2">{title}</Text>
+      <Flex>
+        {showBack && (
+          <Pressable
+            onPress={() => {
+              router.back();
+            }}
+          >
+            <MaterialCommunityIcons name="arrow-left" style={styles.back} />
+          </Pressable>
+        )}
+        <Text size="h2">{title}</Text>
+      </Flex>
+      {rightSection}
     </View>
   );
 };

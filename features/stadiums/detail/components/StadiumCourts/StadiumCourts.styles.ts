@@ -16,8 +16,8 @@ export const getStadiumCourtsStyles = ({ colors }: StyleColorsProps) =>
       padding: 16,
       borderRadius: 24,
       borderWidth: 1,
-      borderColor: colors.inputBorder,
-      backgroundColor: colors.background,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
     },
     left: {
       flex: 1,

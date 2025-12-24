@@ -13,6 +13,7 @@ export const getScreenHeaderStyles = ({ colors, withBorder, paddingHorizontal }:
     container: {
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'space-between',
       height: TOP_BAR_HEIGHT,
       paddingHorizontal: paddingHorizontal,
       ...(withBorder && {

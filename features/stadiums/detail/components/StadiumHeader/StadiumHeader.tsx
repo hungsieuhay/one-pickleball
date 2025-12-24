@@ -6,6 +6,7 @@ import { Alert, Linking, Pressable, View } from 'react-native';
 import { Badge } from '@/components/ui/Badge';
 import { Flex } from '@/components/ui/Flex';
 import { Grid, GridItem } from '@/components/ui/Grid';
+import { Separator } from '@/components/ui/Separator';
 import { Text } from '@/components/ui/Text';
 
 import { StadiumDetailResponse } from '@/features/stadiums/shared/types';
@@ -116,7 +117,7 @@ const StadiumHeader = ({
           </Flex>
           <Text style={styles.cardItemText}>{address}</Text>
         </Flex>
-        <View style={styles.cardDivider}></View>
+        <Separator marginVertical={16} />
         <Flex gap={16}>
           <Flex justifyContent="center" style={styles.cardIcon}>
             <MaterialCommunityIcons name="clock" style={styles.cardItemIcon} />

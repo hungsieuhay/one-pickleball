@@ -33,7 +33,7 @@ const HomeUser = () => {
     <View style={styles.container}>
       {/* Corner */}
       <View style={styles.corner}></View>
-      
+
       {/* Avatar */}
       <Flex justifyContent="center">
         <View style={styles.avatar}>
@@ -106,14 +106,14 @@ const HomeUser = () => {
           </Text>
           <Text size="h3">{user.challenge_score}</Text>
         </Flex>
-        <Separator orientation="vertical" />
+        <Separator orientation="vertical" opacity={0.2} />
         <Flex direction="column" style={styles.oprItem}>
           <Text size="h5" color="secondary" textTransform="uppercase">
             Cộng đồng
           </Text>
-          <Text size="h3">{user.community_score}</Text>
+          <Text size="h2">{user.community_score}</Text>
         </Flex>
-        <Separator orientation="vertical" />
+        <Separator orientation="vertical" opacity={0.2} />
         <Flex direction="column" style={styles.oprItem}>
           <Text size="h5" color="secondary" textTransform="uppercase">
             Tổng OPRS

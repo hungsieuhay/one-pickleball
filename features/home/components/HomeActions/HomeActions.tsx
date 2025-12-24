@@ -82,6 +82,7 @@ const HomeActions = () => {
                   <Icon
                     size="lg"
                     variant={isActive ? 'outline' : 'light'}
+                    onPress={() => router.navigate(item.href)}
                     {...(!isActive && {
                       styleOverrides: {
                         container: {

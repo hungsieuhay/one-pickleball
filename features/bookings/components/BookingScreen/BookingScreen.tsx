@@ -3,12 +3,13 @@ import React, { useState } from 'react';
 import { FormProvider } from 'react-hook-form';
 import { ScrollView, View } from 'react-native';
 
+import { ScreenHeader } from '@/components/common/ScreenHeader';
+
 import { useGetStyles } from '@/hooks/useGetStyles';
 
 import { useBookingForm } from '../../hooks/useBookingForm';
 import { BookingFooter } from '../BookingFooter';
 import { BookingForm } from '../BookingForm';
-import { BookingHeader } from '../BookingHeader';
 import { getBookingScreenStyles } from './BookingScreen.styles';
 
 const BookingScreen = () => {
@@ -20,7 +21,7 @@ const BookingScreen = () => {
   return (
     <View style={styles.container}>
       <FormProvider {...form}>
-        <BookingHeader />
+        <ScreenHeader title="Đặt sân" />
         <ScrollView showsVerticalScrollIndicator={false}>
           <BookingForm step={step} />
         </ScrollView>
