@@ -1,3 +1,6 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import { Href } from 'expo-router';
+
 export type HomeProfileResponse = {
   success: boolean;
   user: {
@@ -19,4 +22,13 @@ export type HomeProfileResponse = {
     created_at: string;
     updated_at: string;
   };
+};
+
+export type HomeAction = {
+  label: string;
+  icon: keyof typeof MaterialIcons.glyphMap;
+  backgroundColor: string;
+  primaryColor: string;
+  active: boolean;
+  href: Href;
 };
