@@ -22,7 +22,7 @@ export default function NewsCard(item: NewsArticle) {
                 })
             }
         >
-            <View style={[styles.newsCardInner, { backgroundColor: colors.backgroundSecondary, borderColor: colors.border }]}>
+            <View style={[styles.newsCardInner, { backgroundColor: colors.card, borderColor: colors.border }]}>
                 <View style={[styles.newsThumbnail]}>
                     <Image style={styles.featuredImage} source={item.image} />
                 </View>

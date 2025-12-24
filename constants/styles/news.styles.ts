@@ -90,7 +90,8 @@ export const styles = StyleSheet.create({
     lineHeight: 22,
   },
   categoriesWrapper: {
-    paddingBottom: 16,
+    paddingBottom: 8,
+    borderBottomWidth: 1
   },
   categoriesScroll: {
     paddingHorizontal: 16,

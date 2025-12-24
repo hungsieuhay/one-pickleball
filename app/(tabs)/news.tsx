@@ -70,7 +70,7 @@ const NewsPage = () => {
         />
       </View>
 
-      <View style={styles.categoriesWrapper}>
+      <View style={[styles.categoriesWrapper, { borderColor: colors.border }]}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoriesContent}>
 
           <Chip checked={"" === activeCategory}

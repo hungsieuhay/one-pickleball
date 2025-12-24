@@ -218,7 +218,8 @@ const styles = StyleSheet.create({
     },
     metaRow: {
         flexDirection: 'row',
-        gap: 4
+        gap: 4,
+        alignItems: 'center',
     },
     metaText: {
         fontSize: 14,
