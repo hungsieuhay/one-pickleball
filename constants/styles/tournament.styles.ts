@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-    gap: 24
+    gap: 16
   },
   section: {
     paddingHorizontal: 16,
@@ -132,7 +132,6 @@ export const styles = StyleSheet.create({
   myTournamentCard: {
     padding: 16,
     borderRadius: Radius.lg,
-    marginBottom: 12,
     borderWidth: 1,
     borderColor: AppColors.gray100,
     ...Shadows.sm,

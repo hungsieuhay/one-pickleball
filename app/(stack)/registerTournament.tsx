@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import z from 'zod';
 
 import { RHFLayout } from '@/components/rhf/RHFLayout';
@@ -17,6 +17,7 @@ import { useThemedColors } from '@/hooks/use-theme';
 
 import { fetchWrapper } from '@/utils/fetch.utils';
 import { formatCurrency } from '@/utils/format.utils';
+import { Text } from '@/components/ui/Text';
 
 type JoinTournamentBody = {
   athlete_name: string;
@@ -119,7 +120,7 @@ export default function RegisterTournament() {
   });
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.background }]}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <Ionicons name="chevron-back" size={28} color={colors.text} />
@@ -247,7 +248,7 @@ export default function RegisterTournament() {
           )}
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
