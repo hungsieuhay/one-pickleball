@@ -10,8 +10,8 @@ export const TOAST_DURATION = 3000;
 
 export const MATCH_DATA: MatchData = {
   id: 3,
-  status: 'completed',
-  isCompleted: true,
+  status: 'in_progress',
+  isCompleted: false,
   bestOf: 3,
   gameMode: 'doubles',
   tournament: {

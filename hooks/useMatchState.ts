@@ -230,7 +230,7 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
 
   const clearEventLog = useCallback(() => {
     setEventLog([]);
-    showToast('', 'Da xoa lich su');
+    showToast('', 'Đã xoá lịch sử');
   }, [showToast]);
 
   const recordEvent = useCallback(
@@ -337,8 +337,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
         return { ...prev, team: newTeam };
       });
       recordEvent('side_out', serving.team === 'left' ? 'right' : 'left');
-      addEvent('[SWITCH] Side-out!');
-      showToast('[SWITCH]', 'Side-out - Doi quyen giao');
+      addEvent('Swtich Side-out!');
+      showToast('Swtich', 'Side-out - Đổi quyền giao');
     } else {
       if (serving.isFirstServeOfGame) {
         const newTeam = serving.team === 'left' ? 'right' : 'left';
@@ -350,8 +350,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
           isFirstServeOfGame: false,
         });
         recordEvent('side_out', newTeam);
-        addEvent('[SWITCH] Side-out!');
-        showToast('[SWITCH]', 'Side-out - Doi quyen giao');
+        addEvent('Swtich Side-out!');
+        showToast('Swtich', 'Side-out - Đổi quyền giao');
       } else if (serving.serverNumber === 1) {
         setServing((prev) => ({
           ...prev,
@@ -359,8 +359,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
           serverIndex: prev.serverIndex === 0 ? 1 : 0,
         }));
         recordEvent('server_change', serving.team, { serverNumber: 2 });
-        addEvent('[2] Chuyen sang Server 2');
-        showToast('[2]', 'Chuyen Server 2');
+        addEvent('[2] Chuyển sang Server 2');
+        showToast('[2]', 'Chuyển Server 2');
       } else {
         const newTeam = serving.team === 'left' ? 'right' : 'left';
         const score = teams[newTeam].score;
@@ -373,8 +373,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
           isFirstServeOfGame: false,
         });
         recordEvent('side_out', newTeam);
-        addEvent('[SWITCH] Side-out!');
-        showToast('[SWITCH]', 'Side-out - Doi quyen giao');
+        addEvent('Swtich Side-out!');
+        showToast('Swtich', 'Side-out - Đổi quyền giao');
       }
     }
   }, [gameMode, serving, teams, getPlayerIndexOnSide, recordEvent, addEvent, showToast]);
@@ -396,8 +396,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
     if (teams.left.score === 6 || teams.right.score === 6) {
       setHasSwitchedSidesInDecidingGame(true);
       performSideSwitch();
-      addEvent('[SWITCH] Doi san o game quyet dinh (6 diem)');
-      showToast('[SWITCH]', 'Doi san - Game quyet dinh!');
+      addEvent('Swtich Đổi sân ở game quyết định (6 diem)');
+      showToast('Swtich', 'Đổi sân - Game quyết định!');
     }
   }, [
     isDecidingGame,
@@ -413,7 +413,7 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
   const rallyWon = useCallback(
     (winningTeam: TeamSide) => {
       if (status !== 'playing') {
-        showToast('[!]', 'Vui long bat dau tran dau!');
+        showToast('[!]', 'Vui lòng bắt đầu trận đấu!');
         return;
       }
 
@@ -433,7 +433,7 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
         }
 
         recordEvent('rally_won', winningTeam, { scored: true });
-        addEvent(`[+] +1 diem cho ${teams[winningTeam].name}`);
+        addEvent(`+1 điểm cho ${teams[winningTeam].name}`);
 
         // Check after state update
         globalThis.setTimeout(() => {
@@ -475,14 +475,14 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
         },
       }));
       recordEvent('score', team, { delta });
-      addEvent(`[EDIT] ${delta > 0 ? '+' : ''}${delta} diem cho ${teams[team].name} (dieu chinh)`);
+      addEvent(`[EDIT] ${delta > 0 ? '+' : ''}${delta} điểm cho ${teams[team].name} (điều chỉnh)`);
     },
     [teams, saveHistory, recordEvent, addEvent]
   );
 
   const undo = useCallback(() => {
     if (history.length === 0) {
-      showToast('[X]', 'Khong co thao tac de hoan tac');
+      showToast('[X]', 'Không có thao tác để hoàn tác');
       return;
     }
 
@@ -501,8 +501,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
     });
 
     recordEvent('undo', null);
-    addEvent('[UNDO] Hoan tac thao tac truoc');
-    showToast('[UNDO]', 'Da hoan tac');
+    addEvent('Hoàn tác thao tác trước');
+    showToast('', 'Đã hoàn tác');
   }, [history, recordEvent, addEvent, showToast]);
 
   const recordFault = useCallback(() => {
@@ -510,7 +510,7 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
     saveHistory();
     recordEvent('fault', serving.team);
     handleSideOut();
-    addEvent('[X] Loi giao bong');
+    addEvent('Lỗi giao bóng');
   }, [status, serving.team, saveHistory, recordEvent, handleSideOut, addEvent]);
 
   const manualSwitchServer = useCallback(() => {
@@ -524,15 +524,15 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
     recordEvent('server_change', serving.team, {
       serverNumber: serving.serverNumber === 1 ? 2 : 1,
     });
-    addEvent(`[SWITCH] Doi sang Server ${serving.serverNumber === 1 ? 2 : 1}`);
-    showToast('[SWITCH]', `Da doi sang Server ${serving.serverNumber === 1 ? 2 : 1}`);
+    addEvent(`Swtich Đổi sang Server ${serving.serverNumber === 1 ? 2 : 1}`);
+    showToast('Swtich', `Đã đổi sang Server ${serving.serverNumber === 1 ? 2 : 1}`);
   }, [status, gameMode, serving, saveHistory, recordEvent, addEvent, showToast]);
 
   const switchSides = useCallback(() => {
     saveHistory();
     performSideSwitch();
-    addEvent('[SWITCH] Doi vi tri san');
-    showToast('[SWITCH]', 'Da doi san cho 2 doi');
+    addEvent('Swtich Đổi vị trí sân');
+    showToast('Swtich', 'Đã đổi sân cho 2 đội');
   }, [saveHistory, performSideSwitch, addEvent, showToast]);
 
   const startMatch = useCallback(
@@ -555,8 +555,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
 
       startTimer();
       recordEvent('match_start', serving.team);
-      addEvent('[BALL] Tran dau bat dau!');
-      showToast('[BALL]', 'Tran dau da bat dau!');
+      addEvent(' Trận đấu bắt đầu!');
+      showToast('', 'Trận đấu đã bắt đầu!');
     },
     [gameMode, serving.team, startTimer, recordEvent, addEvent, showToast]
   );
@@ -567,13 +567,13 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
     if (status === 'paused') {
       setStatus('playing');
       startTimer();
-      addEvent('[PLAY] Tiep tuc');
-      showToast('[PLAY]', 'Tiep tuc tran dau');
+      addEvent(' Tiếp tục');
+      showToast('', 'Tiếp tục trận đấu');
     } else {
       setStatus('paused');
       stopTimer();
-      addEvent('[PAUSE] Tam dung');
-      showToast('[PAUSE]', 'Tran dau tam dung');
+      addEvent('Tạm dừng');
+      showToast('', 'Trận đấu tạm dừng');
     }
   }, [status, startTimer, stopTimer, addEvent, showToast]);
 
@@ -621,7 +621,7 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
     const leftScore = teams.left.score;
     const rightScore = teams.right.score;
 
-    let winner = 'Hoa';
+    let winner = 'Hoà';
     const newTeams = { ...teams };
     if (leftScore > rightScore) {
       winner = teams.left.name;
@@ -645,8 +645,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
       leftScore,
       rightScore,
     });
-    addEvent(`[TROPHY] Game ${currentGame}: ${winner} thang!`);
-    showToast('[TROPHY]', `${winner} thang Game ${currentGame}!`);
+    addEvent(` Game ${currentGame}: ${winner} thắng!`);
+    showToast('', `${winner} thắng Game ${currentGame}!`);
 
     // Sync events
     const eventsToSync = [...pendingEventsRef.current];
@@ -667,8 +667,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
       const winnerId = newTeams.left.gamesWon >= winsNeeded ? newTeams.left.athleteId : newTeams.right.athleteId;
       setStatus('finished');
       stopTimer();
-      addEvent(`[CROWN] TRẠN ĐẤU KẾT THÚC: ${matchWinner} CHIEN THANG!`);
-      showToast('[CROWN]', `${matchWinner} thang tran dau!`);
+      addEvent(`TRẬN ĐẤU KẾT THÚC: ${matchWinner} CHIẾN THẮNG!`);
+      showToast('', `${matchWinner} thắng trận đấu!`);
 
       const finalScoreParts = newGameScores.map((g) => `${g.athlete1}-${g.athlete2}`);
       const finalScore = `${newTeams.left.gamesWon}-${newTeams.right.gamesWon} (${finalScoreParts.join(', ')})`;
@@ -707,7 +707,7 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
     (team: TeamSide) => {
       const remaining = team === 'left' ? timeout.leftRemaining : timeout.rightRemaining;
       if (remaining <= 0) {
-        showToast('[X]', `${teams[team].name} da het timeout!`);
+        showToast('', `${teams[team].name} đã hết timeout!`);
         return;
       }
 
@@ -723,9 +723,9 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
 
       recordEvent('timeout', team);
       addEvent(
-        `[TIMER] ${teams[team].name} goi timeout (con ${
+        `${teams[team].name} gọi timeout (còn ${
           (team === 'left' ? timeout.leftRemaining : timeout.rightRemaining) - 1
-        } lan)`
+        } lần)`
       );
     },
     [timeout, teams, stopTimer, recordEvent, addEvent, showToast]
@@ -739,8 +739,8 @@ export function useMatchState(timer: number, startTimer: () => void, stopTimer: 
       remaining: TIMEOUT_DURATION,
     }));
     startTimer();
-    addEvent('[PLAY] Tiep tuc sau timeout');
-    showToast('[PLAY]', 'Tiep tuc tran dau');
+    addEvent('Tiếp tục sau timeout');
+    showToast('', 'Tiếp tục trận đấu');
   }, [startTimer, addEvent, showToast]);
 
   const setSelectedServerIndex = useCallback((index: number) => {

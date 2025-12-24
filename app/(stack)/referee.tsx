@@ -40,7 +40,7 @@ export const RefereeScreen: React.FC = () => {
     eventLog,
     timeout,
     toast,
-    isMatchCompleted,
+    isMatchCompleted = false,
     matchData,
     scoreCall,
     matchWinnerName,
@@ -200,7 +200,7 @@ export const RefereeScreen: React.FC = () => {
 
         {/* Main Content */}
         <ScrollView style={styles.mainContent} contentContainerStyle={styles.scrollContent}>
-          {!isMatchCompleted ? (
+          {isMatchCompleted ? (
             renderCompletedResults()
           ) : (
             <>
