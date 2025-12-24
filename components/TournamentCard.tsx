@@ -30,7 +30,7 @@ const TournamentCard = ({ tournament }: TournamentCardProps) => {
                 };
             case 'ongoing':
                 return {
-                    label: 'Đang nhận đăng ký',
+                    label: 'Đang Đang diễn ra',
                     color: '#d97706', // orange-600
                     bgColor: '#ffedd5', // orange-100
                     borderColor: '#fed7aa', // orange-200

@@ -29,7 +29,7 @@ const statuses: Status[] = [
     value: 'upcoming',
   },
   {
-    label: 'Đang nhận đăng ký',
+    label: 'Đang diễn ra',
     value: 'ongoing',
   },
   {
