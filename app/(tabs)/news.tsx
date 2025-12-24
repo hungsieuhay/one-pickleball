@@ -81,7 +81,7 @@ const NewsPage = () => {
           ))}
         </ScrollView>
       </View>
-      <FlatList
+      {isPending ? <CardSkeleton /> : <FlatList
         data={data?.data}
         refreshControl={
           <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
@@ -99,7 +99,8 @@ const NewsPage = () => {
         ListFooterComponent={
           data?.data ? <Pagination currentPage={Number(data?.meta.current_page)} totalPages={Number(data?.meta.last_page)} onPageChange={setPage} /> : null
         }
-      />
+      />}
+
     </View>
   );
 };

@@ -4,7 +4,7 @@ import { EventInfoCard } from '@/types';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
-import { Alert, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 
 import { Grid, GridItem } from '@/components/ui/Grid';
 import { EventDetailSkeleton } from '@/components/ui/Skeleton';
@@ -20,6 +20,7 @@ import { fetchWrapper } from '@/utils/fetch.utils';
 import { formatCurrency } from '@/utils/format.utils';
 import { Image } from 'expo-image';
 import ImageView from 'react-native-image-viewing';
+import { Text } from '@/components/ui/Text';
 
 type JoinTournamentBody = {
   athlete_name: string;
@@ -131,7 +132,7 @@ export default function EventDetailScreen() {
             <View style={[styles.statusDot, { backgroundColor: !isExpired ? '#00D9B5' : '#FF6B6B' }]} />
             <Text style={[styles.statusText, { color: !isExpired ? '#00D9B5' : '#FF6B6B' }]}>{!isExpired ? 'Đang mở đăng ký' : 'Đã đóng đăng ký'}</Text>
           </View>
-          <Text style={[styles.title, { color: colors.text }]}>{data?.name}</Text>
+          <Text size='h1'>{data?.name}</Text>
         </View>
 
         <Grid columns={2} gap={8} style={styles.infoCardsGrid}>

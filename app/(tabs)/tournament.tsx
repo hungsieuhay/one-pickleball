@@ -2,7 +2,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { FlatList, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 
 import TournamentCard from '@/components/TournamentCard';
 import { Pagination } from '@/components/ui/Pagination';
@@ -11,6 +11,8 @@ import { styles } from '@/constants/styles/tournament.styles';
 import { AppColors, Radius } from '@/constants/theme';
 import { useThemedColors } from '@/hooks/use-theme';
 import tournamentService from '@/services/api/tournament.service';
+import { Text } from '@/components/ui/Text';
+
 
 type TournamentStatus = 'ongoing' | 'upcoming' | 'completed';
 

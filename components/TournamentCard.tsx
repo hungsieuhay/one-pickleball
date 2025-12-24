@@ -2,13 +2,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 
 import { AppColors, Radius } from '@/constants/theme';
 import { useThemedColors } from '@/hooks/use-theme';
 import { Tournament } from '@/types';
 import { formatDate } from '@/utils/date.utils';
 import { formatCurrency } from '@/utils/format.utils';
+import { Text } from './ui/Text';
 
 interface TournamentCardProps {
     tournament: Tournament;
@@ -102,7 +103,7 @@ const TournamentCard = ({ tournament }: TournamentCardProps) => {
 
             <View style={styles.content}>
                 <View style={styles.header}>
-                    <Text style={[styles.title, { color: colors.text }]} numberOfLines={2}>
+                    <Text size='h3' numberOfLines={2}>
                         {tournament.name}
                     </Text>
                     <View style={styles.metaRow}>
@@ -132,7 +133,7 @@ const TournamentCard = ({ tournament }: TournamentCardProps) => {
                         </Text>
                     </View>
 
-                    {tournament.status === 'ongoing' ? (
+                    {tournament.status === 'upcoming' ? (
                         <Pressable style={[styles.button, styles.buttonOutline]} onPress={handlePress}>
                             <Text style={styles.buttonTextOutline}>Đăng ký</Text>
                         </Pressable>

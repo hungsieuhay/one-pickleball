@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { NewsArticle } from '@/types'
 import { styles } from '@/constants/styles/news.styles'
@@ -7,6 +7,8 @@ import { Image } from 'expo-image'
 import { formatDate } from '@/utils/date.utils'
 import { Ionicons } from '@expo/vector-icons'
 import { useThemedColors } from '@/hooks/use-theme'
+import { Badge } from './ui/Badge'
+import { Text } from './ui/Text'
 
 export default function NewsCard(item: NewsArticle) {
     const colors = useThemedColors();
@@ -26,11 +28,9 @@ export default function NewsCard(item: NewsArticle) {
                 </View>
 
                 <View style={styles.newsContent}>
-                    {/* <View style={[styles.categoryBadge,{backgroundColor: '#2196F3'}]}>
-            <Text style={[styles.categoryBadgeText]}>a</Text>
-          </View> */}
+                    {item.category_id ? <Badge color='primary' size='sm' radius='sm' >{item.category?.name}</Badge> : null}
 
-                    <Text style={[styles.newsTitle, { color: colors.text }]} numberOfLines={2}>
+                    <Text size='h5' numberOfLines={2}>
                         {item.title}
                     </Text>
 
