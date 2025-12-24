@@ -15,7 +15,7 @@ export const getStadiumMapStyles = ({ colors }: StyleColorsProps) =>
     button: {
       paddingVertical: 12,
       paddingHorizontal: 16,
-      backgroundColor: colors.background,
+      backgroundColor: colors.card,
       borderRadius: Radius.full,
       position: 'absolute',
       top: '50%',

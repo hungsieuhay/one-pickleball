@@ -33,8 +33,8 @@ const getStyles = ({ colors }: { colors: ThemeColors }) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      paddingBottom: 144,
-      backgroundColor: colors.backgroundSecondary,
+      paddingBottom: 160,
+      backgroundColor: colors.background,
     },
     body: {
       paddingHorizontal: 16,

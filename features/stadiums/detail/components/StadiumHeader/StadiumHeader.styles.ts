@@ -16,8 +16,8 @@ export const getStadiumHeaderStyles = ({ colors }: StyleColorsProps) =>
     contact: {
       borderRadius: Radius.full,
       borderWidth: 1,
-      borderColor: colors.inputBorder,
-      backgroundColor: colors.background,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
       paddingVertical: 16,
       paddingHorizontal: 16,
     },
@@ -29,8 +29,8 @@ export const getStadiumHeaderStyles = ({ colors }: StyleColorsProps) =>
     card: {
       borderRadius: 32,
       borderWidth: 1,
-      borderColor: colors.inputBorder,
-      backgroundColor: colors.background,
+      borderColor: colors.border,
+      backgroundColor: colors.card,
       padding: 24,
     },
     cardIcon: {
@@ -46,17 +46,12 @@ export const getStadiumHeaderStyles = ({ colors }: StyleColorsProps) =>
     cardItemText: {
       flex: 1,
     },
-    cardDivider: {
-      height: 1,
-      marginVertical: 16,
-      backgroundColor: colors.border,
-    },
     ratingIcon: {
       fontSize: 20,
       color: '#FFC107',
     },
     ratingAction: {
-      backgroundColor: colors.backgroundTertiary,
+      backgroundColor: colors.secondary,
       paddingHorizontal: 16,
       paddingVertical: 8,
       borderRadius: Radius.full,

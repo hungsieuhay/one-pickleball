@@ -48,7 +48,6 @@ const StadiumsList = () => {
             placeholder="Nhập tên sân ..."
             startIcon={<MaterialCommunityIcons name="magnify" size={24} color={colors.icon} />}
             maxLength={50}
-            size="sm"
           />
         </View>
         <Button
