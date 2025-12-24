@@ -2,12 +2,12 @@ import { HomeAction } from '../types';
 
 export const homeActions: HomeAction[] = [
   {
-    label: 'Tìm trận đấu',
+    label: 'Trọng tài',
     icon: 'search',
     backgroundColor: '#3b82f620',
     primaryColor: '#3b82f6',
     active: false,
-    href: '/',
+    href: '/(stack)/referee',
   },
   {
     label: 'Tạo trận đấu',
