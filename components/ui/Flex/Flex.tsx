@@ -7,6 +7,7 @@ type FlexProps = {
   justifyContent?: ViewStyle['justifyContent'];
   direction?: ViewStyle['flexDirection'];
   alignItems?: ViewStyle['alignItems'];
+  flex?: ViewStyle['flex'];
   wrap?: ViewStyle['flexWrap'];
   gap?: number;
 } & ViewProps;
@@ -16,6 +17,7 @@ type GetStylesProps = {
   direction: ViewStyle['flexDirection'];
   alignItems: ViewStyle['alignItems'];
   wrap: ViewStyle['flexWrap'];
+  flex?: ViewStyle['flex'];
   gap: number;
 };
 
@@ -27,9 +29,10 @@ const Flex = ({
   justifyContent = 'flex-start',
   wrap = 'nowrap',
   gap = 8,
+  flex,
   ...props
 }: FlexProps) => {
-  const styles = getStyles({ gap, direction, alignItems, justifyContent, wrap });
+  const styles = getStyles({ gap, direction, alignItems, justifyContent, wrap, flex });
 
   return (
     <View style={[styles.container, style]} {...props}>
@@ -38,7 +41,7 @@ const Flex = ({
   );
 };
 
-const getStyles = ({ gap, direction, alignItems, justifyContent, wrap }: GetStylesProps) =>
+const getStyles = ({ gap, direction, alignItems, justifyContent, wrap, flex }: GetStylesProps) =>
   StyleSheet.create({
     container: {
       flexDirection: direction,
@@ -47,6 +50,7 @@ const getStyles = ({ gap, direction, alignItems, justifyContent, wrap }: GetStyl
       justifyContent,
       alignItems,
       gap,
+      flex,
     },
   });
 

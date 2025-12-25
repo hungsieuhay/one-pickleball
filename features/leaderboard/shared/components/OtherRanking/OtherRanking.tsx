@@ -22,7 +22,7 @@ const OtherRankingItem = ({ avatar, rank, name, tier, point }: LeaderboardItem) 
   const styles = getStyles({ colors: useThemedColors() });
 
   return (
-    <Card padding={24} radius="lg" style={styles.item}>
+    <Card radius="xl" padding={24} style={styles.item}>
       {/* Left */}
       <View style={styles.left}>
         <Text style={styles.rank}>{rank}</Text>

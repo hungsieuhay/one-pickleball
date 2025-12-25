@@ -73,7 +73,7 @@ const StadiumHeader = ({
 
       <Flex>
         <MaterialCommunityIcons name="tennis" style={styles.courtsIcon} />
-        <Text color="secondary" size="sm">
+        <Text color="muted" size="sm">
           {courts.length} sân tiêu chuẩn
         </Text>
       </Flex>
@@ -105,13 +105,13 @@ const StadiumHeader = ({
         </GridItem>
       </Grid>
 
-      <Card padding={24} radius="xl" style={styles.card}>
+      <Card radius="xl" padding={24} style={styles.card}>
         <Flex direction="column" alignItems="flex-start" gap={4}>
           <Flex gap={4}>
             <Text size="h2">{rating}</Text>
             <MaterialCommunityIcons name="star" style={styles.ratingIcon} />
           </Flex>
-          <Text color="secondary" size="sm">
+          <Text color="muted" size="sm">
             {rating_count} lượt đánh giá
           </Text>
         </Flex>
@@ -120,7 +120,7 @@ const StadiumHeader = ({
         </Text>
       </Card>
 
-      <Card padding={24} radius="xl">
+      <Card radius="xl" padding={24}>
         <Flex gap={16}>
           <Icon variant="light">
             <MaterialCommunityIcons name="map-marker" size={20} />

@@ -11,4 +11,10 @@ export const bookingQueries = {
       queryFn: () => bookingAPI.getAvailableSlots(courtId!, filters),
       enabled: !!courtId,
     }),
+  histories: () => [...bookingQueries.all(), 'histories'],
+  history: (filters: string) =>
+    queryOptions({
+      queryKey: [...bookingQueries.histories(), filters],
+      queryFn: () => bookingAPI.getHistories(filters),
+    }),
 };

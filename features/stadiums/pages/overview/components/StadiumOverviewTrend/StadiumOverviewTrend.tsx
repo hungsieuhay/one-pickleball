@@ -51,12 +51,7 @@ const StadiumOverviewTrend = () => {
 
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {stadiums.map((stadium, index) => (
-          <Card
-            key={stadium.id}
-            padding={16}
-            radius="xl"
-            style={[styles.card, index < stadiums.length - 1 && styles.cardGap]}
-          >
+          <Card key={stadium.id} padding={16} style={[styles.card, index < stadiums.length - 1 && styles.cardGap]}>
             {/* Image */}
             <View>
               <Image source={stadium.image} style={styles.image} />

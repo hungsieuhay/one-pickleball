@@ -1,7 +1,7 @@
 import { StyleColorsProps } from '@/types';
 import { StyleSheet } from 'react-native';
 
-import { PAGE_PADDING, Radius, SCREEN_WIDTH, Spacing } from '@/constants/theme';
+import { PAGE_PADDING, Radius, SCREEN_WIDTH } from '@/constants/theme';
 
 const cardGap = 16;
 
@@ -26,7 +26,7 @@ export const getStadiumOverviewTrendStyles = ({ colors }: StyleColorsProps) =>
     image: {
       maxHeight: 196,
       aspectRatio: 3 / 2,
-      borderRadius: Radius.lg,
+      borderRadius: Radius.md,
     },
     rating: {
       position: 'absolute',

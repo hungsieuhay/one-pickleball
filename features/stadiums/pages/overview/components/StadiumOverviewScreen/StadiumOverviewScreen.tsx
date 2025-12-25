@@ -7,6 +7,7 @@ import { ScreenHeader } from '@/components/common/ScreenHeader';
 
 import { useGetStyles } from '@/hooks/useGetStyles';
 
+import { StadiumOverviewBooking } from '../StadiumOverviewBooking';
 import { StadiumOverviewTrend } from '../StadiumOverviewTrend';
 import { getStadiumOverviewScreenStyles } from './StadiumOverviewScreen.styles';
 
@@ -18,6 +19,7 @@ const StadiumOverviewScreen = () => {
       <ScreenHeader title="Sân đấu" />
       <ScrollView contentContainerStyle={styles.scrollView}>
         <StadiumOverviewTrend />
+        <StadiumOverviewBooking />
       </ScrollView>
     </ScreenContainer>
   );
