@@ -1,17 +1,16 @@
 import { getStadiumListStyles } from '@/features/stadiums/list/components/StadiumsList/StadiumsList.styles';
-import { useThemedColors } from '@/hooks/use-theme';
 import { useGetStyles } from '@/hooks/useGetStyles';
 import React from 'react';
 import { View } from 'react-native';
+import { Card } from '../Card';
 import { Flex } from '../Flex';
 import Skeleton from './Skeleton';
 
 export default function StadiumCardSkeleton() {
     const styles = useGetStyles(getStadiumListStyles);
-    const colors = useThemedColors();
 
     return (
-        <View style={styles.card}>
+        <Card>
             {/* Image Placeholder */}
             <View style={{ aspectRatio: 1 / 1, maxHeight: 512, width: '100%', position: 'relative' }}>
                 <Skeleton width="100%" height="100%" borderRadius={0} />
@@ -52,6 +51,6 @@ export default function StadiumCardSkeleton() {
                 {/* CTA */}
                 <Skeleton width="100%" height={52} borderRadius={26} />
             </View>
-        </View>
+        </Card>
     );
 }

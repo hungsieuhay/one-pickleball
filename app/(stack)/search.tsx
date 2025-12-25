@@ -1,10 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SearchResult } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
+import qs from 'qs';
 import {
+  ActivityIndicator,
   FlatList,
   KeyboardAvoidingView,
   Platform,
@@ -17,131 +19,22 @@ import {
 
 import { styles } from '@/constants/styles/search.styles';
 
+import { AppColors } from '@/constants/theme';
+import { stadiumAPI } from '@/features/stadiums/shared/api/stadium.api';
+import { useDebounce } from '@/hooks/use-debounce';
 import { useThemedColors } from '@/hooks/use-theme';
-
-// Utility function to remove Vietnamese diacritics
-const removeDiacritics = (str: string): string => {
-  return str
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/đ/g, 'd')
-    .replace(/Đ/g, 'D')
-    .toLowerCase();
-};
+import newService from '@/services/api/new.service';
+import tournamentService from '@/services/api/tournament.service';
+import { Image } from 'expo-image';
 
 export default function SearchScreen() {
   const colors = useThemedColors();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<'all' | 'court' | 'event' | 'news' | 'player'>('all');
-  const [recentSearches, setRecentSearches] = useState<string[]>([
-    'Sân pickleball quận 2',
-    'Giải đấu HCM',
-    'Kỹ thuật serve',
-  ]);
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Sample data
-  const allResults: SearchResult[] = [
-    {
-      id: '1',
-      type: 'court',
-      title: 'Sân Pickleball Rạch Chiếc',
-      description: '6 sân thi đấu tiêu chuẩn quốc tế, đầy đủ tiện nghi',
-      image: '#00D9B5',
-      meta: {
-        location: 'Quận 2, TP.HCM',
-        rating: 4.8,
-        price: '200k-300k/giờ',
-      },
-    },
-    {
-      id: '2',
-      type: 'court',
-      title: 'Sân Pickleball Thảo Điền',
-      description: '4 sân ngoài trời, view đẹp, giá tốt',
-      image: '#667eea',
-      meta: {
-        location: 'Quận 2, TP.HCM',
-        rating: 4.5,
-        price: '150k-250k/giờ',
-      },
-    },
-    {
-      id: '3',
-      type: 'event',
-      title: 'HCM Pickleball Open 2025',
-      description: 'Giải đấu mở rộng quy mô lớn nhất năm',
-      image: '#FFB800',
-      meta: {
-        date: '25/12/2024',
-        location: 'TP.HCM',
-      },
-    },
-    {
-      id: '4',
-      type: 'news',
-      title: '5 Tips nâng cao kỹ thuật serve trong Pickleball',
-      description: 'Hướng dẫn chi tiết cách cải thiện kỹ thuật serve',
-      image: '#FF9800',
-      meta: {
-        views: 1200,
-        date: '2 giờ trước',
-      },
-    },
-    {
-      id: '5',
-      type: 'news',
-      title: 'Luật chơi Pickleball cơ bản cho người mới',
-      description: 'Tìm hiểu các quy tắc cơ bản của Pickleball',
-      image: '#2196F3',
-      meta: {
-        views: 850,
-        date: '1 ngày trước',
-      },
-    },
-    {
-      id: '6',
-      type: 'court',
-      title: 'Sân Pickleball Sala',
-      description: '8 sân trong nhà, điều hòa, phục vụ 24/7',
-      image: '#9C27B0',
-      meta: {
-        location: 'Quận 7, TP.HCM',
-        rating: 4.9,
-        price: '250k-350k/giờ',
-      },
-    },
-    {
-      id: '7',
-      type: 'event',
-      title: 'Giải Pickleball Mùa Xuân 2025',
-      description: 'Giải đấu cộng đồng, mở cho tất cả trình độ',
-      image: '#00BCD4',
-      meta: {
-        date: '15/01/2025',
-        location: 'Quận 1, TP.HCM',
-      },
-    },
-  ];
-
-  // Filter and search logic
-  const filteredResults = useMemo(() => {
-    let results = allResults;
-
-    if (activeFilter !== 'all') {
-      results = results.filter((item) => item.type === activeFilter);
-    }
-
-    if (searchQuery.trim()) {
-      const normalizedQuery = removeDiacritics(searchQuery.trim());
-      results = results.filter((item) => {
-        const normalizedTitle = removeDiacritics(item.title);
-        const normalizedDescription = removeDiacritics(item.description);
-        return normalizedTitle.includes(normalizedQuery) || normalizedDescription.includes(normalizedQuery);
-      });
-    }
-
-    return results;
-  }, [searchQuery, activeFilter]);
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const filters = [
     { key: 'all', label: 'Tất cả' },
@@ -182,28 +75,118 @@ export default function SearchScreen() {
 
   const handleSearch = (text: string) => {
     setSearchQuery(text);
-    if (text.trim() && !recentSearches.includes(text.trim())) {
-      setRecentSearches((prev) => [text.trim(), ...prev.slice(0, 4)]);
-    }
-  };
-
-  const handleRecentSearch = (query: string) => {
-    setSearchQuery(query);
   };
 
   const clearSearch = () => {
     setSearchQuery('');
+    setResults([]);
   };
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      if (!debouncedSearchQuery.trim()) {
+        setResults([]);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const promises = [];
+
+        // Fetch Stadiums
+        if (activeFilter === 'all' || activeFilter === 'court') {
+          const query = qs.stringify({ search: debouncedSearchQuery });
+          promises.push(
+            stadiumAPI.getAll(query).then((res) =>
+              res.data.map((item) => ({
+                id: String(item.id),
+                type: 'court',
+                title: item.name,
+                description: item.address,
+                image: item.image || '#00D9B5', // Fallback color/image
+                meta: {
+                  location: item.province?.name,
+                  rating: item.rating,
+                  // Price not available in list response
+                  price: '',
+                  views: item.rating_count,
+                },
+              }))
+            )
+          );
+        }
+
+        // Fetch Tournaments
+        if (activeFilter === 'all' || activeFilter === 'event') {
+          promises.push(
+            tournamentService.getTournaments({ search: debouncedSearchQuery }).then((res) =>
+              res.data.map((item) => ({
+                id: String(item.id),
+                type: 'event',
+                title: item.name,
+                description: item.location,
+                image: item.image_url || '#FFB800',
+                meta: {
+                  date: item.start_date,
+                  location: item.location,
+                },
+              }))
+            )
+          );
+        }
+
+        // Fetch News
+        if (activeFilter === 'all' || activeFilter === 'news') {
+          promises.push(
+            newService.getNews({ search: debouncedSearchQuery }).then((res) =>
+              res.data.map((item) => ({
+                id: String(item.id),
+                type: 'news',
+                title: item.title,
+                description: item.content.substring(0, 100).replace(/<[^>]*>?/gm, ''), // Simple strip tags
+                image: item.image || '#FF9800',
+                meta: {
+                  date: item.created_at,
+                  views: item.views,
+                },
+              }))
+            )
+          );
+        }
+
+        const resultsArray = await Promise.all(promises);
+        const combinedResults = resultsArray.flat() as SearchResult[];
+        setResults(combinedResults);
+
+      } catch (error) {
+        console.error('Search error:', error);
+        // Handle error gracefully?
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, [debouncedSearchQuery, activeFilter]);
+
 
   const renderResultItem = ({ item }: { item: SearchResult }) => (
     <TouchableOpacity
       style={[styles.resultItem, { backgroundColor: colors.card, borderColor: colors.border }]}
       activeOpacity={0.7}
+      onPress={() => {
+        if (item.type === 'court') {
+          router.push({ pathname: '/(details)/stadiums/[stadiumId]', params: { stadiumId: item.id } });
+        } else if (item.type === 'event') {
+          router.push({ pathname: '/(details)/eventDetail/[id]', params: { id: item.id } });
+
+        } else if (item.type === 'news') {
+          router.push({ pathname: '/(details)/newDetail/[id]', params: { id: item.id } });
+        }
+      }}
     >
-      <LinearGradient
-        colors={[item.image, `${item.image}CC`]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+      <Image
+        source={ item.image }
         style={styles.resultImage}
       />
 
@@ -217,30 +200,30 @@ export default function SearchScreen() {
         </Text>
 
         <View style={styles.resultMeta}>
-          {item.meta?.location && (
+          {!!item.meta?.location && (
             <View style={styles.metaItem}>
               <Ionicons name="location" size={12} color={colors.textTertiary} />
               <Text style={[styles.metaText, { color: colors.textTertiary }]}>{item.meta.location}</Text>
             </View>
           )}
-          {item.meta?.rating && (
+          {!!item.meta?.rating && (
             <View style={styles.metaItem}>
               <Ionicons name="star" size={12} color="#FFB800" />
               <Text style={[styles.metaText, { color: colors.textTertiary }]}>{item.meta.rating}</Text>
             </View>
           )}
-          {item.meta?.price && (
+          {!!item.meta?.price && (
             <View style={styles.metaItem}>
               <Text style={[styles.metaText, { color: colors.textTertiary }]}>{item.meta.price}</Text>
             </View>
           )}
-          {item.meta?.date && (
+          {!!item.meta?.date && (
             <View style={styles.metaItem}>
               <Ionicons name="calendar" size={12} color={colors.textTertiary} />
               <Text style={[styles.metaText, { color: colors.textTertiary }]}>{item.meta.date}</Text>
             </View>
           )}
-          {item.meta?.views && (
+          {!!item.meta?.views && (
             <View style={styles.metaItem}>
               <Ionicons name="eye" size={12} color={colors.textTertiary} />
               <Text style={[styles.metaText, { color: colors.textTertiary }]}>{item.meta.views}</Text>
@@ -252,6 +235,14 @@ export default function SearchScreen() {
   );
 
   const renderEmptyState = () => {
+    if (isLoading) {
+      return (
+        <View style={{ paddingTop: 40 }}>
+          <ActivityIndicator size="large" color={AppColors.primary} />
+        </View>
+      )
+    }
+
     if (searchQuery.trim()) {
       return (
         <View style={styles.emptyContainer}>
@@ -266,26 +257,7 @@ export default function SearchScreen() {
       );
     }
 
-    return (
-      <ScrollView style={styles.recentSearches}>
-        <Text style={[styles.recentTitle, { color: colors.text }]}>Tìm kiếm gần đây</Text>
-        {recentSearches.map((search, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[styles.recentItem, { borderBottomColor: colors.border }]}
-            onPress={() => handleRecentSearch(search)}
-          >
-            <View style={styles.recentLeft}>
-              <Ionicons name="time-outline" size={20} color={colors.textTertiary} />
-              <Text style={[styles.recentText, { color: colors.text }]}>{search}</Text>
-            </View>
-            <TouchableOpacity>
-              <Ionicons name="arrow-forward" size={20} color={colors.textTertiary} />
-            </TouchableOpacity>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    );
+    return null;
   };
 
   return (
@@ -315,7 +287,6 @@ export default function SearchScreen() {
         </View>
       </View>
 
-      {/* Filters */}
       <View style={styles.filterContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterScroll}>
           {filters.map((filter) => (
@@ -343,9 +314,9 @@ export default function SearchScreen() {
       </View>
 
       <FlatList
-        data={filteredResults}
+        data={results}
         renderItem={renderResultItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => `${item.type}-${item.id}`}
         contentContainerStyle={styles.resultsContainer}
         ListEmptyComponent={renderEmptyState}
         showsVerticalScrollIndicator={false}
@@ -353,3 +324,4 @@ export default function SearchScreen() {
     </KeyboardAvoidingView>
   );
 }
+

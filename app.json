@@ -9,7 +9,20 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hungg1810.onepickleball",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": [
+          "tel",
+          "telprompt",
+          "mailto",
+          "sms",
+          "https",
+          "http",
+          "maps",
+          "comgooglemaps"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -17,9 +30,42 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.RECORD_AUDIO"
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CALL_PHONE"
       ],
-      "package": "com.hungg1810.onepickleball"
+      "package": "com.hungg1810.onepickleball",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "tel"
+          }
+        },
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "mailto"
+          }
+        },
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "sms"
+          }
+        },
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "https"
+          }
+        },
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "http"
+          }
+        }
+      ]
     },
     "web": {
       "bundler": "metro",
