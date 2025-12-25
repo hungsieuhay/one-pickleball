@@ -31,7 +31,7 @@ const HomeUser = () => {
   const user = data.user;
 
   return (
-    <Card padding={24}>
+    <Card radius="xl" padding={24}>
       {/* Corner */}
       <View style={styles.corner}></View>
 

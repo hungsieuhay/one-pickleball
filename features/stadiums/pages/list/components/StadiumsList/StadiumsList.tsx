@@ -79,7 +79,7 @@ const StadiumsList = () => {
         <FlatList
           data={data.data}
           renderItem={({ item }) => (
-            <Card radius="xl">
+            <Card>
               <Image source={item.image} contentFit="cover" style={styles.image} />
 
               <Flex gap={4} style={styles.rating}>

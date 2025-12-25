@@ -3,6 +3,7 @@ import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { Flex } from '@/components/ui/Flex';
+import { Icon } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
 
 import { useGetStyles } from '@/hooks/useGetStyles';
@@ -18,14 +19,14 @@ const HomeTopBar = () => {
       <Flex gap={16}>
         <MaterialCommunityIcons name="menu" size={24} />
         <Flex>
-          <Text color="primary">
+          <Icon variant="fit" translateY={1}>
             <MaterialCommunityIcons name="tennis" size={24} />
-          </Text>
+          </Icon>
           <Text>
-            <Text color="primary" size="h4">
+            <Text color="primary" size="h3">
               One
             </Text>
-            <Text size="h4">Pickleball</Text>
+            <Text size="h3">Pickleball</Text>
           </Text>
         </Flex>
       </Flex>

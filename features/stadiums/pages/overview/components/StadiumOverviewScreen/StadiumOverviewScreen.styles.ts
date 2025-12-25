@@ -7,5 +7,6 @@ export const getStadiumOverviewScreenStyles = ({ colors }: StyleColorsProps) =>
   StyleSheet.create({
     scrollView: {
       padding: PAGE_PADDING,
+      gap: 32,
     },
   });

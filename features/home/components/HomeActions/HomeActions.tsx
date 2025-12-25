@@ -32,7 +32,7 @@ const HomeActions = () => {
         {homeActions.map((item, index) => (
           <GridItem key={index}>
             <Pressable onPress={() => router.navigate(item.href)}>
-              <Card padding={16} radius="lg">
+              <Card radius="xl" padding={16}>
                 <Flex direction="column">
                   <Icon
                     size="lg"

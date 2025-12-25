@@ -32,7 +32,7 @@ const RankingDistribution = ({ data }: RankingDistributionProps) => {
       <Grid columns={1} gap={8}>
         {data.map((item, index) => (
           <GridItem key={item.rank}>
-            <Card padding={24} radius="lg">
+            <Card radius="xl" padding={24}>
               {/* Header */}
               <Flex justifyContent="space-between">
                 <Flex>

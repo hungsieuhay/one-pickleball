@@ -36,7 +36,7 @@ const StadiumCourts = ({ items }: StadiumCourtsProps) => {
 
       <View style={styles.list}>
         {items.map((item, index) => (
-          <Card key={index} padding={16} radius="lg" style={styles.card}>
+          <Card radius="xl" key={index} padding={16} style={styles.card}>
             {/* Left */}
             <View style={styles.left}>
               {/* Name */}
@@ -51,11 +51,11 @@ const StadiumCourts = ({ items }: StadiumCourtsProps) => {
 
               {/* Info */}
               <Flex gap={8}>
-                <Text color="secondary">{item.court_type === 'outdoor' ? 'Ngoài trời' : 'Trong nhà'}</Text>
-                <Text color="secondary">•</Text>
+                <Text color="muted">{item.court_type === 'outdoor' ? 'Ngoài trời' : 'Trong nhà'}</Text>
+                <Text color="muted">•</Text>
                 <Flex>
                   <MaterialCommunityIcons name="account-group" style={styles.icon} />
-                  <Text color="secondary">{item.capacity} người</Text>
+                  <Text color="muted">{item.capacity} người</Text>
                 </Flex>
               </Flex>
             </View>
@@ -65,7 +65,7 @@ const StadiumCourts = ({ items }: StadiumCourtsProps) => {
               <Text size="h2" color="primary">
                 {formatToK(item.rental_price)}
               </Text>
-              <Text color="secondary">/giờ</Text>
+              <Text color="muted">/giờ</Text>
             </Text>
           </Card>
         ))}
