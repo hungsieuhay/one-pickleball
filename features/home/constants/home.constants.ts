@@ -8,10 +8,10 @@ export const homeActions: HomeAction[] = [
     href: '/',
   },
   {
-    label: 'Tạo trận đấu',
+    label: 'Trọng tài',
     icon: 'add',
     color: '#00d9b5',
-    href: '/',
+    href: '/(stack)/referee',
   },
   {
     label: 'BXH OCR',
