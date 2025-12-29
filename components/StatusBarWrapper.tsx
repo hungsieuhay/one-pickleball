@@ -1,4 +1,4 @@
-import { useTheme, useThemedColors } from '@/hooks/use-theme';
+import { useTheme } from '@/hooks/use-theme';
 import { StatusBar } from 'expo-status-bar';
 
 export const StatusBarWrapper = () => {
