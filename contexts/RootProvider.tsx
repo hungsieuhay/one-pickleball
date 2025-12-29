@@ -70,7 +70,6 @@ const RootProvider = ({ children }: RootProviderProps) => {
 
           {/* Global */}
           {/* <SplashScreenController /> */}
-          <StatusBarWrapper />
         </SessionProvider>
       </PortalProvider>
     </GestureHandlerRootView>

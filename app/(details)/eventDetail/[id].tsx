@@ -1,8 +1,9 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 
 import { EventInfoCard } from '@/types';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Alert, Pressable, ScrollView, TouchableOpacity, View } from 'react-native';
 
@@ -13,23 +14,14 @@ import { styles } from '@/constants/styles/eventdeatil.styles';
 
 import { useThemedColors } from '@/hooks/use-theme';
 
+import { Text } from '@/components/ui/Text';
+import { AppColors } from '@/constants/theme';
 import { useSession } from '@/contexts/AuthProvider';
 import tournamentService from '@/services/api/tournament.service';
 import { formatDate, isStartDateAfterDeadline } from '@/utils/date.utils';
-import { fetchWrapper } from '@/utils/fetch.utils';
 import { formatCurrency } from '@/utils/format.utils';
 import { Image } from 'expo-image';
 import ImageView from 'react-native-image-viewing';
-import { Text } from '@/components/ui/Text';
-import { dayjsExt } from '@/lib/days';
-import { AppColors } from '@/constants/theme';
-
-type JoinTournamentBody = {
-  athlete_name: string;
-  email: string;
-  phone: string;
-  category_id: number;
-}
 
 export default function EventDetailScreen() {
   const [activeTab, setActiveTab] = useState<string>('overview');
@@ -40,7 +32,6 @@ export default function EventDetailScreen() {
   const colors = useThemedColors();
   const { user } = useSession()
 
-  const queryClient = useQueryClient()
   const { status, data, isPending } = useQuery({
     queryKey: ['getTournamentById', id],
     queryFn: () => tournamentService.getTournamentById(id),
@@ -95,9 +86,20 @@ export default function EventDetailScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <View style={{ zIndex: 1000 }}><TouchableOpacity onPress={() => router.back()} activeOpacity={0.8} style={styles.backBtn}>
-        <Ionicons name="chevron-back" size={28} color="white" />
-      </TouchableOpacity>
+      <View style={{ zIndex: 1000 }}>
+        <LinearGradient
+          colors={['rgba(0,0,0,0.8)', 'transparent']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: 80,
+          }}
+        />
+        <TouchableOpacity onPress={() => router.back()} activeOpacity={0.8} style={styles.backBtn}>
+          <Ionicons name="chevron-back" size={28} color="white" />
+        </TouchableOpacity>
         <View style={styles.headerActions}>
           <TouchableOpacity style={styles.iconBtn}>
             <Ionicons name="share-social" size={24} color="white" />

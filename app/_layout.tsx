@@ -4,10 +4,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useSession } from '@/contexts/AuthProvider';
 import RootProvider from '@/contexts/RootProvider';
+import { StatusBarWrapper } from '@/components/StatusBarWrapper';
 
 export default function Root() {
   return (
     <RootProvider>
+      <StatusBarWrapper />
       <RootNavigator />
     </RootProvider>
   );
