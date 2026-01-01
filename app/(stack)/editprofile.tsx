@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
@@ -16,21 +16,28 @@ import {
 } from 'react-native';
 
 import { styles } from '@/constants/styles/editprofile.styles';
-
+import { useSession } from '@/contexts/AuthProvider';
 import { useThemedColors } from '@/hooks/use-theme';
+import { User } from '@/types';
 
 export default function EditProfileScreen() {
   const [image, setImage] = useState<string | null>(null);
   const colors = useThemedColors();
-  const [name, setName] = useState('Minh Tuấn');
-  const [username, setUsername] = useState('minhtuan_pb');
-  const [email, setEmail] = useState('minhtuan@example.com');
-  const [phone, setPhone] = useState('0975241204');
-  const [bio, setBio] = useState('🏓 Pickleball enthusiast | 🏆 Level 4.5 | 📍 TP.HCM');
-  const [location, setLocation] = useState('TP. Hồ Chí Minh');
-  const [skillLevel, setSkillLevel] = useState('4.5');
+  const { user: sessionUser, isLoading: isSessionLoading } = useSession();
 
+  // Initialize state using sessionUser or a default empty structure
+  // We use detailed state for form handling, but populating from sessionUser
+  const [user, setUser] = useState<User | null>(sessionUser);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (sessionUser) {
+      setUser(sessionUser);
+      if (sessionUser.avatar) {
+        setImage(sessionUser.avatar);
+      }
+    }
+  }, [sessionUser]);
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -47,40 +54,36 @@ export default function EditProfileScreen() {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
 
   const handleSave = () => {
+    if (!user) return;
+
     // Validation
-    if (!name.trim()) {
+    if (!user.name.trim()) {
       Alert.alert('Lỗi', 'Vui lòng nhập tên của bạn');
       return;
     }
 
-    if (!username.trim()) {
-      Alert.alert('Lỗi', 'Vui lòng nhập tên người dùng');
-      return;
-    }
-
-    if (!email.trim()) {
+    if (!user.email.trim()) {
       Alert.alert('Lỗi', 'Vui lòng nhập email');
       return;
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(user.email)) {
       Alert.alert('Lỗi', 'Email không hợp lệ');
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate API call
+    // Simulate API call for now as update endpoint is not yet defined in auth service/confirmed
+    // In a real scenario, you would call authService.updateProfile(user) here
     setTimeout(() => {
       setIsLoading(false);
       Alert.alert('Thành công', 'Thông tin cá nhân đã được cập nhật', [
@@ -89,6 +92,7 @@ export default function EditProfileScreen() {
           onPress: () => router.back(),
         },
       ]);
+      console.log('Saving user data:', user);
     }, 1000);
   };
 
@@ -108,6 +112,13 @@ export default function EditProfileScreen() {
     ]);
   };
 
+  // Generic input handler to update user state
+  const handleUserChange = (key: keyof User, value: string) => {
+    if (user) {
+      setUser((prev) => prev ? ({ ...prev, [key]: value }) : null);
+    }
+  };
+
   const renderInput = (
     label: string,
     value: string,
@@ -115,8 +126,7 @@ export default function EditProfileScreen() {
     placeholder: string,
     icon: string,
     keyboardType: 'default' | 'email-address' | 'phone-pad' | 'numeric' = 'default',
-    multiline: boolean = false,
-    maxLength?: number
+    editable: boolean = true
   ) => (
     <View style={styles.inputGroup}>
       <View style={styles.inputLabel}>
@@ -126,29 +136,41 @@ export default function EditProfileScreen() {
       <TextInput
         style={[
           styles.input,
-          multiline && styles.inputMultiline,
           {
-            backgroundColor: colors.backgroundTertiary,
-            color: colors.text,
+            backgroundColor: editable ? colors.backgroundTertiary : colors.backgroundSecondary,
+            color: editable ? colors.text : colors.textTertiary,
             borderColor: colors.border,
           },
         ]}
-        value={value}
+        value={value ? String(value) : ''}
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor={colors.textTertiary}
         keyboardType={keyboardType}
-        multiline={multiline}
-        numberOfLines={multiline ? 3 : 1}
-        maxLength={maxLength}
+        editable={editable}
       />
-      {maxLength && (
-        <Text style={[styles.charCount, { color: colors.textTertiary }]}>
-          {value.length}/{maxLength}
-        </Text>
-      )}
     </View>
   );
+
+  if (!user && isSessionLoading) {
+    return (
+      <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: colors.text }}>Đang tải...</Text>
+      </View>
+    );
+  }
+
+  // Fallback if no user is found/not logged in, though protected routes usually prevent this
+  if (!user) {
+    return (
+      <View style={[styles.container, { backgroundColor: colors.background, justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: colors.text }}>Không tìm thấy thông tin người dùng.</Text>
+        <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 20 }}>
+          <Text style={{ color: colors.tint }}>Quay lại</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -185,7 +207,7 @@ export default function EditProfileScreen() {
 
           <View style={styles.avatarContainer}>
             <TouchableOpacity style={[styles.avatar, { backgroundColor: colors.tint }]} onPress={handleChangeAvatar}>
-              <Text style={styles.avatarText}>MT</Text>
+              <Text style={styles.avatarText}>{user.name ? user.name.substring(0, 2).toUpperCase() : '??'}</Text>
               {image && <Image source={{ uri: image }} style={styles.avatarImage} />}
               <View style={styles.avatarOverlay}>
                 <Ionicons name="camera" size={24} color="#fff" />
@@ -198,25 +220,21 @@ export default function EditProfileScreen() {
         <View style={[styles.settingsSection, { marginTop: 60 }]}>
           <Text style={[styles.sectionTitle, { color: colors.textTertiary }]}>THÔNG TIN CƠ BẢN</Text>
           <View style={[styles.settingsMenu, { backgroundColor: colors.card }]}>
-            {renderInput('Họ và tên', name, setName, 'Nhập họ và tên', 'person-outline')}
-            {renderInput('Tên người dùng', username, setUsername, 'Nhập tên người dùng', 'at', 'default')}
-            {renderInput('Email', email, setEmail, 'Nhập email', 'mail-outline', 'email-address')}
-            {renderInput('Số điện thoại', phone, setPhone, 'Nhập số điện thoại', 'call-outline', 'phone-pad')}
-          </View>
-        </View>
-
-        <View style={styles.settingsSection}>
-          <Text style={[styles.sectionTitle, { color: colors.textTertiary }]}>GIỚI THIỆU</Text>
-          <View style={[styles.settingsMenu, { backgroundColor: colors.card }]}>
-            {renderInput('Tiểu sử', bio, setBio, 'Viết vài dòng về bạn...', 'create-outline', 'default', true, 150)}
+            {renderInput('Họ và tên', user.name, (text) => handleUserChange('name', text), 'Nhập họ và tên', 'person-outline')}
+            {renderInput('Email', user.email, (text) => handleUserChange('email', text), 'Nhập email', 'mail-outline', 'email-address')}
+            {renderInput('Số điện thoại', user.phone, (text) => handleUserChange('phone', text), 'Nhập số điện thoại', 'call-outline', 'phone-pad')}
           </View>
         </View>
 
         <View style={styles.settingsSection}>
           <Text style={[styles.sectionTitle, { color: colors.textTertiary }]}>PICKLEBALL</Text>
           <View style={[styles.settingsMenu, { backgroundColor: colors.card }]}>
-            {renderInput('Trình độ', skillLevel, setSkillLevel, 'VD: 4.5', 'trophy-outline', 'numeric')}
-            {renderInput('Vị trí', location, setLocation, 'Nhập vị trí', 'location-outline')}
+            {/* OPR Level - Mapped to Skill Level, assuming edible or at least visible */}
+            {renderInput('Trình độ (OPR)', user.opr_level, (text) => handleUserChange('opr_level', text), 'VD: 2.0', 'trophy-outline', 'numeric')}
+
+            {/* ELO Rating - Read only example */}
+            {renderInput('ELO Rating', user.elo_rating?.toString() || '0', () => { }, '', 'stats-chart-outline', 'numeric', false)}
+            {renderInput('ELO Rank', user.elo_rank, () => { }, '', 'ribbon-outline', 'default', false)}
           </View>
         </View>
       </ScrollView>
