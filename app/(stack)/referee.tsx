@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from 'react';
-
 import { ModalType, TeamSide } from '@/types';
 import { Ionicons } from '@expo/vector-icons';
+import * as NavigationBar from 'expo-navigation-bar';
 import { useRouter } from 'expo-router';
-import { Alert, ScrollView, Text, View } from 'react-native';
-
+import { OrientationLock, lockAsync } from 'expo-screen-orientation';
+import { StatusBar } from 'expo-status-bar';
+import React, { useCallback, useState } from 'react';
+import { Alert, Platform, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // Hooks
 // Components
 import { ControlPanel } from '@/features/referee/components/ControlPanel';
@@ -25,6 +27,44 @@ import { useMatchState } from '@/hooks/useMatchState';
 import { useTimer } from '@/hooks/useTimer';
 
 export const RefereeScreen: React.FC = () => {
+  const insets = useSafeAreaInsets();
+  const { width, height } = useWindowDimensions();
+  const isLandscape = width > height;
+  React.useEffect(() => {
+    async function unlockOrientation() {
+      try {
+        await lockAsync(OrientationLock.ALL);
+      } catch (error) {
+        console.error('Error unlocking orientation:', error);
+      }
+    }
+    unlockOrientation();
+
+    return () => {
+      lockAsync(OrientationLock.PORTRAIT_UP).catch((err: any) =>
+        console.error('Error locking orientation:', err)
+      );
+    };
+  }, []);
+
+  // Hide/show navigation bar based on orientation (immersive mode for landscape)
+  React.useEffect(() => {
+    if (Platform.OS === 'android') {
+      if (isLandscape) {
+        NavigationBar.setVisibilityAsync('hidden');
+        // Note: setBehaviorAsync is not supported with edge-to-edge enabled
+      } else {
+        NavigationBar.setVisibilityAsync('visible');
+      }
+    }
+
+    return () => {
+      if (Platform.OS === 'android') {
+        NavigationBar.setVisibilityAsync('visible');
+      }
+    };
+  }, [isLandscape]);
+
   // Timer hook
   const { timer, timerDisplay, startTimer, stopTimer, setTimer } = useTimer(MATCH_DATA.timerSeconds || 0);
   const router = useRouter();
@@ -178,8 +218,159 @@ export const RefereeScreen: React.FC = () => {
     </View>
   );
 
+  const renderMainContent = () => {
+    // Check if match is completed
+    if (isMatchCompleted) {
+      return (
+        <ScrollView style={styles.mainContent} contentContainerStyle={styles.scrollContent}>
+          {renderCompletedResults()}
+        </ScrollView>
+      );
+    }
+
+    // Check landscape mode
+    if (isLandscape) {
+      return (
+        <View style={styles.landscapeContainer}>
+          {/* 3-Column Grid Layout for Landscape */}
+          <View style={styles.landscapeGridMain}>
+            {/* Left Column: Team 1 Score Card */}
+            <View style={styles.landscapeTeamColumn}>
+              <ScoreBoard
+                teams={teams}
+                serving={serving}
+                gameMode={gameMode}
+                status={status}
+                isMatchCompleted={isMatchCompleted}
+                scoreCall={scoreCall}
+                matchData={matchData}
+                onRallyWon={rallyWon}
+                onAdjustScore={adjustScore}
+                onSwitchSides={switchSides}
+                isLandscape={isLandscape}
+                showLeftTeamOnly={true}
+              />
+            </View>
+
+            {/* Center Column: Controls & Info */}
+            <ScrollView showsVerticalScrollIndicator={false} style={styles.landscapeCenterColumn}>
+              <View style={styles.landscapeTopRow}>
+                <View style={styles.landscapeCenterScoreCall}>
+                  <Text style={styles.landscapeCenterScoreLabel}>Score Call</Text>
+                  <Text style={styles.landscapeCenterScoreValue}>{scoreCall}</Text>
+                </View>
+                <View style={styles.landscapeVsCenterCompact}>
+                  <View style={styles.landscapeVsBadgeSmall}>
+                    <Text style={styles.landscapeVsBadgeTextSmall}>VS</Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.landscapeSwitchBtnCompact, { opacity: status !== 'playing' ? 0.5 : 1 }]}
+                    onPress={switchSides}
+                    disabled={status !== 'playing'}
+                  >
+                    <Ionicons name="swap-horizontal" size={14} color="#94a3b8" />
+                    <Text style={styles.landscapeSwitchBtnTextCompact}>Đổi sân</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <ControlPanel
+                status={status}
+                gameMode={gameMode}
+                history={history}
+                onShowCoinFlip={handleShowCoinFlip}
+                onPauseMatch={pauseMatch}
+                onToggleMatch={handleToggleMatch}
+                onEndGame={endGame}
+                onUndo={undo}
+                onRecordFault={recordFault}
+                onManualSwitchServer={manualSwitchServer}
+                onRequestTimeout={handleRequestTimeout}
+                isLandscape={isLandscape}
+              />
+
+              <EventHistory eventLog={eventLog} onClear={handleClearEventLog} isLandscape={isLandscape} />
+            </ScrollView>
+
+            {/* Right Column: Team 2 Score Card */}
+            <View style={styles.landscapeTeamColumn}>
+              <ScoreBoard
+                teams={teams}
+                serving={serving}
+                gameMode={gameMode}
+                status={status}
+                isMatchCompleted={isMatchCompleted}
+                scoreCall={scoreCall}
+                matchData={matchData}
+                onRallyWon={rallyWon}
+                onAdjustScore={adjustScore}
+                onSwitchSides={switchSides}
+                isLandscape={isLandscape}
+                showRightTeamOnly={true}
+              />
+            </View>
+          </View>
+        </View>
+      );
+    }
+
+    // Default Portrait Mode
+    return (
+      <ScrollView style={styles.mainContent} contentContainerStyle={styles.scrollContent}>
+        {/* Scoreboard */}
+        <ScoreBoard
+          teams={teams}
+          serving={serving}
+          gameMode={gameMode}
+          status={status}
+          isMatchCompleted={isMatchCompleted}
+          scoreCall={scoreCall}
+          matchData={matchData}
+          onRallyWon={rallyWon}
+          onAdjustScore={adjustScore}
+          onSwitchSides={switchSides}
+          isLandscape={isLandscape}
+        />
+
+        {/* Control Panel */}
+        <ControlPanel
+          status={status}
+          gameMode={gameMode}
+          history={history}
+          onShowCoinFlip={handleShowCoinFlip}
+          onPauseMatch={pauseMatch}
+          onToggleMatch={handleToggleMatch}
+          onEndGame={endGame}
+          onUndo={undo}
+          onRecordFault={recordFault}
+          onManualSwitchServer={manualSwitchServer}
+          onRequestTimeout={handleRequestTimeout}
+          isLandscape={isLandscape}
+        />
+
+        {/* Event History */}
+        <EventHistory eventLog={eventLog} onClear={handleClearEventLog} isLandscape={isLandscape} />
+      </ScrollView>
+    );
+  };
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          marginTop: -insets.top,
+          marginBottom: -insets.bottom,
+          marginLeft: -insets.left,
+          marginRight: -insets.right,
+          paddingTop: isLandscape ? 0 : insets.top,
+          paddingBottom: isLandscape ? 0 : insets.bottom,
+          paddingLeft: insets.left,
+          paddingRight: insets.right,
+        },
+      ]}
+    >
+      <StatusBar hidden={isLandscape} />
       {/* Background pattern placeholder */}
       <View style={styles.bgPattern} />
 
@@ -196,48 +387,11 @@ export const RefereeScreen: React.FC = () => {
           gameMode={gameMode}
           referee={matchData.referee}
           onBack={handleBack}
+          isLandscape={isLandscape}
         />
 
         {/* Main Content */}
-        <ScrollView style={styles.mainContent} contentContainerStyle={styles.scrollContent}>
-          {isMatchCompleted ? (
-            renderCompletedResults()
-          ) : (
-            <>
-              {/* Scoreboard */}
-              <ScoreBoard
-                teams={teams}
-                serving={serving}
-                gameMode={gameMode}
-                status={status}
-                isMatchCompleted={isMatchCompleted}
-                scoreCall={scoreCall}
-                matchData={matchData}
-                onRallyWon={rallyWon}
-                onAdjustScore={adjustScore}
-                onSwitchSides={switchSides}
-              />
-
-              {/* Control Panel */}
-              <ControlPanel
-                status={status}
-                gameMode={gameMode}
-                history={history}
-                onShowCoinFlip={handleShowCoinFlip}
-                onPauseMatch={pauseMatch}
-                onToggleMatch={handleToggleMatch}
-                onEndGame={endGame}
-                onUndo={undo}
-                onRecordFault={recordFault}
-                onManualSwitchServer={manualSwitchServer}
-                onRequestTimeout={handleRequestTimeout}
-              />
-
-              {/* Event History */}
-              <EventHistory eventLog={eventLog} onClear={handleClearEventLog} />
-            </>
-          )}
-        </ScrollView>
+        {renderMainContent()}
       </View>
 
       {/* Modals */}

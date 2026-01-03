@@ -16,6 +16,7 @@ interface HeaderProps {
   gameMode: GameMode;
   referee: Referee;
   onBack: () => void;
+  isLandscape?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -29,7 +30,63 @@ export const Header: React.FC<HeaderProps> = ({
   gameMode,
   referee,
   onBack,
+  isLandscape,
 }) => {
+  // Landscape Layout
+  if (isLandscape) {
+    return (
+      <View style={[styles.header, styles.landscapeHeader]}>
+        {/* Left Section */}
+        <View style={styles.landscapeHeaderLeft}>
+          <TouchableOpacity style={styles.btnBack} onPress={onBack}>
+            <Text style={[styles.btnBackText, styles.landscapeBtnBackText]}>Quay lại</Text>
+          </TouchableOpacity>
+          <View style={[styles.matchTimerBox, styles.landscapeMatchTimerBox]}>
+            <Text style={[styles.timerValue, styles.landscapeTimerValue]}>{timerDisplay}</Text>
+          </View>
+        </View>
+
+        {/* Center Section - Timer & Status */}
+        <View style={styles.landscapeHeaderCenter}>
+          <View style={[styles.statusBadge, styles.landscapeStatusBadge]}>
+            <View style={[styles.statusDot, status === 'playing' && styles.statusDotLive]} />
+            <Text style={[styles.statusText, styles.landscapeStatusText]}>{statusText}</Text>
+          </View>
+          <View style={styles.gameScoreDisplay}>
+            <Text style={[styles.gameScoreItem, styles.gameScoreItemLeft]}>{leftGamesWon}</Text>
+            <Text style={styles.gameScoreSeparator}>-</Text>
+            <Text style={[styles.gameScoreItem, styles.gameScoreItemRight]}>{rightGamesWon}</Text>
+          </View>
+          <Text style={[styles.gameBadge, styles.landscapeGameBadge]}>
+            Game <Text style={styles.gameBadgeStrong}>{currentGame}</Text> / {totalGames}
+          </Text>
+        </View>
+
+        <View style={styles.landscapeHeaderRight}>
+          <View style={[styles.gameModeSwitch, styles.landscapeGameModeSwitch]}>
+            {gameMode === 'singles' && (
+              <View style={[styles.modeBtn, styles.modeBtnActive]}>
+                <Text style={[styles.modeBtnText, styles.modeBtnTextActive]}>Đơn</Text>
+              </View>
+            )}
+            {gameMode === 'doubles' && (
+              <View style={[styles.modeBtn, styles.modeBtnActive]}>
+                <Text style={[styles.modeBtnText, styles.modeBtnTextActive]}>Đôi</Text>
+              </View>
+            )}
+          </View>
+          <View style={[styles.refereeInfoHeader, styles.landscapeRefereeInfoHeader]}>
+            <View style={styles.refereeDetails}>
+              <Text style={[styles.refereeNameSm, styles.landscapeRefereeNameSm]}>{referee.name}</Text>
+              <Text style={[styles.refereeRole, styles.landscapeRefereeRole]}>Trọng tài - {referee.level}</Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
+  // Portrait Layout
   return (
     <View style={styles.header}>
       {/* Left Section */}
