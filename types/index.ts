@@ -6,11 +6,11 @@ import { ThemeColors } from '@/constants/theme';
 
 // User Types
 export interface User {
-  id: number; // id might be missing in the provided example, keeping optional or assuming it might come
+  id: number;
   name: string;
   email: string;
   phone: string;
-  role_type: string;
+  role_type: string[];
   status: string;
   elo_rating: number;
   elo_rank: string;
@@ -21,7 +21,6 @@ export interface User {
   community_score: string;
   total_oprs: string;
   opr_level: string;
-  avatar?: string; // Keeping for UI compatibility if needed
   created_at: string;
   updated_at: string;
 }

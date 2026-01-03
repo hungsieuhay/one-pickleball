@@ -62,7 +62,7 @@ const HomeActions = () => {
         </Grid>
       </View>
 
-      {user?.role_type === 'referee' && (
+      {user?.role_type?.includes('referee') && (
         <View style={styles.section}>
           <Flex>
             <Separator style={styles.line} orientation="vertical"></Separator>
