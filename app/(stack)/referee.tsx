@@ -6,7 +6,7 @@ import { OrientationLock, lockAsync } from 'expo-screen-orientation';
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useState } from 'react';
 import { Alert, Platform, ScrollView, Text, TouchableOpacity, View, useWindowDimensions } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 // Hooks
 // Components
 import { ControlPanel } from '@/features/referee/components/ControlPanel';
@@ -254,6 +254,22 @@ export const RefereeScreen: React.FC = () => {
 
             {/* Center Column: Controls & Info */}
             <ScrollView showsVerticalScrollIndicator={false} style={styles.landscapeCenterColumn}>
+              <View style={[styles.courtInfoBar, styles.landscapeCourtInfoBar, { flexDirection: 'column', height: 'auto', gap: 2, paddingVertical: 4 }]}>
+                <View style={styles.courtDisplay}>
+                  <View style={[styles.courtIconLg, styles.landscapeCourtIconLg]}>
+                    <Ionicons name="baseball-outline" size={16} color="#fff" />
+                  </View>
+                  <View style={[styles.courtText,{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }]}>
+                    <Text style={styles.courtLabel}>Sân thi đấu:</Text>
+                    <Text style={[styles.courtNumber, styles.landscapeCourtNumber]}>{matchData.court.number}</Text>
+                  </View>
+                </View>
+                <View style={[styles.tournamentInfo, { flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }]}>
+                  <Text style={styles.tournamentName}>{matchData.tournament.name}:</Text>
+                  <Text style={styles.tournamentRoundAccent}>{matchData.round.name}</Text>
+                </View>
+              </View>
+
               <View style={styles.landscapeTopRow}>
                 <View style={styles.landscapeCenterScoreCall}>
                   <Text style={styles.landscapeCenterScoreLabel}>Score Call</Text>
@@ -355,24 +371,12 @@ export const RefereeScreen: React.FC = () => {
   };
 
   return (
-    <View
+    <SafeAreaView
       style={[
         styles.container,
-        {
-          marginTop: -insets.top,
-          marginBottom: -insets.bottom,
-          marginLeft: -insets.left,
-          marginRight: -insets.right,
-          paddingTop: isLandscape ? 0 : insets.top,
-          paddingBottom: isLandscape ? 0 : insets.bottom,
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        },
       ]}
     >
-      <StatusBar hidden={isLandscape} />
-      {/* Background pattern placeholder */}
-      <View style={styles.bgPattern} />
+      <StatusBar hidden={isLandscape} style='light' />
 
       <View style={styles.appContainer}>
         {/* Header */}
@@ -431,7 +435,7 @@ export const RefereeScreen: React.FC = () => {
 
       {/* Toast */}
       <Toast toast={toast} />
-    </View>
+    </SafeAreaView>
   );
 };
 

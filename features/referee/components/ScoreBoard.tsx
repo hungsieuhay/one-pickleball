@@ -23,7 +23,7 @@ interface ScoreBoardProps {
   showRightTeamOnly?: boolean;
 }
 
-export const ScoreBoard: React.FC<ScoreBoardProps> = ({
+export const ScoreBoard = ({
   teams,
   serving,
   gameMode,
@@ -37,7 +37,7 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({
   isLandscape,
   showLeftTeamOnly,
   showRightTeamOnly,
-}) => {
+}: ScoreBoardProps) => {
   // Single team display for 3-column landscape layout
   if (showLeftTeamOnly) {
     return (

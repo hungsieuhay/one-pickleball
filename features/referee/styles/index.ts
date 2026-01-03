@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   // Container styles
   container: {
     flex: 1,
-    backgroundColor: COLORS.bgDarker,
+    backgroundColor: '#0f172a',
   },
   bgPattern: {
     position: 'absolute',
