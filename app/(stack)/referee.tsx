@@ -25,20 +25,24 @@ import { styles } from '@/features/referee/styles';
 
 import { useMatchState } from '@/hooks/useMatchState';
 import { useTimer } from '@/hooks/useTimer';
+import { Image } from 'expo-image';
 
 export const RefereeScreen: React.FC = () => {
   const insets = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
   const isLandscape = width > height;
+  const [currentOrientationLock, setCurrentOrientationLock] = useState<'landscape' | 'portrait'>('landscape');
+
   React.useEffect(() => {
-    async function unlockOrientation() {
+    async function setDefaultLandscapeOrientation() {
       try {
-        await lockAsync(OrientationLock.ALL);
+        await lockAsync(OrientationLock.LANDSCAPE);
+        setCurrentOrientationLock('landscape');
       } catch (error) {
-        console.error('Error unlocking orientation:', error);
+        console.error('Error setting landscape orientation:', error);
       }
     }
-    unlockOrientation();
+    setDefaultLandscapeOrientation();
 
     return () => {
       lockAsync(OrientationLock.PORTRAIT_UP).catch((err: any) =>
@@ -47,7 +51,21 @@ export const RefereeScreen: React.FC = () => {
     };
   }, []);
 
-  // Hide/show navigation bar based on orientation (immersive mode for landscape)
+  // Hàm toggle xoay màn hình thủ công
+  const handleToggleOrientation = useCallback(async () => {
+    try {
+      if (currentOrientationLock === 'landscape') {
+        await lockAsync(OrientationLock.PORTRAIT_UP);
+        setCurrentOrientationLock('portrait');
+      } else {
+        await lockAsync(OrientationLock.LANDSCAPE);
+        setCurrentOrientationLock('landscape');
+      }
+    } catch (error) {
+      console.error('Error toggling orientation:', error);
+    }
+  }, [currentOrientationLock]);
+
   React.useEffect(() => {
     if (Platform.OS === 'android') {
       if (isLandscape) {
@@ -259,7 +277,7 @@ export const RefereeScreen: React.FC = () => {
                   <View style={[styles.courtIconLg, styles.landscapeCourtIconLg]}>
                     <Ionicons name="baseball-outline" size={16} color="#fff" />
                   </View>
-                  <View style={[styles.courtText,{ flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }]}>
+                  <View style={[styles.courtText, { flexDirection: 'row', alignItems: 'center', gap: 6, justifyContent: 'center' }]}>
                     <Text style={styles.courtLabel}>Sân thi đấu:</Text>
                     <Text style={[styles.courtNumber, styles.landscapeCourtNumber]}>{matchData.court.number}</Text>
                   </View>
@@ -333,7 +351,33 @@ export const RefereeScreen: React.FC = () => {
     // Default Portrait Mode
     return (
       <ScrollView style={styles.mainContent} contentContainerStyle={styles.scrollContent}>
-        {/* Scoreboard */}
+
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+          <View style={styles.gameModeSwitch}>
+            {gameMode === 'singles' && (
+              <View style={[styles.modeBtn, styles.modeBtnActive]}>
+                <Text style={[styles.modeBtnText, styles.modeBtnTextActive]}>Đơn</Text>
+              </View>
+            )}
+            {gameMode === 'doubles' && (
+              <View style={[styles.modeBtn, styles.modeBtnActive]}>
+                <Text style={[styles.modeBtnText, styles.modeBtnTextActive]}>Đôi</Text>
+              </View>
+            )}
+          </View>
+          <View style={styles.refereeInfoHeader}>
+            <Image
+              source={matchData.referee.avatar ? matchData.referee.avatar : require('@/assets/images/referee.png')}
+              style={styles.refereeAvatarSm}
+              contentFit="cover"
+            />
+            <View style={styles.refereeDetails}>
+              <Text style={styles.refereeNameSm}>{matchData.referee.name}</Text>
+              <Text style={styles.refereeRole}>Trọng tài - {matchData.referee.level}</Text>
+            </View>
+          </View>
+        </View>
+
         <ScoreBoard
           teams={teams}
           serving={serving}
@@ -392,6 +436,7 @@ export const RefereeScreen: React.FC = () => {
           referee={matchData.referee}
           onBack={handleBack}
           isLandscape={isLandscape}
+          onToggleOrientation={handleToggleOrientation}
         />
 
         {/* Main Content */}

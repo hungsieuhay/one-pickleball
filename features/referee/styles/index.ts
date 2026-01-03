@@ -211,8 +211,6 @@ export const styles = StyleSheet.create({
     height: 36,
     borderRadius: RADIUS.sm,
     backgroundColor: COLORS.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   refereeAvatarText: {
     fontSize: 14,
@@ -373,11 +371,25 @@ export const styles = StyleSheet.create({
     padding: 2,
     marginRight: 8,
   },
+  landscapeRefereeAvatar: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+  },
   landscapeRefereeInfoHeader: {
     paddingVertical: 2,
     paddingHorizontal: 8,
     gap: 6,
     height: 32,
+  },
+  rotateBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    backgroundColor: COLORS.primary,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    marginLeft: 8,
   },
   landscapeRefereeNameSm: {
     fontSize: 11,
